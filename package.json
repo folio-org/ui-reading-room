@@ -1,0 +1,79 @@
+{
+  "name": "@folio/reading-room",
+  "version": "1.1.0",
+  "description": "Reading Room Access",
+  "main": "src/index.js",
+  "repository": "folio-org/ui-reading-room",
+  "publishConfig": {
+    "registry": "https://repository.folio.org/repository/npm-folio/"
+  },
+  "license": "Apache-2.0",
+  "stripes": {
+    "actsAs": [
+      "app",
+      "settings"
+    ],
+    "displayName": "ui-reading-room.meta.title",
+    "route": "/reading-room",
+    "okapiInterfaces": {},
+    "permissionSets": [
+      {
+        "permissionName": "module.reading-room.enabled",
+        "displayName": "UI: ui-reading-room module is enabled",
+        "visible": true
+      },
+      {
+        "permissionName": "settings.reading-room.enabled",
+        "displayName": "Settings (reading-room): display list of settings pages",
+        "subPermissions": [
+          "settings.enabled"
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "scripts": {
+    "start": "stripes serve",
+    "build": "stripes build",
+    "lint": "eslint .",
+    "test": "yarn run test:jest",
+    "test:jest": "jest",
+    "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
+    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-reading-room ./translations/ui-reading-room/compiled"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/eslint-parser": "^7.15.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.9.0",
+    "@folio/eslint-config-stripes": "^7.0.0",
+    "@folio/jest-config-stripes": "^2.0.0",
+    "@folio/stripes": "^9.1.0",
+    "@folio/stripes-cli": "^3.0.0 || ^3.0.0",
+    "@folio/stripes-core": "^10.1.0",
+    "core-js": "^3.6.4",
+    "eslint": "^7.32.0",
+    "history": "^4.10.1",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.4.4",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "regenerator-runtime": "^0.13.3"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "@folio/stripes": "^9.0.0",
+    "react": "18.2.0",
+    "react-intl": "^6.4.4",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
+  }
+}
