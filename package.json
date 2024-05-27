@@ -10,23 +10,35 @@
   "license": "Apache-2.0",
   "stripes": {
     "actsAs": [
-      "app",
-      "settings"
+      "app"
     ],
     "displayName": "ui-reading-room.meta.title",
     "route": "/reading-room",
-    "okapiInterfaces": {},
+    "icons": [
+      {
+        "name": "app",
+        "alt": "Allow/deny patrons to access reading room",
+        "title": "Reading room"
+      }
+    ],
+    "okapiInterfaces": {
+      "users": "16.0 16.1",
+      "reading-room-patron-permission": "1.0"
+    },
     "permissionSets": [
       {
         "permissionName": "module.reading-room.enabled",
-        "displayName": "UI: ui-reading-room module is enabled",
-        "visible": true
+        "displayName": "UI: ui-reading-room module is enabled"
       },
       {
-        "permissionName": "settings.reading-room.enabled",
-        "displayName": "Settings (reading-room): display list of settings pages",
+        "permissionName": "ui-reading-room.all",
+        "displayName": "Reading room access: In app - track access",
         "subPermissions": [
-          "settings.enabled"
+          "module.reading-room.enabled",
+          "users.collection.get",
+          "usergroups.collection.get",
+          "users.profile-picture.item.get",
+          "reading-room.patron-permission.item.get"
         ],
         "visible": true
       }
