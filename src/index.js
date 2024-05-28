@@ -5,19 +5,19 @@ import { Switch, Route } from 'react-router-dom';
 import ScanPatron from './ScanPatron';
 import css from './index.css';
 
+const NoMatch = (path) => {
+  return (
+    <div data-testid="noMatch">
+      <h2>Uh-oh!</h2>
+      <p>
+        How did you get to <span className={css.noMatch}>{path}</span>?
+      </p>
+    </div>
+  );
+};
+
 const ReadingRoom = (props) => {
   const { match: { path }, location } = props;
-
-  const NoMatch = () => {
-    return (
-      <div data-testid="noMatch">
-        <h2>Uh-oh!</h2>
-        <p>
-          How did you get to <span className={css.noMatch}>{location.pathname}</span>?
-        </p>
-      </div>
-    );
-  };
 
   return (
     <Switch>
@@ -26,7 +26,7 @@ const ReadingRoom = (props) => {
         exact
         component={ScanPatron}
       />
-      <Route component={() => NoMatch()} />
+      <Route component={() => NoMatch(location.pathname)} />
     </Switch>
   );
 };
