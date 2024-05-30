@@ -9,6 +9,11 @@
   "permission.all": "Reading room access: In app - track access",
   
   "scanPatronCard": "Scan patron card",
+  "scanOrEnterPatronBarcode": "Scan or enter patron barcode",
+  "enter": "Enter",
   "allow": "Allow",
-  "deny": "Deny"
+  "deny": "Deny",
+  
+  "patronLookup": "Patron look-up",
+  "findUserPluginNotAvailable": "Plugin not available"
 }
