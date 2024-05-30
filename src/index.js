@@ -1,60 +1,39 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-router-dom/Switch';
-import Route from 'react-router-dom/Route';
-import Application from './routes/application';
-import ExamplePage from './routes/example-page';
-import Settings from './settings';
+import { Switch, Route } from 'react-router-dom';
 
-/*
-  STRIPES-NEW-APP
-  This is the main entry point into your new app.
-*/
+import ScanPatron from './ScanPatron';
+import css from './index.css';
 
-class ReadingRoom extends React.Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-    showSettings: PropTypes.bool,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func
-    })
-  };
+const NoMatch = (path) => {
+  return (
+    <div data-testid="noMatch">
+      <h2>Uh-oh!</h2>
+      <p>
+        How did you get to <span className={css.noMatch}>{path}</span>?
+      </p>
+    </div>
+  );
+};
 
-  constructor(props) {
-    super(props);
+const ReadingRoom = (props) => {
+  const { match: { path }, location } = props;
 
-    this.connectedExamplePage = props.stripes.connect(ExamplePage);
-  }
+  return (
+    <Switch>
+      <Route
+        path={path}
+        exact
+        component={ScanPatron}
+      />
+      <Route component={() => NoMatch(location.pathname)} />
+    </Switch>
+  );
+};
 
-  render() {
-    const {
-      showSettings,
-      match: {
-        path
-      }
-    } = this.props;
-
-    if (showSettings) {
-      return <Settings {...this.props} />;
-    }
-    return (
-      <Switch>
-        <Route
-          path={path}
-          exact
-          component={Application}
-        />
-        <Route
-          path={`${path}/examples`}
-          exact
-          component={this.connectedExamplePage}
-        />
-      </Switch>
-    );
-  }
-}
+ReadingRoom.propTypes = {
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
 
 export default ReadingRoom;
