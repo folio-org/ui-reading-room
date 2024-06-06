@@ -10,11 +10,16 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-import { Pluggable } from '@folio/stripes/core';
+import { Pluggable, useStripes } from '@folio/stripes/core';
 
 const ScanForm = (props) => {
   const { handleSubmit, form, handleScanPatron } = props;
   const intl = useIntl();
+  const stripes = useStripes();
+
+  const selectUser = (user) => {
+    form.change('patronBarcode', user.barcode);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,6 +48,7 @@ const ScanForm = (props) => {
       <Row>
         <Col xs={12}>
           <Pluggable
+            stripes={stripes}
             data-testid="clickableFindPatronPluggable"
             aria-haspopup="true"
             type="find-user"
@@ -52,8 +58,7 @@ const ScanForm = (props) => {
             marginTop0
             searchButtonStyle="link"
             dataKey="patrons"
-            visibleColumns={['name', 'username', 'barcode']}
-            restoreFocus={false}
+            selectUser={selectUser}
           >
             <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
           </Pluggable>
@@ -70,5 +75,5 @@ ScanForm.propTypes = {
 };
 
 export default stripesFinalForm({
-  navigationCheck: true,
+  navigationCheck: false,
 })(ScanForm);
