@@ -6,8 +6,14 @@ jest.mock('@folio/stripes/components', () => ({
       <span>{props.children}</span>
     </span>
   )),
-  Button: jest.fn(({ children }) => (
-    <button data-test-button type="button">
+  Button: jest.fn(({
+    children,
+    onClick = jest.fn(),
+    // eslint-disable-next-line no-unused-vars
+    buttonStyle, buttonRef,
+    ...rest
+  }) => (
+    <button data-test-button type="button" {...rest} onClick={onClick}>
       <span>
         {children}
       </span>
@@ -31,6 +37,12 @@ jest.mock('@folio/stripes/components', () => ({
     <button type="button" {...buttonProps}>
       <span {...rest} />
     </button>
+  )),
+  KeyValue: jest.fn(({ label, children, value }) => (
+    <>
+      <span>{label}</span>
+      <span>{value || children}</span>
+    </>
   )),
   Label: jest.fn(({ children, ...rest }) => (
     <span {...rest}>{children}</span>
@@ -85,7 +97,7 @@ jest.mock('@folio/stripes/components', () => ({
   NavListSection: jest.fn(({ children, className, ...rest }) => (
     <div className={className} {...rest}>{children}</div>
   )),
-  Pane: jest.fn(({ children, className, defaultWidth, paneTitle, firstMenu, lastMenu, fluidContentWidth, ...rest }) => {
+  Pane: jest.fn(({ children, className, defaultWidth, paneTitle, firstMenu, lastMenu, fluidContentWidth, footer, ...rest }) => {
     return (
       <div className={className} {...rest} style={!fluidContentWidth ? { width: '960px' } : { width: defaultWidth }}>
         <div>
@@ -94,6 +106,7 @@ jest.mock('@folio/stripes/components', () => ({
           {lastMenu ?? null}
         </div>
         {children}
+        {footer}
       </div>
     );
   }),
@@ -104,9 +117,14 @@ jest.mock('@folio/stripes/components', () => ({
       </div>
     );
   }),
-  PaneFooter: jest.fn(({ ref, children, ...rest }) => (
-    <div ref={ref} {...rest}>{children}</div>
-  )),
+  PaneFooter: jest.fn(({ renderEnd, renderStart }) => {
+    return (
+      <>
+        {renderStart}
+        {renderEnd}
+      </>
+    );
+  }),
   PaneHeader: jest.fn(({ paneTitle, firstMenu, lastMenu }) => (
     <div>
       {firstMenu ?? null}

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { get } from 'lodash';
 
 import {
   Button,
@@ -7,12 +9,26 @@ import {
   Pane,
   PaneFooter,
 } from '@folio/stripes/components';
+import { stripesConnect } from '@folio/stripes/core';
 
 import ScanForm from './ScanForm';
+import PatronDetail from '../PatronDetail';
+// import PatronAccessDetail from '../PatronAccessDetail';
 
-const ScanPatron = () => {
-  const handleScanPatron = () => {
-    console.log('In method handleScanPatron');
+const ScanPatron = ({ mutator, resources }) => {
+  const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
+  const [scannedPatronDetails, setScannedPatronDetails] = useState();
+
+  const handleScanPatron = async (barcode) => {
+    if (barcode) {
+      const query = `barcode==${barcode}`;
+      const patron = await mutator.patrons.GET({ params: { query } });
+      if (patron.length) {
+        setScannedPatronDetails(patron[0]);
+      } else {
+        setScannedPatronDetails();
+      }
+    }
   };
 
   const end = (
@@ -20,21 +36,30 @@ const ScanPatron = () => {
       id="allow-access"
       type="submit"
       buttonStyle="primary"
-      onClick={handleScanPatron}
+      onClick={() => {}}
     >
       <FormattedMessage id="ui-reading-room.allow" />
     </Button>
   );
 
   const start = (
-    <Button
-      id="deny-access"
-      type="submit"
-      buttonStyle="danger"
-      onClick={handleScanPatron}
-    >
-      <FormattedMessage id="ui-reading-room.deny" />
-    </Button>
+    <>
+      <Button
+        id="cancel"
+        type="button"
+        onClick={() => {}}
+      >
+        <FormattedMessage id="ui-reading-room.cancel" />
+      </Button>
+      <Button
+        id="deny-access"
+        type="submit"
+        buttonStyle="danger"
+        onClick={() => {}}
+      >
+        <FormattedMessage id="ui-reading-room.deny" />
+      </Button>
+    </>
   );
 
   const footer = (
@@ -54,13 +79,49 @@ const ScanPatron = () => {
       >
         <ScanForm
           onSubmit={() => {}}
+          handleScanPatron={handleScanPatron}
         />
-        {/* )
-    }
-        /> */}
+        {
+          scannedPatronDetails && (
+            <>
+              <PatronDetail
+                user={scannedPatronDetails}
+                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+                mutator={mutator}
+              />
+              {/* <PatronAccessDetail /> */}
+            </>
+          )
+        }
       </Pane>
     </Paneset>
   );
 };
 
-export default ScanPatron;
+ScanPatron.manifest = {
+  patrons: {
+    type: 'okapi',
+    records: 'users',
+    path: 'users',
+    accumulate: 'true',
+    abortOnUnmount: true,
+    fetch: false,
+  },
+  userProfilePicConfig: {
+    type: 'okapi',
+    path: 'users/configurations/entry',
+    fetch: true,
+  },
+};
+
+ScanPatron.propTypes = {
+  mutator: PropTypes.shape({
+    patrons: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+    }).isRequired,
+    userProfilePicConfig: PropTypes.object.isRequired,
+  }),
+  resources: PropTypes.object.isRequired,
+};
+
+export default stripesConnect(ScanPatron);

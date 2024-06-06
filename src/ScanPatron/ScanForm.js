@@ -13,21 +13,28 @@ import {
 import { Pluggable } from '@folio/stripes/core';
 
 const ScanForm = (props) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, form, handleScanPatron } = props;
   const intl = useIntl();
+
   return (
     <form onSubmit={handleSubmit}>
       <Row>
         <Col xs={10}>
           <Field
-            name="patron-barcode"
+            id="patronBarcode"
+            name="patronBarcode"
             component={TextField}
             placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
           />
         </Col>
         <Col xs={2}>
           <Button
-            type="submit"
+            type="button"
+            onClick={() => {
+              const formState = form.getState();
+              const patronBarcode = formState?.values?.patronBarcode;
+              handleScanPatron(patronBarcode);
+            }}
           >
             <FormattedMessage id="ui-reading-room.enter" />
           </Button>
@@ -58,6 +65,8 @@ const ScanForm = (props) => {
 
 ScanForm.propTypes = {
   handleSubmit: PropTypes.func,
+  handleScanPatron: PropTypes.func,
+  form: PropTypes.object,
 };
 
 export default stripesFinalForm({

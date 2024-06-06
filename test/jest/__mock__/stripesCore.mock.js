@@ -6,4 +6,12 @@ jest.mock('@folio/stripes/core', () => ({
     return perm === 'permission' ? children : null;
   }),
   Pluggable: jest.fn(({ children }) => [children]),
+  stripesConnect: (Component) => (props) => (
+    <Component
+      {...props}
+      stripes={{
+        logger: () => {},
+      }}
+    />
+  ),
 }));
