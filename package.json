@@ -38,7 +38,8 @@
           "users.collection.get",
           "usergroups.collection.get",
           "users.profile-picture.item.get",
-          "reading-room.patron-permission.item.get"
+          "reading-room.patron-permission.item.get",
+          "users.profile-picture.item.get"
         ],
         "visible": true
       }
