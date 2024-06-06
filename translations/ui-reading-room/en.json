@@ -1,10 +1,5 @@
 {
   "meta.title": "Reading room",
-  
-  "navigation.app": "reading room app Search",
-  "navigation.content": "Submit a KB Content Inquiry",
-  "navigation.systemStatus": "EBSCO System status",
-  "navigation.keyboardShortcuts": "Keyboard shortcuts",
 
   "permission.all": "Reading room access: In app - track access",
   
