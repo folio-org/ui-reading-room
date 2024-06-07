@@ -13,6 +13,7 @@ import { stripesConnect } from '@folio/stripes/core';
 
 import ScanForm from './ScanForm';
 import PatronDetail from '../PatronDetail';
+import PatronAccessDetail from '../PatronAccessDetail';
 
 const ScanPatron = ({ mutator, resources }) => {
   const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
@@ -83,11 +84,14 @@ const ScanPatron = ({ mutator, resources }) => {
         />
         {
           scannedPatronDetails && (
-          <PatronDetail
-            user={scannedPatronDetails}
-            isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-            mutator={mutator}
-          />
+            <>
+            <PatronDetail
+              user={scannedPatronDetails}
+              isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+              mutator={mutator}
+            />
+            <PatronAccessDetail />
+            </>
           )
         }
       </Pane>
