@@ -10,12 +10,11 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
-import { Pluggable, useStripes } from '@folio/stripes/core';
+import { Pluggable } from '@folio/stripes/core';
 
 const ScanForm = (props) => {
   const { handleSubmit, form, handleScanPatron } = props;
   const intl = useIntl();
-  const stripes = useStripes();
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
@@ -48,7 +47,6 @@ const ScanForm = (props) => {
       <Row>
         <Col xs={12}>
           <Pluggable
-            stripes={stripes}
             data-testid="clickableFindPatronPluggable"
             aria-haspopup="true"
             type="find-user"
