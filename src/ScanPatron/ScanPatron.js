@@ -22,6 +22,7 @@ const ScanPatron = ({ mutator, resources }) => {
     if (barcode) {
       const query = `barcode==${barcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
+
       if (patron.length) {
         setScannedPatronDetails(patron[0]);
       } else {
