@@ -21,5 +21,23 @@ describe('util', () => {
       };
       expect(getFullName(user)).toEqual('lastName, firstName');
     });
+
+    it('when user has firstName only ', () => {
+      const user = {
+        personal: {
+          firstName: 'firstName',
+        }
+      };
+      expect(getFullName(user)).toEqual(', firstName');
+    });
+
+    it('when user has lastName only ', () => {
+      const user = {
+        personal: {
+          lastName: 'lastName',
+        }
+      };
+      expect(getFullName(user)).toEqual('lastName, ');
+    });
   });
 });
