@@ -48,13 +48,11 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
 
   return (
     <Row>
-      <Col xs={isUserProfilePicConfigEnabledForTenant ? 9 : 12}>
-        <div className={`${css.section} ${css.active}`}>
-          <KeyValue
-            label={<FormattedMessage id="ui-reading-room.borrower" />}
-            value={getUserValue()}
-          />
-        </div>
+      <Col xs={isUserProfilePicConfigEnabledForTenant ? 9 : 12} className={css.borrowerDetails}>
+        <KeyValue
+          label={<FormattedMessage id="ui-reading-room.borrower" />}
+          value={getUserValue()}
+        />
       </Col>
       {isUserProfilePicConfigEnabledForTenant && (
         <Col xs={3}>

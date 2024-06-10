@@ -23,7 +23,7 @@ const ScanForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <Row>
-        <Col xs={10}>
+        <Col xs={11}>
           <Field
             id="patronBarcode"
             name="patronBarcode"
@@ -31,7 +31,7 @@ const ScanForm = (props) => {
             placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
           />
         </Col>
-        <Col xs={2}>
+        <Col xs={1}>
           <Button
             type="button"
             onClick={() => {

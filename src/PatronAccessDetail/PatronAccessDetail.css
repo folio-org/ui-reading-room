@@ -1,0 +1,19 @@
+.access {
+  padding: 5px;
+  border-radius: 6px;
+  line-height: var(--line-height);
+}
+
+.allowed {
+  background-color: var(--success-fill);
+  border: 1px solid var(--success);
+}
+
+.notAllowed {
+  background-color: var(--warn-fill);
+  border: 1px solid var(--warn);
+}
+
+.marginRight{
+  margin-right: 5px;
+}

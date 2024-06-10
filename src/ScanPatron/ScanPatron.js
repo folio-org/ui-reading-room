@@ -15,9 +15,14 @@ import ScanForm from './ScanForm';
 import PatronDetail from '../PatronDetail';
 import PatronAccessDetail from '../PatronAccessDetail';
 
-const ScanPatron = ({ mutator, resources }) => {
+const ScanPatron = ({ mutator, resources, stripes }) => {
   const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
   const [scannedPatronDetails, setScannedPatronDetails] = useState();
+  const [patronRRAPermission, setPatronRRAPermission] = useState();
+
+  const resetScannedPatronDetails = () => {
+    setScannedPatronDetails();
+  };
 
   const handleScanPatron = async (barcode) => {
     if (barcode) {
@@ -25,10 +30,14 @@ const ScanPatron = ({ mutator, resources }) => {
       const patron = await mutator.patrons.GET({ params: { query } });
 
       if (patron.length) {
+        const access = await mutator.patronReadingRoomAccess.GET({ params: { servicePointId : stripes?.user?.user?.curServicePoint?.id } });
         setScannedPatronDetails(patron[0]);
+        setPatronRRAPermission(access[0]);
       } else {
-        setScannedPatronDetails();
+        resetScannedPatronDetails();
       }
+    } else {
+      resetScannedPatronDetails();
     }
   };
 
@@ -48,7 +57,7 @@ const ScanPatron = ({ mutator, resources }) => {
       <Button
         id="cancel"
         type="button"
-        onClick={() => {}}
+        onClick={() => { resetScannedPatronDetails(); }}
       >
         <FormattedMessage id="ui-reading-room.cancel" />
       </Button>
@@ -76,21 +85,23 @@ const ScanPatron = ({ mutator, resources }) => {
         paneTitle={<FormattedMessage id="ui-reading-room.scanPatronCard" />}
         centerContent
         defaultWidth="fill"
-        footer={footer}
+        footer={scannedPatronDetails && footer}
       >
         <ScanForm
           onSubmit={() => {}}
           handleScanPatron={handleScanPatron}
         />
+        <br />
         {
           scannedPatronDetails && (
             <>
-            <PatronDetail
-              user={scannedPatronDetails}
-              isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-              mutator={mutator}
-            />
-            <PatronAccessDetail />
+              <PatronDetail
+                user={scannedPatronDetails}
+                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+                mutator={mutator}
+              />
+              <br />
+              <PatronAccessDetail rraPermission={patronRRAPermission} />
             </>
           )
         }
@@ -104,7 +115,7 @@ ScanPatron.manifest = {
     type: 'okapi',
     records: 'users',
     path: 'users',
-    accumulate: 'true',
+    accumulate: 'false',
     abortOnUnmount: true,
     fetch: false,
   },
@@ -113,6 +124,19 @@ ScanPatron.manifest = {
     path: 'users/configurations/entry',
     fetch: true,
   },
+  patronReadingRoomAccess: {
+    type: 'okapi',
+    // eslint-disable-next-line consistent-return
+    path: (queryParams, pathComponents, resourceData, config, props) => {
+      if (resourceData?.patrons?.records?.length) {
+        const patronRecords = resourceData.patrons.records;
+        return `reading-room-patron-permission/${patronRecords[patronRecords.length - 1].id}`;
+      }
+    },
+    accumulate: 'true',
+    abortOnUnmount: true,
+    fetch: false,
+  }
 };
 
 ScanPatron.propTypes = {
@@ -121,8 +145,12 @@ ScanPatron.propTypes = {
       GET: PropTypes.func.isRequired,
     }).isRequired,
     userProfilePicConfig: PropTypes.object.isRequired,
+    patronReadingRoomAccess: PropTypes.shape({
+      GET: PropTypes.func.isRequired,
+    }).isRequired,
   }),
   resources: PropTypes.object.isRequired,
+  stripes: PropTypes.object.isRequired,
 };
 
 export default stripesConnect(ScanPatron);
