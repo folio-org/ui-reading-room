@@ -165,15 +165,12 @@ jest.mock('@folio/stripes/components', () => ({
       {children}
     </div>
   )),
-  TextField: jest.fn((props) => {
-    console.log('props ', props);
-    return (
-      <div>
-        <label htmlFor={props?.input.name}>{props?.input.name}</label>
-        <input
-          {...props}
-        />
-      </div>
-    );
-  }),
+  TextField: jest.fn((props) => (
+    <div>
+      <label htmlFor={props?.input.name}>{props?.input.name}</label>
+      <input
+        {...props}
+      />
+    </div>
+  )),
 }));

@@ -126,7 +126,7 @@ ScanPatron.manifest = {
   },
   patronReadingRoomAccess: {
     type: 'okapi',
-    // eslint-disable-next-line consistent-return
+    // eslint-disable-next-line consistent-return, no-unused-vars
     path: (queryParams, pathComponents, resourceData, config, props) => {
       if (resourceData?.patrons?.records?.length) {
         const patronRecords = resourceData.patrons.records;
