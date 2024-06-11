@@ -19,7 +19,7 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
       const query = `barcode==${barcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
 
-      if (patron && patron.length) {
+      if (patron?.length) {
         const access = await mutator.patronReadingRoomAccess.GET({ params: { servicePointId : stripes?.user?.user?.curServicePoint?.id } });
         setScannedPatronDetails(patron[0]);
         setPatronRRAPermission(access[0]);
