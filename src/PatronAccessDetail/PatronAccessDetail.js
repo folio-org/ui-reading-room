@@ -20,8 +20,8 @@ const PatronAccessDetail = ({ rraPermission }) => {
   const accessString = access === ALLOWED ? <FormattedMessage id="ui-reading-room.allowAccess" /> : <FormattedMessage id="ui-reading-room.denyAccess" />;
 
   return (
-    <Row className={`${bgClassName} ${css.access}`}>
-      <Col xs={12}>
+    <Row>
+      <Col xs={10} className={`${bgClassName} ${css.access}`}>
         <div
           style={{ display:'flex', flexDirection: 'row', alignItems:'flex-start', justifyContent:'flex-start' }}
         >

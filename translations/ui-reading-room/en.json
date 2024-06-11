@@ -11,8 +11,6 @@
   "userDetail.expiration": "User expiration:",
   "patronLookup": "Patron look-up",
   "findUserPluginNotAvailable": "Plugin not available",
-  "allow": "Allow",
-  "deny": "Deny",
   "cancel": "Cancel",
   "note": "Note: {notes}",
   "allowAccess": "<strong>Allow access</strong>",

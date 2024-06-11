@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { get } from 'lodash';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
@@ -9,59 +10,124 @@ import {
   TextField,
   Col,
   Row,
+  Paneset,
+  Pane,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
+import Footer from '../Footer';
+import PatronDetail from '../PatronDetail';
+import PatronAccessDetail from '../PatronAccessDetail';
+
 const ScanForm = (props) => {
-  const { handleSubmit, form, handleScanPatron } = props;
+  const {
+    handleSubmit,
+    form,
+    handleScanPatron,
+    scannedPatronDetails,
+    patronRRAPermission,
+    resources,
+    resetDetails,
+  } = props;
+  const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
+  const displayFooter = scannedPatronDetails && patronRRAPermission;
   const intl = useIntl();
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
   };
 
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+  };
+
   return (
     <form onSubmit={handleSubmit}>
-      <Row>
-        <Col xs={11}>
-          <Field
-            id="patronBarcode"
-            name="patronBarcode"
-            component={TextField}
-            placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
-          />
-        </Col>
-        <Col xs={1}>
-          <Button
-            type="button"
-            onClick={() => {
-              const formState = form.getState();
-              const patronBarcode = formState?.values?.patronBarcode;
-              handleScanPatron(patronBarcode);
-            }}
+      <div style={containerStyle}>
+        <Paneset static>
+          <Pane
+            id="reading-room"
+            paneTitle={<FormattedMessage id="ui-reading-room.scanPatronCard" />}
+            centerContent
+            defaultWidth="fill"
           >
-            <FormattedMessage id="ui-reading-room.enter" />
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <Pluggable
-            data-testid="clickableFindPatronPluggable"
-            aria-haspopup="true"
-            type="find-user"
-            id="clickable-find-user"
-            {...props}
-            searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
-            marginTop0
-            searchButtonStyle="link"
-            dataKey="patrons"
-            selectUser={selectUser}
-          >
-            <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
-          </Pluggable>
-        </Col>
-      </Row>
+            <Row>
+              <Col xsOffset={2} xs={10}>
+                <Row>
+                  <Col xs={8}>
+                    <Field
+                      id="patronBarcode"
+                      name="patronBarcode"
+                      component={TextField}
+                      placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
+                    />
+                  </Col>
+                  <Col xs={1}>
+                    <Button
+                      type="submit"
+                      onClick={() => {
+                        const formState = form.getState();
+                        const patronBarcode = formState?.values?.patronBarcode;
+                        handleScanPatron(patronBarcode);
+                      }}
+                    >
+                      <FormattedMessage id="ui-reading-room.enter" />
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={12}>
+                    <Pluggable
+                      data-testid="clickableFindPatronPluggable"
+                      aria-haspopup="true"
+                      type="find-user"
+                      id="clickable-find-user"
+                      {...props}
+                      searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
+                      marginTop0
+                      searchButtonStyle="link"
+                      dataKey="patrons"
+                      selectUser={selectUser}
+                    >
+                      <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
+                    </Pluggable>
+                  </Col>
+                </Row>
+                <br />
+                {
+                  scannedPatronDetails && (
+                    <>
+                      <PatronDetail
+                        user={scannedPatronDetails}
+                        isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+                      />
+                      <br />
+                      {
+                        patronRRAPermission && (
+                          <PatronAccessDetail rraPermission={patronRRAPermission} />
+                        )
+                      }
+                    </>
+                  )
+                }
+              </Col>
+            </Row>
+          </Pane>
+        </Paneset>
+        {
+          displayFooter && (
+            <Footer
+              resetDetails={resetDetails}
+              form={form}
+            />
+          )
+        }
+      </div>
     </form>
   );
 };
@@ -70,6 +136,10 @@ ScanForm.propTypes = {
   handleSubmit: PropTypes.func,
   handleScanPatron: PropTypes.func,
   form: PropTypes.object,
+  scannedPatronDetails: PropTypes.object,
+  patronRRAPermission: PropTypes.object,
+  resources: PropTypes.object,
+  resetDetails : PropTypes.func,
 };
 
 export default stripesFinalForm({

@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
-import {
-  Button,
-  Paneset,
-  Pane,
-  PaneFooter,
-} from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 
 import ScanForm from './ScanForm';
-import PatronDetail from '../PatronDetail';
-import PatronAccessDetail from '../PatronAccessDetail';
 
 const ScanPatron = ({ mutator, resources, stripes }) => {
-  const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
   const [scannedPatronDetails, setScannedPatronDetails] = useState();
   const [patronRRAPermission, setPatronRRAPermission] = useState();
 
-  const resetScannedPatronDetails = () => {
+  const resetDetails = () => {
     setScannedPatronDetails();
+    setPatronRRAPermission();
   };
 
   const handleScanPatron = async (barcode) => {
@@ -29,84 +19,27 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
       const query = `barcode==${barcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
 
-      if (patron.length) {
+      if (patron && patron.length) {
         const access = await mutator.patronReadingRoomAccess.GET({ params: { servicePointId : stripes?.user?.user?.curServicePoint?.id } });
         setScannedPatronDetails(patron[0]);
         setPatronRRAPermission(access[0]);
       } else {
-        resetScannedPatronDetails();
+        resetDetails();
       }
     } else {
-      resetScannedPatronDetails();
+      resetDetails();
     }
   };
 
-  const end = (
-    <Button
-      id="allow-access"
-      type="submit"
-      buttonStyle="primary"
-      onClick={() => {}}
-    >
-      <FormattedMessage id="ui-reading-room.allow" />
-    </Button>
-  );
-
-  const start = (
-    <>
-      <Button
-        id="cancel"
-        type="button"
-        onClick={() => { resetScannedPatronDetails(); }}
-      >
-        <FormattedMessage id="ui-reading-room.cancel" />
-      </Button>
-      <Button
-        id="deny-access"
-        type="submit"
-        buttonStyle="danger"
-        onClick={() => {}}
-      >
-        <FormattedMessage id="ui-reading-room.deny" />
-      </Button>
-    </>
-  );
-
-  const footer = (
-    <PaneFooter
-      renderStart={start}
-      renderEnd={end}
-    />
-  );
   return (
-    <Paneset>
-      <Pane
-        id="reading-room"
-        paneTitle={<FormattedMessage id="ui-reading-room.scanPatronCard" />}
-        centerContent
-        defaultWidth="fill"
-        footer={scannedPatronDetails && footer}
-      >
-        <ScanForm
-          onSubmit={() => {}}
-          handleScanPatron={handleScanPatron}
-        />
-        <br />
-        {
-          scannedPatronDetails && (
-            <>
-              <PatronDetail
-                user={scannedPatronDetails}
-                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-                mutator={mutator}
-              />
-              <br />
-              <PatronAccessDetail rraPermission={patronRRAPermission} />
-            </>
-          )
-        }
-      </Pane>
-    </Paneset>
+    <ScanForm
+      onSubmit={handleScanPatron}
+      handleScanPatron={handleScanPatron}
+      scannedPatronDetails={scannedPatronDetails}
+      patronRRAPermission={patronRRAPermission}
+      resources={resources}
+      resetDetails={resetDetails}
+    />
   );
 };
 

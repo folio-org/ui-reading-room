@@ -2,7 +2,6 @@ import React from 'react';
 
 jest.mock('react-final-form', () => ({
   Field: jest.fn(({
-    label,
     component,
     'data-testid': testId,
     ...rest
@@ -11,8 +10,7 @@ jest.mock('react-final-form', () => ({
       data-testid={testId}
       {...rest}
     >
-      {label}
-      {typeof component === 'function' && component()}
+      {typeof component === 'function' && component(rest)}
       {typeof rest?.children === 'function' && rest.children({
         meta: {},
       })}
