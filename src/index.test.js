@@ -6,6 +6,8 @@ import ReadingRoom from './index';
 
 const readingRoomRoute = '/reading-room';
 
+jest.mock('./ScanPatron', () => jest.fn(() => <div>ScanPatron</div>));
+
 describe('when path is "/reading-room"', () => {
   const props = {
     actAs: 'app',
