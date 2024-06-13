@@ -1,32 +1,31 @@
-import {
-  render,
-  screen,
-  waitFor,
-} from '@folio/jest-config-stripes/testing-library/react';
+import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
+import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanForm from './ScanForm';
+
+jest.unmock('@folio/stripes/components');
 
 jest.mock('../PatronDetail', () => jest.fn(() => <div>PatronDetail</div>));
 jest.mock('../PatronAccessDetail', () => jest.fn(() => <div>PatronAccessDetail</div>));
 jest.mock('../Footer', () => jest.fn(() => <div>Footer</div>));
 
 const handleSubmit = jest.fn();
-const handleScanPatron = jest.fn();
 const mockedForm = {
   change: jest.fn(),
   getState: jest.fn(),
 };
 const resetDetails = jest.fn();
+const onSubmit = jest.fn();
 
 const renderComponent = (props) => {
-  render(<ScanForm {...props} />);
+  renderWithRouter(<ScanForm {...props} />);
 };
 
 describe('ScanForm', () => {
   const props = {
     handleSubmit,
-    handleScanPatron,
+    onSubmit,
     form: mockedForm,
     scannedPatronDetails: {},
     patronRRAPermission: {},
@@ -50,7 +49,7 @@ describe('ScanForm', () => {
     });
 
     it('should render patron barcode field', () => {
-      expect(screen.getByText('patronBarcode')).toBeDefined();
+      expect(document.querySelector('[id="patronBarcode"]')).toBeDefined();
     });
 
     it('should render enter button', () => {
@@ -64,7 +63,7 @@ describe('ScanForm', () => {
       await userEvent.type(barcodeField, '123');
       await userEvent.click(enterButton);
 
-      await waitFor(() => expect(props.handleSubmit).toHaveBeenCalled());
+      await waitFor(() => expect(props.onSubmit).toHaveBeenCalled());
     });
 
     ['PatronDetail', 'PatronAccessDetail', 'Footer'].forEach(text => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -41,7 +40,6 @@ const Footer = ({ resetDetails, form }) => {
             type="submit"
             buttonStyle="primary mega"
             onClick={() => {}}
-
           >
             <FormattedMessage id="ui-reading-room.allowAccess" />
           </Button>

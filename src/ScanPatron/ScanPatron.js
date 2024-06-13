@@ -14,9 +14,10 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
     setPatronRRAPermission();
   };
 
-  const handleScanPatron = async (barcode) => {
-    if (barcode) {
-      const query = `barcode==${barcode}`;
+  const handleScanPatron = async (values) => {
+    const { patronBarcode } = values;
+    if (patronBarcode) {
+      const query = `barcode==${patronBarcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
 
       if (patron?.length) {
@@ -34,7 +35,6 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
   return (
     <ScanForm
       onSubmit={handleScanPatron}
-      handleScanPatron={handleScanPatron}
       scannedPatronDetails={scannedPatronDetails}
       patronRRAPermission={patronRRAPermission}
       resources={resources}
