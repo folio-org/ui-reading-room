@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -9,8 +9,28 @@ import {
 } from '@folio/stripes/components';
 
 import css from './Footer.css';
+import { ALLOWED, DENIED } from '../../constants';
 
-const Footer = ({ resetDetails, form }) => {
+const Footer = ({ resetDetails, form, allow, mutator, readingRoomId, currUserId, patronId }) => {
+  const handleAccessLog = useCallback((access) => {
+    const payload = {
+      readingRoomId,
+      userId: currUserId,
+      patronId,
+      action: access
+    };
+
+    mutator.patronAccessLog.POST(payload)
+      .then(() => {
+        form.change('patronBarcode', '');
+        resetDetails();
+      })
+      .catch(err => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      });
+  }, [readingRoomId, currUserId, patronId, mutator.patronAccessLog, form, resetDetails]);
+
   return (
     <div className={css.footer}>
       <Row>
@@ -30,7 +50,10 @@ const Footer = ({ resetDetails, form }) => {
             id="deny-access"
             type="submit"
             buttonStyle="danger mega"
-            onClick={() => {}}
+            onClick={(e) => {
+              e.preventDefault();
+              handleAccessLog(DENIED);
+            }}
           >
             <FormattedMessage id="ui-reading-room.denyAccess" />
           </Button>
@@ -40,8 +63,11 @@ const Footer = ({ resetDetails, form }) => {
             id="allow-access"
             type="submit"
             buttonStyle="primary mega"
-            onClick={() => {}}
-
+            onClick={(e) => {
+              e.preventDefault();
+              handleAccessLog(ALLOWED);
+            }}
+            disabled={!allow}
           >
             <FormattedMessage id="ui-reading-room.allowAccess" />
           </Button>
@@ -53,6 +79,11 @@ const Footer = ({ resetDetails, form }) => {
 Footer.propTypes = {
   resetDetails: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  allow: PropTypes.bool,
+  mutator: PropTypes.object.isRequired,
+  readingRoomId: PropTypes.string,
+  currUserId: PropTypes.string.isRequired,
+  patronId: PropTypes.string,
 };
 
 export default Footer;

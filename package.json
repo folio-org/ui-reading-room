@@ -23,7 +23,8 @@
     ],
     "okapiInterfaces": {
       "users": "16.0 16.1",
-      "reading-room-patron-permission": "1.0"
+      "reading-room-patron-permission": "1.0",
+      "reading-room": "1.0"
     },
     "permissionSets": [
       {
@@ -81,7 +82,8 @@
   },
   "dependencies": {
     "prop-types": "^15.6.0",
-    "react-final-form": "^6.3.0"
+    "react-final-form": "^6.3.0",
+    "uuid": "^9.0.0"
   },
   "peerDependencies": {
     "@folio/stripes": "^9.0.0",

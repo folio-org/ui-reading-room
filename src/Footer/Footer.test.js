@@ -25,7 +25,16 @@ describe('Footer', () => {
     resetDetails: jest.fn(),
     form: {
       change: jest.fn(),
-    }
+    },
+    allow: true,
+    mutator: {
+      patronAccessLog : {
+        POST: jest.fn().mockResolvedValue(''),
+      },
+    },
+    readingRoomId: 'readingRoomId',
+    currUserId: 'currUserId',
+    patronId: 'patronId',
   };
 
   beforeEach(() => {
@@ -41,5 +50,15 @@ describe('Footer', () => {
   it('should call resetDetails on clicking cancel button', async () => {
     await userEvent.click(screen.getByText(buttonNames[0].id));
     expect(props.resetDetails).toHaveBeenCalled();
+  });
+
+  it('should save access log on clicking  "Allow access" button', async () => {
+    await userEvent.click(screen.getByText(buttonNames[1].id));
+    expect(props.mutator.patronAccessLog.POST).toHaveBeenCalled();
+  });
+
+  it('should save access log on clicking  "Deny access" button', async () => {
+    await userEvent.click(screen.getByText(buttonNames[2].id));
+    expect(props.mutator.patronAccessLog.POST).toHaveBeenCalled();
   });
 });
