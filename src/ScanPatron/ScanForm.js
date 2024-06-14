@@ -41,15 +41,6 @@ const ScanForm = (props) => {
     form.change('patronBarcode', user.barcode);
   };
 
-  const containerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
-    width: '100%',
-    position: 'absolute',
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <div className={css.container}>

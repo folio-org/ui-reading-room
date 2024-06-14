@@ -50,4 +50,17 @@ describe('ScanPatron', () => {
 
     await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
   });
+
+  it('should clear borrower details when cancel button is clicked', async () => {
+    renderComponent();
+    const barcodeField = document.querySelector('[id="patronBarcode"]');
+    await userEvent.type(barcodeField, '123');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
+
+    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.cancel' }));
+
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+  });
 });
