@@ -49,7 +49,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
   return (
     <Row>
       <Col
-        xs={isUserProfilePicConfigEnabledForTenant ? 8 : 10} 
+        xs={isUserProfilePicConfigEnabledForTenant ? 8 : 10}
         className={css.borrowerDetails}
       >
         <KeyValue
