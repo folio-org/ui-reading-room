@@ -9,6 +9,10 @@ jest.unmock('@folio/stripes/components');
 const mockedUser = {
   name: 'name'
 };
+const mockedPatronAccess = {
+  access: 'ALLOWED',
+  readingRoomName: 'readingRoomName',
+};
 const props = {
   mutator: {
     patrons: {
@@ -16,7 +20,7 @@ const props = {
     },
     userProfilePicConfig: {},
     patronReadingRoomAccess: {
-      GET: jest.fn().mockResolvedValue(['user']),
+      GET: jest.fn().mockResolvedValue([mockedPatronAccess]),
     },
   },
   resources: {},
@@ -26,7 +30,8 @@ const props = {
       user: {
         curServicePoint: {
           id: '1'
-        }
+        },
+        id: '123456',
       }
     }
   },
@@ -54,12 +59,37 @@ describe('ScanPatron', () => {
   it('should clear borrower details when cancel button is clicked', async () => {
     renderComponent();
     const barcodeField = document.querySelector('[id="patronBarcode"]');
+
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
-
     await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.cancel' }));
+
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+  });
+
+  it('should clear borrower details when enter button is clicked after removing barcode in input field', async () => {
+    renderComponent();
+    const barcodeField = document.querySelector('[id="patronBarcode"]');
+
+    await userEvent.type(barcodeField, '123');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
+    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
+    await userEvent.clear(barcodeField);
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
+
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+  });
+
+  it('should not render patron details when API responds with an empty array', async () => {
+    props.mutator.patrons.GET.mockResolvedValueOnce([]);
+    renderComponent();
+    const barcodeField = document.querySelector('[id="patronBarcode"]');
+
+    await userEvent.type(barcodeField, '123');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
     await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
   });
