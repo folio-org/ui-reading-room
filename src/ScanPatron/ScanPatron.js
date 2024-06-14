@@ -14,9 +14,10 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
     setPatronRRAPermission();
   };
 
-  const handleScanPatron = async (barcode) => {
-    if (barcode) {
-      const query = `barcode==${barcode}`;
+  const handleScanPatron = async (values) => {
+    const { patronBarcode } = values;
+    if (patronBarcode) {
+      const query = `barcode==${patronBarcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
 
       if (patron?.length) {
@@ -34,7 +35,6 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
   return (
     <ScanForm
       onSubmit={handleScanPatron}
-      handleScanPatron={handleScanPatron}
       scannedPatronDetails={scannedPatronDetails}
       patronRRAPermission={patronRRAPermission}
       resources={resources}
@@ -62,7 +62,7 @@ ScanPatron.manifest = {
   patronReadingRoomAccess: {
     type: 'okapi',
     // eslint-disable-next-line consistent-return, no-unused-vars
-    path: (queryParams, pathComponents, resourceData) => {
+    path: (queryParams, pathComponents, resourceData, config, props) => {
       if (resourceData?.patrons?.records?.length) {
         const patronRecords = resourceData.patrons.records;
         return `reading-room-patron-permission/${patronRecords[patronRecords.length - 1].id}`;
@@ -83,7 +83,6 @@ ScanPatron.manifest = {
         return `reading-room/${readingRoomId}/access-log`;
       },
     }
-    // fetch: true,
   },
 };
 

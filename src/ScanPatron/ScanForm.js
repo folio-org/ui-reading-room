@@ -20,11 +20,12 @@ import PatronDetail from '../PatronDetail';
 import PatronAccessDetail from '../PatronAccessDetail';
 import { ALLOWED } from '../../constants';
 
+import css from './ScanForm.css';
+
 const ScanForm = (props) => {
   const {
     handleSubmit,
     form,
-    handleScanPatron,
     scannedPatronDetails,
     patronRRAPermission,
     resources,
@@ -51,7 +52,7 @@ const ScanForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={containerStyle}>
+      <div className={css.container}>
         <Paneset static>
           <Pane
             id="reading-room"
@@ -73,11 +74,6 @@ const ScanForm = (props) => {
                   <Col xs={1}>
                     <Button
                       type="submit"
-                      onClick={() => {
-                        const formState = form.getState();
-                        const patronBarcode = formState?.values?.patronBarcode;
-                        handleScanPatron(patronBarcode);
-                      }}
                     >
                       <FormattedMessage id="ui-reading-room.enter" />
                     </Button>
@@ -142,7 +138,6 @@ const ScanForm = (props) => {
 
 ScanForm.propTypes = {
   handleSubmit: PropTypes.func,
-  handleScanPatron: PropTypes.func,
   form: PropTypes.object,
   scannedPatronDetails: PropTypes.object,
   patronRRAPermission: PropTypes.object,

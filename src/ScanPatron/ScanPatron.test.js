@@ -1,14 +1,10 @@
-import { render, waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanPatron from './ScanPatron';
 
-jest.mock('./ScanForm', () => jest.fn(({ handleScanPatron, scannedPatronDetails }) => (
-  <>
-    { scannedPatronDetails && <div data-testid="patron-name">scannedPatronDetails.name</div>}
-    <button type="button" onClick={() => handleScanPatron('123')}>enter</button>))
-  </>
-)));
+jest.unmock('@folio/stripes/components');
 
 const mockedUser = {
   name: 'name'
@@ -25,6 +21,7 @@ const props = {
   },
   resources: {},
   stripes: {
+    connect: jest.fn((component) => component),
     user: {
       user: {
         curServicePoint: {
@@ -36,19 +33,21 @@ const props = {
 };
 
 const renderComponent = () => {
-  render(<ScanPatron {...props} />);
+  renderWithRouter(<ScanPatron {...props} />);
 };
 
 describe('ScanPatron', () => {
   it('should render ScanForm ', async () => {
     renderComponent();
-    expect(screen.getByRole('button', { name: 'enter' })).toBeDefined();
+    expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toBeDefined();
   });
 
   it('should display patron details when patron is scanned', async () => {
     renderComponent();
-    await userEvent.click(screen.getByRole('button', { name: 'enter' }));
+    const barcodeField = document.querySelector('[id="patronBarcode"]');
+    await userEvent.type(barcodeField, '123');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
-    await waitFor(() => expect(screen.getByTestId('patron-name')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
   });
 });
