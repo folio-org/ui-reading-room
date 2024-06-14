@@ -1,51 +1,53 @@
-import { render, waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanPatron from './ScanPatron';
 
-jest.mock('./ScanForm', () => jest.fn(({ handleScanPatron }) => <button type="button" onClick={() => handleScanPatron('123')}>enter</button>));
-jest.mock('../PatronDetail', () => jest.fn(() => <div>PatronDetail</div>));
+jest.unmock('@folio/stripes/components');
 
+const mockedUser = {
+  name: 'name'
+};
 const props = {
   mutator: {
     patrons: {
+      GET: jest.fn().mockResolvedValue([mockedUser]),
+    },
+    userProfilePicConfig: {},
+    patronReadingRoomAccess: {
       GET: jest.fn().mockResolvedValue(['user']),
     },
-    userProfilePicConfig: {}
   },
   resources: {},
+  stripes: {
+    connect: jest.fn((component) => component),
+    user: {
+      user: {
+        curServicePoint: {
+          id: '1'
+        }
+      }
+    }
+  },
 };
 
 const renderComponent = () => {
-  render(<ScanPatron {...props} />);
+  renderWithRouter(<ScanPatron {...props} />);
 };
 
 describe('ScanPatron', () => {
-  it('should render component', () => {
-    renderComponent();
-    expect(screen.getByText('ui-reading-room.scanPatronCard')).toBeDefined();
-  });
-
   it('should render ScanForm ', async () => {
     renderComponent();
-
-    await userEvent.click(screen.getByText('enter'));
-
-    await waitFor(() => expect(screen.getByText('PatronDetail')).toBeDefined());
+    expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toBeDefined();
   });
 
-  it('should display Allow button', () => {
+  it('should display patron details when patron is scanned', async () => {
     renderComponent();
-    expect(screen.getByRole('button', { name: 'ui-reading-room.allow' })).toBeDefined();
-  });
+    const barcodeField = document.querySelector('[id="patronBarcode"]');
+    await userEvent.type(barcodeField, '123');
+    await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
-  it('should display Deny button', () => {
-    renderComponent();
-    expect(screen.getByRole('button', { name: 'ui-reading-room.deny' })).toBeDefined();
-  });
-
-  it('should display Cancel button', () => {
-    renderComponent();
-    expect(screen.getByRole('button', { name: 'ui-reading-room.cancel' })).toBeDefined();
+    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
   });
 });

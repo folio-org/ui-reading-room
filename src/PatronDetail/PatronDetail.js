@@ -19,12 +19,12 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
   const getUserValue = () => {
     return (
       <Row>
-        <Col xs={2}>
+        <Col xs={3}>
           <strong>
             {getFullName(user)}
           </strong>
         </Col>
-        <Col xs={2}>
+        <Col xs={3}>
           <FormattedMessage
             id="ui-reading-room.userDetail.barcode"
             tagName="strong"
@@ -33,7 +33,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
           {' '}
           {user.barcode || <NoValue />}
         </Col>
-        <Col xs={2}>
+        <Col xs={3}>
           <FormattedMessage
             id="ui-reading-room.userDetail.expiration"
             tagName="strong"
@@ -48,19 +48,22 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
 
   return (
     <Row>
-      <Col xs={isUserProfilePicConfigEnabledForTenant ? 9 : 12}>
-        <div className={`${css.section} ${css.active}`}>
-          <KeyValue
-            label={<FormattedMessage id="ui-reading-room.borrower" />}
-            value={getUserValue()}
-          />
-        </div>
+      <Col
+        xs={isUserProfilePicConfigEnabledForTenant ? 8 : 10}
+        className={css.borrowerDetails}
+      >
+        <KeyValue
+          label={<FormattedMessage id="ui-reading-room.borrower" />}
+          value={getUserValue()}
+        />
       </Col>
-      {isUserProfilePicConfigEnabledForTenant && (
-        <Col xs={3}>
-          <ProfilePicture profilePictureLink={profilePictureLink} />
-        </Col>
-      )}
+      {
+        isUserProfilePicConfigEnabledForTenant && (
+          <Col xs={2}>
+            <ProfilePicture profilePictureLink={profilePictureLink} />
+          </Col>
+        )
+      }
     </Row>
   );
 });
