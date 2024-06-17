@@ -4,6 +4,7 @@ import {
   waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
+import { runAxeTest } from '@folio/stripes-testing';
 
 import Footer from './Footer';
 
@@ -27,7 +28,7 @@ describe('Footer', () => {
     form: {
       change: jest.fn(),
     },
-    allow: true,
+    allowAccess: true,
     mutator: {
       patronAccessLog : {
         POST: jest.fn().mockResolvedValue(''),
@@ -37,6 +38,13 @@ describe('Footer', () => {
     currUserId: 'currUserId',
     patronId: 'patronId',
   };
+
+  it('should render with no axe errors', async () => {
+    render(<Footer {...props} />);
+    await runAxeTest({
+      rootNode: document.body,
+    });
+  });
 
   buttonNames.forEach(button => {
     it(`should render ${button.name} button`, () => {

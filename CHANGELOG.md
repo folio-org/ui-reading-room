@@ -9,4 +9,4 @@
 * Update sub permissions of permission “Reading room access: In app - track access”. Refs UIRR-5.
 * Display patron details on patron's barcode Scan. Refs UIRR-6.
 * Display Patron's permissions and notes for the reading room. Refs UIRR-7.
-* Implement Allow and Deny Actions. Refs UIRR-8.
+* Implement "Allow access" and "Deny access" actions for saving access log. Refs UIRR-8.

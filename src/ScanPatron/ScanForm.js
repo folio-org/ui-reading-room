@@ -112,7 +112,7 @@ const ScanForm = (props) => {
         {
           displayFooter && (
             <Footer
-              allow={patronRRAPermission?.access === ALLOWED}
+              allowAccess={patronRRAPermission?.access === ALLOWED}
               resetDetails={resetDetails}
               form={form}
               mutator={mutator}

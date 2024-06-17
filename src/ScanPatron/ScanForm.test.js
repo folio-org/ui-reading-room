@@ -1,5 +1,6 @@
 import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
+import { runAxeTest } from '@folio/stripes-testing';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanForm from './ScanForm';
@@ -37,11 +38,19 @@ describe('ScanForm', () => {
       }
     },
     resetDetails,
+    currUserId:'currUserId',
+    mutator: {},
   };
 
   describe('when scannedPatronDetails and patronRRAPermission props are set', () => {
     beforeEach(() => {
       renderComponent(props);
+    });
+
+    it('should render with no axe errors', async () => {
+      await runAxeTest({
+        rootNode: document.body,
+      });
     });
 
     it('should render component', () => {

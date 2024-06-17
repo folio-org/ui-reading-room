@@ -68,6 +68,7 @@
     "@folio/stripes": "^9.1.0",
     "@folio/stripes-cli": "^3.0.0 || ^3.0.0",
     "@folio/stripes-core": "^10.1.0",
+    "@folio/stripes-testing": "^4.4.0",
     "core-js": "^3.6.4",
     "eslint": "^7.32.0",
     "history": "^4.10.1",

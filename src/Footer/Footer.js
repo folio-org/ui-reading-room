@@ -11,7 +11,7 @@ import {
 import css from './Footer.css';
 import { ALLOWED, DENIED } from '../../constants';
 
-const Footer = ({ resetDetails, form, allow, mutator, readingRoomId, currUserId, patronId }) => {
+const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currUserId, patronId }) => {
   const handleAccessLog = useCallback((access) => {
     const payload = {
       readingRoomId,
@@ -67,7 +67,7 @@ const Footer = ({ resetDetails, form, allow, mutator, readingRoomId, currUserId,
               e.preventDefault();
               handleAccessLog(ALLOWED);
             }}
-            disabled={!allow}
+            disabled={!allowAccess}
           >
             <FormattedMessage id="ui-reading-room.allowAccess" />
           </Button>
@@ -79,7 +79,7 @@ const Footer = ({ resetDetails, form, allow, mutator, readingRoomId, currUserId,
 Footer.propTypes = {
   resetDetails: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  allow: PropTypes.bool,
+  allowAccess: PropTypes.bool,
   mutator: PropTypes.object.isRequired,
   readingRoomId: PropTypes.string,
   currUserId: PropTypes.string.isRequired,
