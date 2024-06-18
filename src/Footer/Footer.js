@@ -17,7 +17,7 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
 
   const handleAccessLog = useCallback((e) => {
     e.preventDefault();
-    const access = intl.formatMessage({ id: 'ui-reading-room.allowAccess' }) ? ALLOWED : DENIED;
+    const access = e.target.innerHTML === intl.formatMessage({ id: 'ui-reading-room.allowAccess' })?.props?.children[0] ? ALLOWED : DENIED;
     const payload = {
       readingRoomId,
       userId: currUserId,
