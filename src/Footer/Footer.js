@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Button,
@@ -8,11 +8,16 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import css from './Footer.css';
 import { ALLOWED, DENIED } from '../../constants';
 
+import css from './Footer.css';
+
 const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currUserId, patronId }) => {
-  const handleAccessLog = useCallback((access) => {
+  const intl = useIntl();
+
+  const handleAccessLog = useCallback((e) => {
+    e.preventDefault();
+    const access = intl.formatMessage({ id: 'ui-reading-room.allowAccess' }) ? ALLOWED : DENIED;
     const payload = {
       readingRoomId,
       userId: currUserId,
@@ -29,7 +34,12 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
         // eslint-disable-next-line no-console
         console.error(err);
       });
-  }, [readingRoomId, currUserId, patronId, mutator.patronAccessLog, form, resetDetails]);
+  }, [intl, readingRoomId, currUserId, patronId, mutator.patronAccessLog, form, resetDetails]);
+
+  const handleCancel = () => {
+    form.change('patronBarcode', '');
+    resetDetails();
+  };
 
   return (
     <div className={css.footer}>
@@ -39,10 +49,7 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
             id="cancel"
             type="button"
             buttonStyle="default mega"
-            onClick={() => {
-              form.change('patronBarcode', '');
-              resetDetails();
-            }}
+            onClick={handleCancel}
           >
             <FormattedMessage id="ui-reading-room.cancel" />
           </Button>
@@ -50,10 +57,7 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
             id="deny-access"
             type="submit"
             buttonStyle="danger mega"
-            onClick={(e) => {
-              e.preventDefault();
-              handleAccessLog(DENIED);
-            }}
+            onClick={handleAccessLog}
           >
             <FormattedMessage id="ui-reading-room.denyAccess" />
           </Button>
@@ -63,10 +67,7 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
             id="allow-access"
             type="submit"
             buttonStyle="primary mega"
-            onClick={(e) => {
-              e.preventDefault();
-              handleAccessLog(ALLOWED);
-            }}
+            onClick={handleAccessLog}
             disabled={!allowAccess}
           >
             <FormattedMessage id="ui-reading-room.allowAccess" />
