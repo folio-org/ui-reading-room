@@ -23,7 +23,8 @@
     ],
     "okapiInterfaces": {
       "users": "16.0 16.1",
-      "reading-room-patron-permission": "1.0"
+      "reading-room-patron-permission": "1.0",
+      "reading-room": "1.0"
     },
     "permissionSets": [
       {
@@ -67,6 +68,7 @@
     "@folio/stripes": "^9.1.0",
     "@folio/stripes-cli": "^3.0.0 || ^3.0.0",
     "@folio/stripes-core": "^10.1.0",
+    "@folio/stripes-testing": "^4.4.0",
     "core-js": "^3.6.4",
     "eslint": "^7.32.0",
     "history": "^4.10.1",
@@ -81,7 +83,8 @@
   },
   "dependencies": {
     "prop-types": "^15.6.0",
-    "react-final-form": "^6.3.0"
+    "react-final-form": "^6.3.0",
+    "uuid": "^9.0.0"
   },
   "peerDependencies": {
     "@folio/stripes": "^9.0.0",

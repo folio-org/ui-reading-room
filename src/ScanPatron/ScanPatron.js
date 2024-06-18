@@ -39,6 +39,8 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
       patronRRAPermission={patronRRAPermission}
       resources={resources}
       resetDetails={resetDetails}
+      mutator={mutator}
+      currUserId={stripes?.user?.user?.id}
     />
   );
 };
@@ -69,7 +71,19 @@ ScanPatron.manifest = {
     accumulate: 'true',
     abortOnUnmount: true,
     fetch: false,
-  }
+  },
+  patronAccessLog: {
+    type: 'okapi',
+    throwErrors: false,
+    POST: {
+      // eslint-disable-next-line consistent-return, no-unused-vars
+      path: (queryParams, pathComponents, resourceData) => {
+        const patronReadingRoomAccessRecords = resourceData.patron_reading_room_access.records;
+        const readingRoomId = patronReadingRoomAccessRecords[patronReadingRoomAccessRecords.length - 1].readingRoomId;
+        return `reading-room/${readingRoomId}/access-log`;
+      },
+    }
+  },
 };
 
 ScanPatron.propTypes = {

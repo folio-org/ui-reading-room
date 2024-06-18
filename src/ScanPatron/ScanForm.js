@@ -18,6 +18,7 @@ import { Pluggable } from '@folio/stripes/core';
 import Footer from '../Footer';
 import PatronDetail from '../PatronDetail';
 import PatronAccessDetail from '../PatronAccessDetail';
+import { ALLOWED } from '../../constants';
 
 import css from './ScanForm.css';
 
@@ -29,6 +30,8 @@ const ScanForm = (props) => {
     patronRRAPermission,
     resources,
     resetDetails,
+    mutator,
+    currUserId,
   } = props;
   const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
   const displayFooter = scannedPatronDetails && patronRRAPermission;
@@ -109,8 +112,13 @@ const ScanForm = (props) => {
         {
           displayFooter && (
             <Footer
+              allowAccess={patronRRAPermission?.access === ALLOWED}
               resetDetails={resetDetails}
               form={form}
+              mutator={mutator}
+              readingRoomId={patronRRAPermission?.readingRoomId}
+              patronId={scannedPatronDetails?.id}
+              currUserId={currUserId}
             />
           )
         }
@@ -126,6 +134,8 @@ ScanForm.propTypes = {
   patronRRAPermission: PropTypes.object,
   resources: PropTypes.object,
   resetDetails : PropTypes.func,
+  mutator: PropTypes.object.isRequired,
+  currUserId: PropTypes.string.isRequired,
 };
 
 export default stripesFinalForm({

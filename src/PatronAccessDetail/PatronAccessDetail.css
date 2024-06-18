@@ -17,3 +17,7 @@
 .marginRight{
   margin-right: 5px;
 }
+
+.denyIcon{
+  color: var(--warn);
+}

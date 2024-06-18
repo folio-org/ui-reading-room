@@ -12,10 +12,10 @@ import css from './PatronAccessDetail.css';
 
 const PatronAccessDetail = ({ rraPermission }) => {
   const { access, notes, readingRoomName } = rraPermission;
-  const bgClassName = access === ALLOWED ? css.allowed : css.NotAllowed;
+  const bgClassName = access === ALLOWED ? css.allowed : css.notAllowed;
   const icon = access === ALLOWED ?
     <Icon icon="check-circle" /> :
-    <Icon icon="warning" />;
+    <Icon icon="exclamation-circle" iconClassName={css.denyIcon} />;
   const accessString = access === ALLOWED ? <FormattedMessage id="ui-reading-room.allowAccess" /> : <FormattedMessage id="ui-reading-room.denyAccess" />;
 
   return (
