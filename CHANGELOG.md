@@ -10,3 +10,4 @@
 * Display patron details on patron's barcode Scan. Refs UIRR-6.
 * Display Patron's permissions and notes for the reading room. Refs UIRR-7.
 * Implement "Allow access" and "Deny access" actions for saving access log. Refs UIRR-8.
+* Add `PERSONAL_DATA_DISCLOSURE.md` file. Refs UIRR-9.
