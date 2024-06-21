@@ -7,6 +7,7 @@ import {
   Col,
   KeyValue,
   NoValue,
+  FormattedDate,
 } from '@folio/stripes/components';
 import { ProfilePicture } from '@folio/stripes/smart-components';
 
@@ -18,7 +19,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
 
   const getUserValue = () => {
     return (
-      <Row>
+      <Row className={css.marginTop}>
         <Col xs={3}>
           <strong>
             {getFullName(user)}
@@ -40,7 +41,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
             className={css.marginRight}
           />
           {' '}
-          {user.expirationDate || <NoValue />}
+          {user.expirationDate ? <FormattedDate value={user.expirationDate} /> : <NoValue />}
         </Col>
       </Row>
     );
