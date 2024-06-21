@@ -26,6 +26,13 @@ jest.mock('@folio/stripes/components', () => ({
       <input type="text" />
     </div>
   )),
+  FormattedDate: jest.fn(({ value, children }) => {
+    if (children) {
+      return children([value]);
+    }
+
+    return value;
+  }),
   Headline: jest.fn(({ children }) => <div>{ children }</div>),
   Icon: jest.fn((props) => (props && props.children ? props.children : <span />)),
   IconButton: jest.fn(({
