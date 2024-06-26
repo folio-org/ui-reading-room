@@ -37,7 +37,7 @@ const ScanForm = (props) => {
   } = props;
 
   const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
-  const displayFooter = scannedPatronDetails && scannedPatronDetails.active && patronRRAPermission && !loading;
+  const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
   const intl = useIntl();
 
   const selectUser = (user) => {

@@ -1,3 +1,10 @@
+.patronDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between; 
+}
+
 .borrowerDetails {
   padding: 5px;
   background-color: #f8f8f8;
@@ -9,7 +16,7 @@
   justify-content: space-evenly;
 }
 
-.borrowerDetails.borrowerProfilePic {
+.borrowerDetails.borrowerWhenProfilePicConfigActive {
   width: -webkit-calc(100% - 100px);
   width: -moz-calc(100% - 100px);
   width: calc(100% - 100px);
@@ -22,7 +29,3 @@
 .marginTop {
   margin-top : 10px;
 };
-
-.paddingRight {
-  padding-right: 10px;
-}

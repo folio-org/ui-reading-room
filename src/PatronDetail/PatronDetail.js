@@ -46,21 +46,20 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
     );
   };
 
+  const renderBorrowerDetails = () => (
+    <div className={`${css.borrowerDetails} ${isUserProfilePicConfigEnabledForTenant ? css.borrowerWhenProfilePicConfigActive : ''}`}>
+      <FormattedMessage id="ui-reading-room.borrower" />
+      {getUserValue()}
+    </div>
+  );
+
   if (!isUserProfilePicConfigEnabledForTenant) {
-    return (
-      <div className={css.borrowerDetails}>
-        <FormattedMessage id="ui-reading-room.borrower" />
-        {getUserValue()}
-      </div>
-    );
+    return renderBorrowerDetails();
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'space-between', justifyContent: 'space-between' }}>
-      <div className={`${css.borrowerDetails} ${css.borrowerProfilePic}`}>
-        <FormattedMessage id="ui-reading-room.borrower" />
-        {getUserValue()}
-      </div>
+    <div className={css.patronDetailsContainer}>
+      {renderBorrowerDetails()}
       <div style={{ width:'10px' }} />
       <ProfilePicture profilePictureLink={profilePictureLink} />
     </div>

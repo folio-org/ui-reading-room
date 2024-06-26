@@ -6,9 +6,6 @@
   flex-direction : row;
   align-items: flex-start;
   justify-content: flex-start;
-  /* width: -webkit-calc(100% - 100px);
-  width: -moz-calc(100% - 100px);
-  width: calc(100% - 100px); */
 }
 
 .allowed {

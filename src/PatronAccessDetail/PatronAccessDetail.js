@@ -8,30 +8,32 @@ import css from './PatronAccessDetail.css';
 
 const PatronAccessDetail = ({ rraPermission, active }) => {
   const { access, notes, readingRoomName } = rraPermission;
-  const bgClassName = access === ALLOWED ? css.allowed : css.notAllowed;
+  const bgClassName = active && access === ALLOWED ? css.allowed : css.notAllowed;
   const icon = access === ALLOWED ?
     <Icon icon="check-circle" /> :
     <Icon icon="exclamation-circle" iconClassName={css.denyIcon} />;
   const accessString = access === ALLOWED ? <FormattedMessage id="ui-reading-room.allowAccess" /> : <FormattedMessage id="ui-reading-room.denyAccess" />;
 
-  if (!active) {
-    return (
-      <div className={`${css.notAllowed} ${css.access}`}>
-        <FormattedMessage id="ui-reading-room.inactiveUser" />
-      </div>
-    );
-  }
-
-  return (
-    <div className={`${bgClassName} ${css.access}`}>
+  const renderRRA = () => (
+    <>
       <div className={css.marginRight}>
         {icon}
       </div>
       <div data-testid="roomName-access-notes">
-        {readingRoomName}: { accessString }
+        {readingRoomName}: {accessString}
         <br />
-        { notes && <FormattedMessage id="ui-reading-room.note" values={{ notes }} /> }
+        {notes && <FormattedMessage id="ui-reading-room.note" values={{ notes }} />}
       </div>
+    </>
+  );
+
+  return (
+    <div className={`${bgClassName} ${css.access}`}>
+      {
+        active ?
+          renderRRA() :
+          <FormattedMessage id="ui-reading-room.inactiveUser" />
+      }
     </div>
   );
 };
