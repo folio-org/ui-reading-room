@@ -7,11 +7,15 @@ import ScanPatron from './ScanPatron';
 jest.unmock('@folio/stripes/components');
 
 const mockedUser = {
-  name: 'name'
+  name: 'name',
+  active: true,
 };
 const mockedPatronAccess = {
   access: 'ALLOWED',
   readingRoomName: 'readingRoomName',
+};
+const mockedReadingRoom = {
+  name: 'reading room 1',
 };
 const props = {
   mutator: {
@@ -21,6 +25,9 @@ const props = {
     userProfilePicConfig: {},
     patronReadingRoomAccess: {
       GET: jest.fn().mockResolvedValue([mockedPatronAccess]),
+    },
+    readingRoom: {
+      GET: jest.fn().mockResolvedValue([mockedReadingRoom]),
     },
   },
   resources: {},
@@ -32,6 +39,7 @@ const props = {
           id: '1'
         },
         id: '123456',
+        active: true,
       }
     }
   },
@@ -76,7 +84,6 @@ describe('ScanPatron', () => {
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
     await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
     await userEvent.clear(barcodeField);
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 

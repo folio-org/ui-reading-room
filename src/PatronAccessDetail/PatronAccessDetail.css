@@ -2,6 +2,13 @@
   padding: 5px;
   border-radius: 6px;
   line-height: var(--line-height);
+  display: flex;
+  flex-direction : row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* width: -webkit-calc(100% - 100px);
+  width: -moz-calc(100% - 100px);
+  width: calc(100% - 100px); */
 }
 
 .allowed {
@@ -20,4 +27,11 @@
 
 .denyIcon{
   color: var(--warn);
+}
+
+.inactiveBorrower{
+  padding: 5px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  line-height: var(--line-height);
 }

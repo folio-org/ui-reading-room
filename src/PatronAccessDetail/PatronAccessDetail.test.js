@@ -18,35 +18,47 @@ const notAllowedAccessProps = {
 
 describe('PatronAccessDetail', () => {
   describe('when patron has access to reading room', () => {
+    beforeEach(() => {
+      const props = {
+        rraPermission: allowedAccessProps,
+        active: true,
+      };
+
+      render(<PatronAccessDetail {...props} />);
+    });
+
     it('should display "Allow access"', () => {
-      render(<PatronAccessDetail rraPermission={allowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.allowAccess');
     });
 
     it('should display reading room name', () => {
-      render(<PatronAccessDetail rraPermission={allowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent(allowedAccessProps.readingRoomName);
     });
 
     it('should display notes for user', () => {
-      render(<PatronAccessDetail rraPermission={allowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.note');
     });
   });
 
   describe('when patron do not have access to reading room', () => {
+    beforeEach(() => {
+      const props = {
+        rraPermission: notAllowedAccessProps,
+        active: true,
+      };
+
+      render(<PatronAccessDetail {...props} />);
+    });
+
     it('should display "Deny access"', () => {
-      render(<PatronAccessDetail rraPermission={notAllowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.denyAccess');
     });
 
     it('should display reading room name', () => {
-      render(<PatronAccessDetail rraPermission={notAllowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent(notAllowedAccessProps.readingRoomName);
     });
 
     it('should display notes for user', () => {
-      render(<PatronAccessDetail rraPermission={allowedAccessProps} />);
       expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.note');
     });
   });

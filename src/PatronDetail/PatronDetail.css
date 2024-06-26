@@ -3,6 +3,16 @@
   background-color: #f8f8f8;
   border-radius: 6px;
   line-height: var(--line-height);
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.borrowerDetails.borrowerProfilePic {
+  width: -webkit-calc(100% - 100px);
+  width: -moz-calc(100% - 100px);
+  width: calc(100% - 100px);
 }
 
 .marginRight {
@@ -12,3 +22,7 @@
 .marginTop {
   margin-top : 10px;
 };
+
+.paddingRight {
+  padding-right: 10px;
+}

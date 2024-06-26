@@ -28,7 +28,9 @@ describe('ScanForm', () => {
     handleSubmit,
     onSubmit,
     form: mockedForm,
-    scannedPatronDetails: {},
+    scannedPatronDetails: {
+      active: true
+    },
     patronRRAPermission: {},
     resources: {
       userProfilePicConfig: {
@@ -40,6 +42,8 @@ describe('ScanForm', () => {
     resetDetails,
     currUserId:'currUserId',
     mutator: {},
+    loading: false,
+    readingRoomName: 'reading room service',
   };
 
   describe('when scannedPatronDetails and patronRRAPermission props are set', () => {
@@ -54,7 +58,7 @@ describe('ScanForm', () => {
     });
 
     it('should render component', () => {
-      expect(screen.getByText('ui-reading-room.scanPatronCard')).toBeDefined();
+      expect(screen.getByText('reading room service . ui-reading-room.scanPatronCard')).toBeDefined();
     });
 
     it('should render patron barcode field', () => {

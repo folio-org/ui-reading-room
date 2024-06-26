@@ -6,3 +6,7 @@
   width: 100%;
   position: absolute;
 }
+
+.marginLeft {
+  margin-left: 3px;
+}

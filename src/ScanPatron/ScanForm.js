@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -12,6 +11,7 @@ import {
   Row,
   Paneset,
   Pane,
+  Loading,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
@@ -32,14 +32,25 @@ const ScanForm = (props) => {
     resetDetails,
     mutator,
     currUserId,
+    readingRoomName,
+    loading,
   } = props;
+
   const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
-  const displayFooter = scannedPatronDetails && patronRRAPermission;
+  const displayFooter = scannedPatronDetails && scannedPatronDetails.active && patronRRAPermission && !loading;
   const intl = useIntl();
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
+    handleSubmit(user.barcode);
   };
+
+  const getTitle = () => (
+    <>
+      {readingRoomName ? `${readingRoomName} . ` : ''}
+      <FormattedMessage id="ui-reading-room.scanPatronCard" />
+    </>
+  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -47,14 +58,17 @@ const ScanForm = (props) => {
         <Paneset static>
           <Pane
             id="reading-room"
-            paneTitle={<FormattedMessage id="ui-reading-room.scanPatronCard" />}
+            paneTitle={getTitle()}
             centerContent
             defaultWidth="fill"
           >
             <Row>
-              <Col xsOffset={2} xs={10}>
+              <Col
+                xsOffset={1}
+                xs={10}
+              >
                 <Row>
-                  <Col xs={8}>
+                  <Col xs={9}>
                     <Field
                       id="patronBarcode"
                       name="patronBarcode"
@@ -70,39 +84,43 @@ const ScanForm = (props) => {
                     </Button>
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={12}>
-                    <Pluggable
-                      data-testid="clickableFindPatronPluggable"
-                      aria-haspopup="true"
-                      type="find-user"
-                      id="clickable-find-user"
-                      {...props}
-                      searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
-                      marginTop0
-                      searchButtonStyle="link"
-                      dataKey="patrons"
-                      selectUser={selectUser}
-                    >
-                      <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
-                    </Pluggable>
-                  </Col>
-                </Row>
+                <div className={css.marginLeft}>
+                  <Pluggable
+                    data-testid="clickableFindPatronPluggable"
+                    aria-haspopup="true"
+                    type="find-user"
+                    id="clickable-find-user"
+                    {...props}
+                    searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
+                    marginTop0
+                    searchButtonStyle="link"
+                    dataKey="patrons"
+                    selectUser={selectUser}
+                  >
+                    <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
+                  </Pluggable>
+                </div>
                 <br />
+                { loading && <Loading />}
                 {
-                  scannedPatronDetails && (
-                    <>
-                      <PatronDetail
-                        user={scannedPatronDetails}
-                        isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-                      />
-                      <br />
-                      {
+                  scannedPatronDetails && !loading && (
+                    <Row>
+                      <Col xs={10}>
+                        <PatronDetail
+                          user={scannedPatronDetails}
+                          isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+                        />
+                        <br />
+                        {
                         patronRRAPermission && (
-                          <PatronAccessDetail rraPermission={patronRRAPermission} />
+                          <PatronAccessDetail
+                            rraPermission={patronRRAPermission}
+                            active={scannedPatronDetails.active}
+                          />
                         )
                       }
-                    </>
+                      </Col>
+                    </Row>
                   )
                 }
               </Col>
@@ -114,11 +132,11 @@ const ScanForm = (props) => {
             <Footer
               allowAccess={patronRRAPermission?.access === ALLOWED}
               resetDetails={resetDetails}
-              form={form}
               mutator={mutator}
               readingRoomId={patronRRAPermission?.readingRoomId}
               patronId={scannedPatronDetails?.id}
               currUserId={currUserId}
+              form={form}
             />
           )
         }
@@ -136,6 +154,8 @@ ScanForm.propTypes = {
   resetDetails : PropTypes.func,
   mutator: PropTypes.object.isRequired,
   currUserId: PropTypes.string.isRequired,
+  readingRoomName: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 export default stripesFinalForm({

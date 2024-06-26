@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Row,
   Col,
-  KeyValue,
   NoValue,
   FormattedDate,
 } from '@folio/stripes/components';
@@ -25,7 +24,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
             {getFullName(user)}
           </strong>
         </Col>
-        <Col xs={3}>
+        <Col xs={4}>
           <FormattedMessage
             id="ui-reading-room.userDetail.barcode"
             tagName="strong"
@@ -34,7 +33,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
           {' '}
           {user.barcode || <NoValue />}
         </Col>
-        <Col xs={3}>
+        <Col xs={4}>
           <FormattedMessage
             id="ui-reading-room.userDetail.expiration"
             tagName="strong"
@@ -47,25 +46,24 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
     );
   };
 
+  if (!isUserProfilePicConfigEnabledForTenant) {
+    return (
+      <div className={css.borrowerDetails}>
+        <FormattedMessage id="ui-reading-room.borrower" />
+        {getUserValue()}
+      </div>
+    );
+  }
+
   return (
-    <Row>
-      <Col
-        xs={isUserProfilePicConfigEnabledForTenant ? 8 : 10}
-        className={css.borrowerDetails}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-reading-room.borrower" />}
-          value={getUserValue()}
-        />
-      </Col>
-      {
-        isUserProfilePicConfigEnabledForTenant && (
-          <Col xs={2}>
-            <ProfilePicture profilePictureLink={profilePictureLink} />
-          </Col>
-        )
-      }
-    </Row>
+    <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'space-between', justifyContent: 'space-between' }}>
+      <div className={`${css.borrowerDetails} ${css.borrowerProfilePic}`}>
+        <FormattedMessage id="ui-reading-room.borrower" />
+        {getUserValue()}
+      </div>
+      <div style={{ width:'10px' }} />
+      <ProfilePicture profilePictureLink={profilePictureLink} />
+    </div>
   );
 });
 
