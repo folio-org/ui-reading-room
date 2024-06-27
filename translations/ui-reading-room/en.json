@@ -17,5 +17,6 @@
   "denyAccess": "<strong>Deny access</strong>",
   "actionSuccess": "Action was successfully saved",
   "somethingWentWrong": "SomethingWentWrong",
-  "inactiveUser": "<strong>Inactive user</strong>"
+  "inactiveUser": "<strong>Inactive user</strong>",
+  "noReadingRoomDefined": "No reading rooms defined for the current service point"
 }

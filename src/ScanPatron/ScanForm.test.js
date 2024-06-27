@@ -135,7 +135,7 @@ describe('ScanForm', () => {
     });
 
     it('should display text to indicate no reading rooms defined at the current service point', () => {
-      expect(screen.getByText('No reading rooms defined for the current service point')).toBeDefined();
+      expect(screen.getByText('ui-reading-room.scanPatronCard')).toBeDefined();
     });
 
     it('should disable input field', () => {

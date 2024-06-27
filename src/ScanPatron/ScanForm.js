@@ -26,7 +26,7 @@ import css from './ScanForm.css';
 const NoReadingRoom = () => (
   <Row>
     <Col xs={10} className={css.noReadingRooms}>
-      No reading rooms defined for the current service point
+      <FormattedMessage id="ui-reading-room.noReadingRoomDefined" />
     </Col>
   </Row>
 );
@@ -115,7 +115,7 @@ const ScanForm = (props) => {
           </Row>
           )}
         </>
-      )
+      );
     } else {
       return <NoReadingRoom />;
     }
