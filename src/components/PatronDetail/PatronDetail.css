@@ -1,0 +1,31 @@
+.patronDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between; 
+}
+
+.borrowerDetails {
+  padding: 5px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  line-height: var(--line-height);
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.borrowerDetails.borrowerWhenProfilePicConfigActive {
+  width: -webkit-calc(100% - 100px);
+  width: -moz-calc(100% - 100px);
+  width: calc(100% - 100px);
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginTop {
+  margin-top : 10px;
+};

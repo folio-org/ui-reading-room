@@ -38,10 +38,12 @@
           "module.reading-room.enabled",
           "users.collection.get",
           "usergroups.collection.get",
-          "users.profile-picture.item.get",
           "reading-room.patron-permission.item.get",
+          "users.item.get",
+          "users.configurations.item.get",
           "users.profile-picture.item.get",
-          "users.item.get"
+          "reading-room.access-log.post",
+          "reading-room.patron-permission.item.get"
         ],
         "visible": true
       }
@@ -80,7 +82,8 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "react-query": "^3.39.0"
   },
   "dependencies": {
     "prop-types": "^15.6.0",
@@ -92,6 +95,7 @@
     "react": "18.2.0",
     "react-intl": "^6.4.4",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-query": "^3.39.0"
   }
 }

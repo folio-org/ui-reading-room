@@ -1,29 +1,34 @@
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { Loading } from '@folio/stripes/components';
 
 import ScanForm from './ScanForm';
 
-const ScanPatron = ({ mutator, resources, stripes }) => {
+const ScanPatron = ({ mutator, stripes }) => {
   const [scannedPatronDetails, setScannedPatronDetails] = useState();
   const [patronRRAPermission, setPatronRRAPermission] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const resetDetails = () => {
+  const resetDetails = useCallback(() => {
     setScannedPatronDetails();
     setPatronRRAPermission();
-  };
+    setLoading(false);
+  }, []);
 
   const handleScanPatron = async (values) => {
     const { patronBarcode } = values;
     if (patronBarcode) {
+      setLoading(true);
       const query = `barcode==${patronBarcode}`;
       const patron = await mutator.patrons.GET({ params: { query } });
 
       if (patron?.length) {
         const access = await mutator.patronReadingRoomAccess.GET({ params: { servicePointId : stripes?.user?.user?.curServicePoint?.id } });
+        setLoading(false);
         setScannedPatronDetails(patron[0]);
-        setPatronRRAPermission(access[0]);
+        setPatronRRAPermission(access?.[0]);
       } else {
         resetDetails();
       }
@@ -33,15 +38,18 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
   };
 
   return (
-    <ScanForm
-      onSubmit={handleScanPatron}
-      scannedPatronDetails={scannedPatronDetails}
-      patronRRAPermission={patronRRAPermission}
-      resources={resources}
-      resetDetails={resetDetails}
-      mutator={mutator}
-      currUserId={stripes?.user?.user?.id}
-    />
+    stripes?.user?.user?.curServicePoint?.id ?
+      <ScanForm
+        onSubmit={handleScanPatron}
+        scannedPatronDetails={scannedPatronDetails}
+        patronRRAPermission={patronRRAPermission}
+        resetDetails={resetDetails}
+        mutator={mutator}
+        currUserId={stripes?.user?.user?.id}
+        loading={loading}
+        currSPId={stripes?.user?.user?.curServicePoint?.id}
+      /> :
+      <Loading />
   );
 };
 
@@ -53,11 +61,6 @@ ScanPatron.manifest = {
     accumulate: 'false',
     abortOnUnmount: true,
     fetch: false,
-  },
-  userProfilePicConfig: {
-    type: 'okapi',
-    path: 'users/configurations/entry',
-    fetch: true,
   },
   patronReadingRoomAccess: {
     type: 'okapi',
@@ -82,7 +85,8 @@ ScanPatron.manifest = {
         const readingRoomId = patronReadingRoomAccessRecords[patronReadingRoomAccessRecords.length - 1].readingRoomId;
         return `reading-room/${readingRoomId}/access-log`;
       },
-    }
+    },
+    fetch: false
   },
 };
 
@@ -91,12 +95,13 @@ ScanPatron.propTypes = {
     patrons: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }).isRequired,
-    userProfilePicConfig: PropTypes.object.isRequired,
     patronReadingRoomAccess: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }).isRequired,
+    patronAccessLog: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
   }),
-  resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 

@@ -59,13 +59,13 @@ describe('Footer', () => {
     expect(props.resetDetails).toHaveBeenCalled();
   });
 
-  it('should save access log on clicking  "Allow access" button', async () => {
+  it('should save access log on clicking  "Deny access" button', async () => {
     render(<Footer {...props} />);
     await userEvent.click(screen.getByText(buttonNames[1].id));
     expect(props.mutator.patronAccessLog.POST).toHaveBeenCalled();
   });
 
-  it('should save access log on clicking  "Deny access" button', async () => {
+  it('should save access log on clicking  "Allow access" button', async () => {
     render(<Footer {...props} />);
     await userEvent.click(screen.getByText(buttonNames[2].id));
     expect(props.mutator.patronAccessLog.POST).toHaveBeenCalled();

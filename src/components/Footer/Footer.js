@@ -7,13 +7,28 @@ import {
   Col,
   Row,
 } from '@folio/stripes/components';
+import { useCallout } from '@folio/stripes/core';
 
-import { ALLOWED, DENIED } from '../../constants';
+import { ALLOWED, DENIED } from '../../../constants';
 
 import css from './Footer.css';
 
-const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currUserId, patronId }) => {
+const Footer = ({
+  resetDetails,
+  allowAccess,
+  mutator,
+  readingRoomId,
+  currUserId,
+  patronId,
+  form,
+}) => {
   const intl = useIntl();
+  const callout = useCallout();
+
+  const handleCancel = useCallback(() => {
+    form.change('patronBarcode', '');
+    resetDetails();
+  }, [form, resetDetails]);
 
   const handleAccessLog = useCallback((e) => {
     e.preventDefault();
@@ -27,19 +42,27 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
 
     mutator.patronAccessLog.POST(payload)
       .then(() => {
-        form.change('patronBarcode', '');
-        resetDetails();
+        callout.sendCallout({
+          message: (
+            <FormattedMessage id="ui-reading-room.actionSuccess" />
+          ),
+          type: 'success',
+          timeout: 0,
+        });
+        handleCancel();
       })
       .catch(err => {
         // eslint-disable-next-line no-console
         console.error(err);
+        callout.sendCallout({
+          message: (
+            <FormattedMessage id="ui-reading-readingRoomId.somethingWentWrong" />
+          ),
+          type: 'success',
+          timeout: 0,
+        });
       });
-  }, [intl, readingRoomId, currUserId, patronId, mutator.patronAccessLog, form, resetDetails]);
-
-  const handleCancel = () => {
-    form.change('patronBarcode', '');
-    resetDetails();
-  };
+  }, [intl, readingRoomId, currUserId, patronId, mutator.patronAccessLog, callout, handleCancel]);
 
   return (
     <div className={css.footer}>
@@ -79,12 +102,12 @@ const Footer = ({ resetDetails, form, allowAccess, mutator, readingRoomId, currU
 };
 Footer.propTypes = {
   resetDetails: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired,
   allowAccess: PropTypes.bool,
   mutator: PropTypes.object.isRequired,
   readingRoomId: PropTypes.string,
   currUserId: PropTypes.string.isRequired,
   patronId: PropTypes.string,
+  form: PropTypes.object.isRequired,
 };
 
 export default Footer;

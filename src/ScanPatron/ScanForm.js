@@ -1,8 +1,7 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { get } from 'lodash';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
@@ -12,15 +11,25 @@ import {
   Row,
   Paneset,
   Pane,
+  Loading,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
-import Footer from '../Footer';
-import PatronDetail from '../PatronDetail';
-import PatronAccessDetail from '../PatronAccessDetail';
+import Footer from '../components/Footer';
+import PatronDetail from '../components/PatronDetail';
+import PatronAccessDetail from '../components/PatronAccessDetail';
 import { ALLOWED } from '../../constants';
+import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
 
 import css from './ScanForm.css';
+
+const NoReadingRoom = () => (
+  <Row>
+    <Col xs={10} className={css.noReadingRooms}>
+      <FormattedMessage id="ui-reading-room.noReadingRoomDefined" />
+    </Col>
+  </Row>
+);
 
 const ScanForm = (props) => {
   const {
@@ -28,17 +37,88 @@ const ScanForm = (props) => {
     form,
     scannedPatronDetails,
     patronRRAPermission,
-    resources,
     resetDetails,
     mutator,
     currUserId,
+    loading,
+    currSPId,
   } = props;
-  const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
-  const displayFooter = scannedPatronDetails && patronRRAPermission;
+
+  const { data: readingRoomData, refetch, isLoading: readingRoomIsLoading } = useReadingRoom(currSPId);
+  const isUserProfilePicConfigEnabledForTenant = useProfilePicConfigForTenant();
+
+  useEffect(() => {
+    form.change('patronBarcode', '');
+    resetDetails();
+    refetch();
+  // exhaustive-deps check here is disabled as 'patronBarcode' field need not be cleared on every change on form
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refetch, resetDetails, currSPId]);
+
   const intl = useIntl();
+  const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
+  const displayPatronDetails = !!scannedPatronDetails && !loading;
+  const readingRoomsDefined = readingRoomData?.readingRooms?.length;
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
+    handleSubmit(user.barcode);
+  };
+
+  const getTitle = () => (
+    <>
+      {readingRoomData?.readingRooms.length ? `${readingRoomData.readingRooms?.[0]?.name} . ` : ''}
+      <FormattedMessage id="ui-reading-room.scanPatronCard" />
+    </>
+  );
+
+  const renderContent = () => {
+    if (readingRoomsDefined) {
+      return (
+        <>
+          <div className={css.marginLeft}>
+            <Pluggable
+              data-testid="clickableFindPatronPluggable"
+              aria-haspopup="true"
+              type="find-user"
+              id="clickable-find-user"
+              {...props}
+              searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
+              marginTop0
+              searchButtonStyle="link"
+              dataKey="patrons"
+              selectUser={selectUser}
+            >
+              <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
+            </Pluggable>
+          </div>
+          <br />
+          { loading && <Loading />}
+          {
+          displayPatronDetails && (
+          <Row>
+            <Col xs={10}>
+              <PatronDetail
+                user={scannedPatronDetails}
+                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+              />
+              <br />
+              {
+                patronRRAPermission && (
+                  <PatronAccessDetail
+                    rraPermission={patronRRAPermission}
+                    active={scannedPatronDetails.active}
+                  />
+                )
+              }
+            </Col>
+          </Row>
+          )}
+        </>
+      );
+    } else {
+      return <NoReadingRoom />;
+    }
   };
 
   return (
@@ -47,63 +127,38 @@ const ScanForm = (props) => {
         <Paneset static>
           <Pane
             id="reading-room"
-            paneTitle={<FormattedMessage id="ui-reading-room.scanPatronCard" />}
+            paneTitle={getTitle()}
             centerContent
             defaultWidth="fill"
           >
             <Row>
-              <Col xsOffset={2} xs={10}>
+              <Col
+                xsOffset={1}
+                xs={10}
+              >
                 <Row>
-                  <Col xs={8}>
+                  <Col xs={9}>
                     <Field
                       id="patronBarcode"
                       name="patronBarcode"
                       component={TextField}
                       placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
+                      disabled={!readingRoomsDefined}
                     />
                   </Col>
                   <Col xs={1}>
                     <Button
                       type="submit"
+                      disabled={!readingRoomsDefined}
                     >
                       <FormattedMessage id="ui-reading-room.enter" />
                     </Button>
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={12}>
-                    <Pluggable
-                      data-testid="clickableFindPatronPluggable"
-                      aria-haspopup="true"
-                      type="find-user"
-                      id="clickable-find-user"
-                      {...props}
-                      searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
-                      marginTop0
-                      searchButtonStyle="link"
-                      dataKey="patrons"
-                      selectUser={selectUser}
-                    >
-                      <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
-                    </Pluggable>
-                  </Col>
-                </Row>
-                <br />
                 {
-                  scannedPatronDetails && (
-                    <>
-                      <PatronDetail
-                        user={scannedPatronDetails}
-                        isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-                      />
-                      <br />
-                      {
-                        patronRRAPermission && (
-                          <PatronAccessDetail rraPermission={patronRRAPermission} />
-                        )
-                      }
-                    </>
-                  )
+                  readingRoomIsLoading ?
+                    <Loading /> :
+                    renderContent()
                 }
               </Col>
             </Row>
@@ -114,11 +169,11 @@ const ScanForm = (props) => {
             <Footer
               allowAccess={patronRRAPermission?.access === ALLOWED}
               resetDetails={resetDetails}
-              form={form}
               mutator={mutator}
               readingRoomId={patronRRAPermission?.readingRoomId}
               patronId={scannedPatronDetails?.id}
               currUserId={currUserId}
+              form={form}
             />
           )
         }
@@ -132,10 +187,11 @@ ScanForm.propTypes = {
   form: PropTypes.object,
   scannedPatronDetails: PropTypes.object,
   patronRRAPermission: PropTypes.object,
-  resources: PropTypes.object,
   resetDetails : PropTypes.func,
   mutator: PropTypes.object.isRequired,
   currUserId: PropTypes.string.isRequired,
+  currSPId: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default stripesFinalForm({

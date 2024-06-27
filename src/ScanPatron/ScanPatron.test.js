@@ -3,11 +3,29 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanPatron from './ScanPatron';
+import { useReadingRoom } from '../hooks';
 
 jest.unmock('@folio/stripes/components');
 
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
+  useReadingRoom: jest.fn(),
+  useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
+}));
+
+const mockedReadingRoomService = {
+  data: {
+    readingRooms: [
+      {
+        name: 'reading room service'
+      }
+    ]
+  },
+  refetch: jest.fn(),
+};
 const mockedUser = {
-  name: 'name'
+  name: 'name',
+  active: true,
 };
 const mockedPatronAccess = {
   access: 'ALLOWED',
@@ -18,10 +36,12 @@ const props = {
     patrons: {
       GET: jest.fn().mockResolvedValue([mockedUser]),
     },
-    userProfilePicConfig: {},
     patronReadingRoomAccess: {
       GET: jest.fn().mockResolvedValue([mockedPatronAccess]),
     },
+    patronAccessLog: {
+      POST: jest.fn()
+    }
   },
   resources: {},
   stripes: {
@@ -32,6 +52,7 @@ const props = {
           id: '1'
         },
         id: '123456',
+        active: true,
       }
     }
   },
@@ -42,6 +63,11 @@ const renderComponent = () => {
 };
 
 describe('ScanPatron', () => {
+  beforeEach(() => {
+    useReadingRoom
+      .mockClear()
+      .mockReturnValue(mockedReadingRoomService);
+  });
   it('should render ScanForm ', async () => {
     renderComponent();
     expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toBeDefined();
@@ -76,7 +102,6 @@ describe('ScanPatron', () => {
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
     await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
     await userEvent.clear(barcodeField);
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 

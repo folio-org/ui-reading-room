@@ -6,3 +6,15 @@
   width: 100%;
   position: absolute;
 }
+
+.marginLeft {
+  margin-left: 3px;
+}
+
+.noReadingRooms {
+  background-color: var(--warn-fill);
+  border: 1px solid var(--warn);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+}

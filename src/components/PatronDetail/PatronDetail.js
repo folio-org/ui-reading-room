@@ -5,13 +5,12 @@ import { FormattedMessage } from 'react-intl';
 import {
   Row,
   Col,
-  KeyValue,
   NoValue,
   FormattedDate,
 } from '@folio/stripes/components';
 import { ProfilePicture } from '@folio/stripes/smart-components';
 
-import { getFullName } from '../util';
+import { getFullName } from '../../util';
 import css from './PatronDetail.css';
 
 const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => {
@@ -25,7 +24,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
             {getFullName(user)}
           </strong>
         </Col>
-        <Col xs={3}>
+        <Col xs={4}>
           <FormattedMessage
             id="ui-reading-room.userDetail.barcode"
             tagName="strong"
@@ -34,7 +33,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
           {' '}
           {user.barcode || <NoValue />}
         </Col>
-        <Col xs={3}>
+        <Col xs={4}>
           <FormattedMessage
             id="ui-reading-room.userDetail.expiration"
             tagName="strong"
@@ -47,25 +46,23 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
     );
   };
 
+  const renderBorrowerDetails = () => (
+    <div className={`${css.borrowerDetails} ${isUserProfilePicConfigEnabledForTenant ? css.borrowerWhenProfilePicConfigActive : ''}`}>
+      <FormattedMessage id="ui-reading-room.borrower" />
+      {getUserValue()}
+    </div>
+  );
+
+  if (!isUserProfilePicConfigEnabledForTenant) {
+    return renderBorrowerDetails();
+  }
+
   return (
-    <Row>
-      <Col
-        xs={isUserProfilePicConfigEnabledForTenant ? 8 : 10}
-        className={css.borrowerDetails}
-      >
-        <KeyValue
-          label={<FormattedMessage id="ui-reading-room.borrower" />}
-          value={getUserValue()}
-        />
-      </Col>
-      {
-        isUserProfilePicConfigEnabledForTenant && (
-          <Col xs={2}>
-            <ProfilePicture profilePictureLink={profilePictureLink} />
-          </Col>
-        )
-      }
-    </Row>
+    <div className={css.patronDetailsContainer}>
+      {renderBorrowerDetails()}
+      <div style={{ width:'10px' }} />
+      <ProfilePicture profilePictureLink={profilePictureLink} />
+    </div>
   );
 });
 

@@ -11,3 +11,4 @@
 * Display Patron's permissions and notes for the reading room. Refs UIRR-7.
 * Implement "Allow access" and "Deny access" actions for saving access log. Refs UIRR-8.
 * Add `PERSONAL_DATA_DISCLOSURE.md` file. Refs UIRR-9.
+* Auto scan patron when patron selected from patron look up. Refs UIRR-10.
