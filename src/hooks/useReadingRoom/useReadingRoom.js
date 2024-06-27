@@ -9,7 +9,7 @@ const useReadingRoom = (servicePointId) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'get-reading-rooms' });
 
-  const { data, refetch } = useQuery(
+  const { data, refetch, isLoading } = useQuery(
     {
       queryKey: [namespace, servicePointId],
       queryFn: () => ky.get(`reading-room?query=servicePoints.id==${servicePointId}`).json(),
@@ -17,7 +17,7 @@ const useReadingRoom = (servicePointId) => {
     }
   );
 
-  return { data, refetch };
+  return { data, refetch, isLoading };
 };
 
 export default useReadingRoom;

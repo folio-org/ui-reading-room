@@ -23,6 +23,14 @@ import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
 
 import css from './ScanForm.css';
 
+const NoReadingRoom = () => (
+  <Row>
+    <Col xs={10} className={css.noReadingRooms}>
+      No reading rooms defined for the current service point
+    </Col>
+  </Row>
+);
+
 const ScanForm = (props) => {
   const {
     handleSubmit,
@@ -36,10 +44,7 @@ const ScanForm = (props) => {
     currSPId,
   } = props;
 
-  const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
-  const intl = useIntl();
-
-  const { data: readingRoomData, refetch } = useReadingRoom(currSPId);
+  const { data: readingRoomData, refetch, isLoading: readingRoomIsLoading } = useReadingRoom(currSPId);
   const isUserProfilePicConfigEnabledForTenant = useProfilePicConfigForTenant();
 
   useEffect(() => {
@@ -50,6 +55,11 @@ const ScanForm = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refetch, resetDetails, currSPId]);
 
+  const intl = useIntl();
+  const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
+  const displayPatronDetails = !!scannedPatronDetails && !loading;
+  const readingRoomsDefined = readingRoomData?.readingRooms?.length;
+
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
     handleSubmit(user.barcode);
@@ -57,7 +67,7 @@ const ScanForm = (props) => {
 
   const getTitle = () => (
     <>
-      {readingRoomData ? `${readingRoomData.readingRooms?.[0]?.name} . ` : ''}
+      {readingRoomData?.readingRooms.length ? `${readingRoomData.readingRooms?.[0]?.name} . ` : ''}
       <FormattedMessage id="ui-reading-room.scanPatronCard" />
     </>
   );
@@ -84,54 +94,65 @@ const ScanForm = (props) => {
                       name="patronBarcode"
                       component={TextField}
                       placeholder={intl.formatMessage({ id : 'ui-reading-room.scanOrEnterPatronBarcode' })}
+                      disabled={!readingRoomsDefined}
                     />
                   </Col>
                   <Col xs={1}>
                     <Button
                       type="submit"
+                      disabled={!readingRoomsDefined}
                     >
                       <FormattedMessage id="ui-reading-room.enter" />
                     </Button>
                   </Col>
                 </Row>
-                <div className={css.marginLeft}>
-                  <Pluggable
-                    data-testid="clickableFindPatronPluggable"
-                    aria-haspopup="true"
-                    type="find-user"
-                    id="clickable-find-user"
-                    {...props}
-                    searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
-                    marginTop0
-                    searchButtonStyle="link"
-                    dataKey="patrons"
-                    selectUser={selectUser}
-                  >
-                    <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
-                  </Pluggable>
-                </div>
-                <br />
-                { loading && <Loading />}
                 {
-                  scannedPatronDetails && !loading && (
-                    <Row>
-                      <Col xs={10}>
-                        <PatronDetail
-                          user={scannedPatronDetails}
-                          isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-                        />
-                        <br />
-                        {
-                        patronRRAPermission && (
-                          <PatronAccessDetail
-                            rraPermission={patronRRAPermission}
-                            active={scannedPatronDetails.active}
-                          />
-                        )
-                      }
-                      </Col>
-                    </Row>
-                  )
+                  readingRoomIsLoading ?
+                    <Loading /> :
+                    readingRoomsDefined ?
+                      (
+                        <>
+                          <div className={css.marginLeft}>
+                            <Pluggable
+                              data-testid="clickableFindPatronPluggable"
+                              aria-haspopup="true"
+                              type="find-user"
+                              id="clickable-find-user"
+                              {...props}
+                              searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
+                              marginTop0
+                              searchButtonStyle="link"
+                              dataKey="patrons"
+                              selectUser={selectUser}
+                            >
+                              <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
+                            </Pluggable>
+                          </div>
+                          <br />
+                          { loading && <Loading />}
+                          {
+                          displayPatronDetails && (
+                          <Row>
+                            <Col xs={10}>
+                              <PatronDetail
+                                user={scannedPatronDetails}
+                                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+                              />
+                              <br />
+                              {
+                                patronRRAPermission && (
+                                  <PatronAccessDetail
+                                    rraPermission={patronRRAPermission}
+                                    active={scannedPatronDetails.active}
+                                  />
+                                )
+                              }
+                            </Col>
+                          </Row>
+                          )}
+                        </>
+                      ) :
+                        <NoReadingRoom />
                 }
               </Col>
             </Row>

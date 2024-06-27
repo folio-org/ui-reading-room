@@ -26,6 +26,7 @@ const mockedReadingRoom = {
     ]
   },
   refetch: jest.fn(),
+  isLoading: false,
 };
 const handleSubmit = jest.fn();
 const mockedForm = {
@@ -106,6 +107,9 @@ describe('ScanForm', () => {
     };
 
     beforeEach(() => {
+      useReadingRoom
+        .mockClear()
+        .mockReturnValue(mockedReadingRoom);
       renderComponent(alteredProps);
     });
 
@@ -113,6 +117,33 @@ describe('ScanForm', () => {
       it(`should display ${text}`, () => {
         expect(screen.queryByText(`${text}`)).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe('when no reading rooms are available at the current service point', () => {
+    beforeEach(() => {
+      useReadingRoom
+        .mockClear()
+        .mockReturnValue({
+          data: {
+            readingRooms: []
+          },
+          refetch: jest.fn(),
+          isLoading: false,
+        });
+      renderComponent(props);
+    });
+
+    it('should display text to indicate no reading rooms defined at the current service point', () => {
+      expect(screen.getByText('No reading rooms defined for the current service point')).toBeDefined();
+    });
+
+    it('should disable input field', () => {
+      expect(screen.getByRole('textbox')).toHaveAttribute('disabled');
+    });
+
+    it('should disable enter button', () => {
+      expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toHaveAttribute('disabled');
     });
   });
 });

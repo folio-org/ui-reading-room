@@ -95,13 +95,12 @@ ScanPatron.propTypes = {
     patrons: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }).isRequired,
-    userProfilePicConfig: PropTypes.object.isRequired,
     patronReadingRoomAccess: PropTypes.shape({
       GET: PropTypes.func.isRequired,
     }).isRequired,
-    readingRoom: PropTypes.shape({
-      GET: PropTypes.func.isRequired,
-    }).isRequired,
+    patronAccessLog: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
   }),
   stripes: PropTypes.object.isRequired,
 };

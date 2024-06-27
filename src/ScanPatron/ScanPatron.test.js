@@ -39,6 +39,9 @@ const props = {
     patronReadingRoomAccess: {
       GET: jest.fn().mockResolvedValue([mockedPatronAccess]),
     },
+    patronAccessLog: {
+      POST: jest.fn()
+    }
   },
   resources: {},
   stripes: {
