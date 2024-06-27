@@ -19,7 +19,7 @@ const PatronAccessDetail = ({ rraPermission, active }) => {
       <div className={css.marginRight}>
         {icon}
       </div>
-      <div data-testid="roomName-access-notes">
+      <div data-testid="room-name-access-notes">
         {readingRoomName}: {accessString}
         <br />
         {notes && <FormattedMessage id="ui-reading-room.note" values={{ notes }} />}

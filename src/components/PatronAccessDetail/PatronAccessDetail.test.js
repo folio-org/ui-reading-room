@@ -16,6 +16,8 @@ const notAllowedAccessProps = {
   readingRoomName: 'reading room not allowed',
 };
 
+const testId = 'room-name-access-notes';
+
 describe('PatronAccessDetail', () => {
   describe('when patron has access to reading room', () => {
     beforeEach(() => {
@@ -28,15 +30,15 @@ describe('PatronAccessDetail', () => {
     });
 
     it('should display "Allow access"', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.allowAccess');
+      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.allowAccess');
     });
 
     it('should display reading room name', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent(allowedAccessProps.readingRoomName);
+      expect(screen.getByTestId(testId)).toHaveTextContent(allowedAccessProps.readingRoomName);
     });
 
     it('should display notes for user', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.note');
+      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.note');
     });
   });
 
@@ -51,15 +53,15 @@ describe('PatronAccessDetail', () => {
     });
 
     it('should display "Deny access"', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.denyAccess');
+      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.denyAccess');
     });
 
     it('should display reading room name', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent(notAllowedAccessProps.readingRoomName);
+      expect(screen.getByTestId(testId)).toHaveTextContent(notAllowedAccessProps.readingRoomName);
     });
 
     it('should display notes for user', () => {
-      expect(screen.getByTestId('roomName-access-notes')).toHaveTextContent('ui-reading-room.note');
+      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.note');
     });
   });
 });
