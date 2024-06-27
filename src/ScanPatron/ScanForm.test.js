@@ -4,13 +4,29 @@ import { runAxeTest } from '@folio/stripes-testing';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanForm from './ScanForm';
+import { useReadingRoom } from '../hooks';
 
 jest.unmock('@folio/stripes/components');
 
-jest.mock('../PatronDetail', () => jest.fn(() => <div>PatronDetail</div>));
-jest.mock('../PatronAccessDetail', () => jest.fn(() => <div>PatronAccessDetail</div>));
-jest.mock('../Footer', () => jest.fn(() => <div>Footer</div>));
+jest.mock('../components/PatronDetail', () => jest.fn(() => <div>PatronDetail</div>));
+jest.mock('../components/PatronAccessDetail', () => jest.fn(() => <div>PatronAccessDetail</div>));
+jest.mock('../components/Footer', () => jest.fn(() => <div>Footer</div>));
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
+  useReadingRoom: jest.fn(),
+  useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
+}));
 
+const mockedReadingRoom = {
+  data: {
+    readingRooms: [
+      {
+        name: 'reading room service'
+      }
+    ]
+  },
+  refetch: jest.fn(),
+};
 const handleSubmit = jest.fn();
 const mockedForm = {
   change: jest.fn(),
@@ -32,22 +48,18 @@ describe('ScanForm', () => {
       active: true
     },
     patronRRAPermission: {},
-    resources: {
-      userProfilePicConfig: {
-        records: [
-          { enabled: true },
-        ],
-      }
-    },
     resetDetails,
     currUserId:'currUserId',
+    currSPId: 'currSPId',
     mutator: {},
     loading: false,
-    readingRoomName: 'reading room service',
   };
 
   describe('when scannedPatronDetails and patronRRAPermission props are set', () => {
     beforeEach(() => {
+      useReadingRoom
+        .mockClear()
+        .mockReturnValue(mockedReadingRoom);
       renderComponent(props);
     });
 

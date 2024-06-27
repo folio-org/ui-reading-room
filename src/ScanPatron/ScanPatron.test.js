@@ -3,9 +3,26 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanPatron from './ScanPatron';
+import { useReadingRoom } from '../hooks';
 
 jest.unmock('@folio/stripes/components');
 
+jest.mock('../hooks', () => ({
+  ...jest.requireActual('../hooks'),
+  useReadingRoom: jest.fn(),
+  useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
+}));
+
+const mockedReadingRoomService = {
+  data: {
+    readingRooms: [
+      {
+        name: 'reading room service'
+      }
+    ]
+  },
+  refetch: jest.fn(),
+};
 const mockedUser = {
   name: 'name',
   active: true,
@@ -14,20 +31,13 @@ const mockedPatronAccess = {
   access: 'ALLOWED',
   readingRoomName: 'readingRoomName',
 };
-const mockedReadingRoom = {
-  name: 'reading room 1',
-};
 const props = {
   mutator: {
     patrons: {
       GET: jest.fn().mockResolvedValue([mockedUser]),
     },
-    userProfilePicConfig: {},
     patronReadingRoomAccess: {
       GET: jest.fn().mockResolvedValue([mockedPatronAccess]),
-    },
-    readingRoom: {
-      GET: jest.fn().mockResolvedValue([mockedReadingRoom]),
     },
   },
   resources: {},
@@ -50,6 +60,11 @@ const renderComponent = () => {
 };
 
 describe('ScanPatron', () => {
+  beforeEach(() => {
+    useReadingRoom
+      .mockClear()
+      .mockReturnValue(mockedReadingRoomService);
+  });
   it('should render ScanForm ', async () => {
     renderComponent();
     expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toBeDefined();

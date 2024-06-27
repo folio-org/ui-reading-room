@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { get } from 'lodash';
 
 import stripesFinalForm from '@folio/stripes/final-form';
 import {
@@ -15,10 +15,11 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
-import Footer from '../Footer';
-import PatronDetail from '../PatronDetail';
-import PatronAccessDetail from '../PatronAccessDetail';
+import Footer from '../components/Footer';
+import PatronDetail from '../components/PatronDetail';
+import PatronAccessDetail from '../components/PatronAccessDetail';
 import { ALLOWED } from '../../constants';
+import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
 
 import css from './ScanForm.css';
 
@@ -28,17 +29,26 @@ const ScanForm = (props) => {
     form,
     scannedPatronDetails,
     patronRRAPermission,
-    resources,
     resetDetails,
     mutator,
     currUserId,
-    readingRoomName,
     loading,
+    currSPId,
   } = props;
 
-  const isUserProfilePicConfigEnabledForTenant = get(resources, 'userProfilePicConfig.records[0].enabled');
   const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
   const intl = useIntl();
+
+  const { data: readingRoomData, refetch } = useReadingRoom(currSPId);
+  const isUserProfilePicConfigEnabledForTenant = useProfilePicConfigForTenant();
+
+  useEffect(() => {
+    form.change('patronBarcode', '');
+    resetDetails();
+    refetch();
+  // exhaustive-deps check here is disabled as 'patronBarcode' field need not be cleared on every change on form
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refetch, resetDetails, currSPId]);
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
@@ -47,7 +57,7 @@ const ScanForm = (props) => {
 
   const getTitle = () => (
     <>
-      {readingRoomName ? `${readingRoomName} . ` : ''}
+      {readingRoomData ? `${readingRoomData.readingRooms?.[0]?.name} . ` : ''}
       <FormattedMessage id="ui-reading-room.scanPatronCard" />
     </>
   );
@@ -150,11 +160,10 @@ ScanForm.propTypes = {
   form: PropTypes.object,
   scannedPatronDetails: PropTypes.object,
   patronRRAPermission: PropTypes.object,
-  resources: PropTypes.object,
   resetDetails : PropTypes.func,
   mutator: PropTypes.object.isRequired,
   currUserId: PropTypes.string.isRequired,
-  readingRoomName: PropTypes.string,
+  currSPId: PropTypes.string.isRequired,
   loading: PropTypes.bool,
 };
 

@@ -9,7 +9,7 @@ import {
 } from '@folio/stripes/components';
 import { useCallout } from '@folio/stripes/core';
 
-import { ALLOWED, DENIED } from '../../constants';
+import { ALLOWED, DENIED } from '../../../constants';
 
 import css from './Footer.css';
 

@@ -1,39 +1,21 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { Loading } from '@folio/stripes/components';
 
 import ScanForm from './ScanForm';
 
-const ScanPatron = ({ mutator, resources, stripes }) => {
+const ScanPatron = ({ mutator, stripes }) => {
   const [scannedPatronDetails, setScannedPatronDetails] = useState();
   const [patronRRAPermission, setPatronRRAPermission] = useState();
-  const [readingRoomName, setReadingRoomName] = useState();
   const [loading, setLoading] = useState(false);
 
-  const currServicePointId = useRef();
-
-  const currentReadingRoomName = useCallback(async () => {
-    if (currServicePointId.current) {
-      const query = `servicePoints.id==${currServicePointId.current}`;
-      const roomDetails = await mutator.readingRoom.GET({ params: { query } });
-      setReadingRoomName(roomDetails[0]?.name);
-    }
-  }, [mutator.readingRoom]);
-
-  useEffect(() => {
-    const currSPIdFromProps = stripes?.user?.user?.curServicePoint?.id;
-    if (currSPIdFromProps && currServicePointId.current !== currSPIdFromProps) {
-      currServicePointId.current = currSPIdFromProps;
-      currentReadingRoomName();
-    }
-  }, [currentReadingRoomName, stripes?.user?.user?.curServicePoint?.id]);
-
-  const resetDetails = () => {
+  const resetDetails = useCallback(() => {
     setScannedPatronDetails();
     setPatronRRAPermission();
     setLoading(false);
-  };
+  }, []);
 
   const handleScanPatron = async (values) => {
     const { patronBarcode } = values;
@@ -56,17 +38,18 @@ const ScanPatron = ({ mutator, resources, stripes }) => {
   };
 
   return (
-    <ScanForm
-      onSubmit={handleScanPatron}
-      scannedPatronDetails={scannedPatronDetails}
-      patronRRAPermission={patronRRAPermission}
-      resources={resources}
-      resetDetails={resetDetails}
-      mutator={mutator}
-      currUserId={stripes?.user?.user?.id}
-      readingRoomName={readingRoomName}
-      loading={loading}
-    />
+    stripes?.user?.user?.curServicePoint?.id ?
+      <ScanForm
+        onSubmit={handleScanPatron}
+        scannedPatronDetails={scannedPatronDetails}
+        patronRRAPermission={patronRRAPermission}
+        resetDetails={resetDetails}
+        mutator={mutator}
+        currUserId={stripes?.user?.user?.id}
+        loading={loading}
+        currSPId={stripes?.user?.user?.curServicePoint?.id}
+      /> :
+      <Loading />
   );
 };
 
@@ -78,11 +61,6 @@ ScanPatron.manifest = {
     accumulate: 'false',
     abortOnUnmount: true,
     fetch: false,
-  },
-  userProfilePicConfig: {
-    type: 'okapi',
-    path: 'users/configurations/entry',
-    fetch: true,
   },
   patronReadingRoomAccess: {
     type: 'okapi',
@@ -110,14 +88,6 @@ ScanPatron.manifest = {
     },
     fetch: false
   },
-  readingRoom: {
-    type: 'okapi',
-    path: 'reading-room',
-    records: 'readingRooms',
-    accumulate: 'false',
-    abortOnUnmount: true,
-    fetch: false,
-  },
 };
 
 ScanPatron.propTypes = {
@@ -133,7 +103,6 @@ ScanPatron.propTypes = {
       GET: PropTypes.func.isRequired,
     }).isRequired,
   }),
-  resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 

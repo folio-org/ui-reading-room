@@ -10,7 +10,7 @@ import {
 } from '@folio/stripes/components';
 import { ProfilePicture } from '@folio/stripes/smart-components';
 
-import { getFullName } from '../util';
+import { getFullName } from '../../util';
 import css from './PatronDetail.css';
 
 const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => {

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Icon } from '@folio/stripes/components';
 
-import { ALLOWED } from '../../constants';
+import { ALLOWED } from '../../../constants';
 import css from './PatronAccessDetail.css';
 
 const PatronAccessDetail = ({ rraPermission, active }) => {
