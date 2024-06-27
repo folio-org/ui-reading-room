@@ -72,6 +72,55 @@ const ScanForm = (props) => {
     </>
   );
 
+  const renderContent = () => {
+    if (readingRoomsDefined) {
+      return (
+        <>
+          <div className={css.marginLeft}>
+            <Pluggable
+              data-testid="clickableFindPatronPluggable"
+              aria-haspopup="true"
+              type="find-user"
+              id="clickable-find-user"
+              {...props}
+              searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
+              marginTop0
+              searchButtonStyle="link"
+              dataKey="patrons"
+              selectUser={selectUser}
+            >
+              <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
+            </Pluggable>
+          </div>
+          <br />
+          { loading && <Loading />}
+          {
+          displayPatronDetails && (
+          <Row>
+            <Col xs={10}>
+              <PatronDetail
+                user={scannedPatronDetails}
+                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
+              />
+              <br />
+              {
+                patronRRAPermission && (
+                  <PatronAccessDetail
+                    rraPermission={patronRRAPermission}
+                    active={scannedPatronDetails.active}
+                  />
+                )
+              }
+            </Col>
+          </Row>
+          )}
+        </>
+      )
+    } else {
+      return <NoReadingRoom />;
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className={css.container}>
@@ -109,50 +158,7 @@ const ScanForm = (props) => {
                 {
                   readingRoomIsLoading ?
                     <Loading /> :
-                    readingRoomsDefined ?
-                      (
-                        <>
-                          <div className={css.marginLeft}>
-                            <Pluggable
-                              data-testid="clickableFindPatronPluggable"
-                              aria-haspopup="true"
-                              type="find-user"
-                              id="clickable-find-user"
-                              {...props}
-                              searchLabel={<FormattedMessage id="ui-reading-room.patronLookup" />}
-                              marginTop0
-                              searchButtonStyle="link"
-                              dataKey="patrons"
-                              selectUser={selectUser}
-                            >
-                              <FormattedMessage id="ui-reading-room.findUserPluginNotAvailable" />
-                            </Pluggable>
-                          </div>
-                          <br />
-                          { loading && <Loading />}
-                          {
-                          displayPatronDetails && (
-                          <Row>
-                            <Col xs={10}>
-                              <PatronDetail
-                                user={scannedPatronDetails}
-                                isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
-                              />
-                              <br />
-                              {
-                                patronRRAPermission && (
-                                  <PatronAccessDetail
-                                    rraPermission={patronRRAPermission}
-                                    active={scannedPatronDetails.active}
-                                  />
-                                )
-                              }
-                            </Col>
-                          </Row>
-                          )}
-                        </>
-                      ) :
-                        <NoReadingRoom />
+                    renderContent()
                 }
               </Col>
             </Row>
