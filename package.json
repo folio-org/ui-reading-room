@@ -43,7 +43,8 @@
           "users.configurations.item.get",
           "users.profile-picture.item.get",
           "reading-room.access-log.post",
-          "reading-room.patron-permission.item.get"
+          "reading-room.patron-permission.item.get",
+          "reading-room.collection.get"
         ],
         "visible": true
       }
