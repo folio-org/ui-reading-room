@@ -1,7 +1,20 @@
 {
-    "meta.title": "Reading room",
-    "permission.all": "Reading room access: In app - track access",
-    "scanPatronCard": "Scan patron card",
-    "allow": "Allow",
-    "deny": "Deny"
+    "meta.title": "Sala de leitura",
+    "permission.all": "Acesso à sala de leitura: No aplicativo - rastreie o acesso",
+    "scanPatronCard": "Escanear cartão do usuário",
+    "scanOrEnterPatronBarcode": "Escanear ou inserir o código de barras do usuário",
+    "enter": "Entrar",
+    "borrower": "<strong>Usuário com empréstimo</strong>",
+    "userDetail.barcode": "Código de barras:",
+    "userDetail.expiration": "Expiração do usuário:",
+    "patronLookup": "Procurar usuário",
+    "findUserPluginNotAvailable": "Plugin não disponível",
+    "cancel": "Cancelar",
+    "note": "Nota: {notes}",
+    "allowAccess": "<strong>Permitir acesso</strong>",
+    "denyAccess": "<strong>Negar acesso</strong>",
+    "actionSuccess": "A ação foi salva com sucesso",
+    "somethingWentWrong": "Algo deu errado",
+    "inactiveUser": "<strong>Usuário inativo</strong>",
+    "noReadingRoomDefined": "Não há salas de leitura definidas para o ponto de serviço atual"
 }

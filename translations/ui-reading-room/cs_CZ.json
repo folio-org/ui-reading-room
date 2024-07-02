@@ -1,7 +1,20 @@
 {
-    "meta.title": "Reading room",
-    "permission.all": "Reading room access: In app - track access",
-    "scanPatronCard": "Scan patron card",
-    "allow": "Allow",
-    "deny": "Deny"
+    "meta.title": "Čítárna",
+    "permission.all": "Přístup do čítárny: V aplikaci - přístup ke sledování",
+    "scanPatronCard": "Naskenovat průkaz čtenáře",
+    "scanOrEnterPatronBarcode": "Naskenovat nebo zadat čárový kód čtenáře",
+    "enter": "Potvrdit",
+    "borrower": "<strong>Vypůjčitel</strong>",
+    "userDetail.barcode": "Čárový kód:",
+    "userDetail.expiration": "Vypršení platnosti uživatele:",
+    "patronLookup": "Vyhledat čtenáře",
+    "findUserPluginNotAvailable": "Plugin není k dispozici",
+    "cancel": "Zrušit",
+    "note": "Poznámka: {notes}",
+    "allowAccess": "<strong>Povolit přístup</strong>",
+    "denyAccess": "<strong>Odepřít přístup</strong>",
+    "actionSuccess": "Akce byla úspěšně uložena",
+    "somethingWentWrong": "Něco se pokazilo",
+    "inactiveUser": "<strong>Neaktivní uživatel</strong>",
+    "noReadingRoomDefined": "Pro aktuální pult služeb nejsou definovány žádné čítárny"
 }
