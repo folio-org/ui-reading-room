@@ -1,7 +1,20 @@
 {
-    "meta.title": "Reading room",
+    "meta.title": "Läsesal",
     "permission.all": "Reading room access: In app - track access",
     "scanPatronCard": "Scan patron card",
-    "allow": "Allow",
-    "deny": "Deny"
+    "scanOrEnterPatronBarcode": "Scan or enter patron barcode",
+    "enter": "Enter",
+    "borrower": "<strong>Borrower</strong>",
+    "userDetail.barcode": "Barcode:",
+    "userDetail.expiration": "User expiration:",
+    "patronLookup": "Patron look-up",
+    "findUserPluginNotAvailable": "Plugin not available",
+    "cancel": "Cancel",
+    "note": "Note: {notes}",
+    "allowAccess": "<strong>Allow access</strong>",
+    "denyAccess": "<strong>Deny access</strong>",
+    "actionSuccess": "Action was successfully saved",
+    "somethingWentWrong": "SomethingWentWrong",
+    "inactiveUser": "<strong>Inactive user</strong>",
+    "noReadingRoomDefined": "No reading rooms defined for the current service point"
 }
