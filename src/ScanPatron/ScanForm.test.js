@@ -146,4 +146,21 @@ describe('ScanForm', () => {
       expect(screen.getByRole('button', { name: 'ui-reading-room.enter' })).toHaveAttribute('disabled');
     });
   });
+
+  describe('when scannedPatronetails is null', () => {
+    beforeEach(() => {
+      useReadingRoom
+        .mockClear()
+        .mockReturnValue(mockedReadingRoom);
+
+      const alteredProps = {
+        ...props,
+        scannedPatronDetails: null,
+      };
+      renderComponent(alteredProps);
+    });
+    it('should display error message for non-existent barcode', () => {
+      expect(screen.getAllByText("ui-reading-room.userDoesn'tExist")).toBeDefined();
+    });
+  });
 });

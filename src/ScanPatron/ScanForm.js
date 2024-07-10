@@ -12,6 +12,7 @@ import {
   Paneset,
   Pane,
   Loading,
+  EmptyMessage,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
@@ -72,10 +73,23 @@ const ScanForm = (props) => {
     </>
   );
 
+  const renderEmptyMessage = () => {
+    const barcode = form.getState('patronBarcode');
+    if (barcode && scannedPatronDetails === null) {
+      return (
+        <EmptyMessage className={css.noUserExists}>
+          <FormattedMessage id="ui-reading-room.userDoesn'tExist" />
+        </EmptyMessage>
+      );
+    }
+    return null;
+  };
+
   const renderContent = () => {
     if (readingRoomsDefined) {
       return (
         <>
+          {renderEmptyMessage()}
           <div className={css.marginLeft}>
             <Pluggable
               data-testid="clickableFindPatronPluggable"

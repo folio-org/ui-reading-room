@@ -12,3 +12,4 @@
 * Implement "Allow access" and "Deny access" actions for saving access log. Refs UIRR-8.
 * Add `PERSONAL_DATA_DISCLOSURE.md` file. Refs UIRR-9.
 * Auto scan patron when patron selected from patron look up. Refs UIRR-10.
+* Display error message for non-existent patron barcode. Refs UIRR-12.
