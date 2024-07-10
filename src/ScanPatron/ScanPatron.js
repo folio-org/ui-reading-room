@@ -31,7 +31,6 @@ const ScanPatron = ({ mutator, stripes }) => {
         setScannedPatronDetails(patron[0]);
         setPatronRRAPermission(access?.[0]);
       } else {
-        // resetDetails();
         setScannedPatronDetails(null);
         setLoading(false);
       }
