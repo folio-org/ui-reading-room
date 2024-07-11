@@ -16,5 +16,6 @@
     "actionSuccess": "Akce byla úspěšně uložena",
     "somethingWentWrong": "Něco se pokazilo",
     "inactiveUser": "<strong>Neaktivní uživatel</strong>",
-    "noReadingRoomDefined": "Pro aktuální pult služeb nejsou definovány žádné čítárny"
+    "noReadingRoomDefined": "Pro aktuální pult služeb nejsou definovány žádné čítárny",
+    "userDoesn'tExist": "User with this barcode does not exist"
 }

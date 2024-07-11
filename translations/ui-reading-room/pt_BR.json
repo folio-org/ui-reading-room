@@ -16,5 +16,6 @@
     "actionSuccess": "A ação foi salva com sucesso",
     "somethingWentWrong": "Algo deu errado",
     "inactiveUser": "<strong>Usuário inativo</strong>",
-    "noReadingRoomDefined": "Não há salas de leitura definidas para o ponto de serviço atual"
+    "noReadingRoomDefined": "Não há salas de leitura definidas para o ponto de serviço atual",
+    "userDoesn'tExist": "Usuário com este código de barras não existe"
 }
