@@ -1,5 +1,5 @@
 {
-    "meta.title": "Reading room",
+    "meta.title": "Reading room access",
     "permission.all": "Reading room access: In app - track access",
     "scanPatronCard": "Scan patron card",
     "scanOrEnterPatronBarcode": "Scan or enter patron barcode",
@@ -16,5 +16,6 @@
     "actionSuccess": "Action was successfully saved",
     "somethingWentWrong": "何か問題が発生しました",
     "inactiveUser": "<strong>Inactive user</strong>",
-    "noReadingRoomDefined": "No reading rooms defined for the current service point"
+    "noReadingRoomDefined": "No reading rooms defined for the current service point",
+    "userDoesn'tExist": "User with this barcode does not exist"
 }
