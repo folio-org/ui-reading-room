@@ -13,9 +13,9 @@
     "note": "Note: {notes}",
     "allowAccess": "<strong>Allow access</strong>",
     "denyAccess": "<strong>Deny access</strong>",
-    "actionSuccess": "Action was successfully saved",
-    "somethingWentWrong": "SomethingWentWrong",
+    "actionSuccess": "L'action a été enregistrée avec succès",
+    "somethingWentWrong": "Une erreur s'est produite",
     "inactiveUser": "<strong>Utilisateur inactif</strong>",
-    "noReadingRoomDefined": "No reading rooms defined for the current service point",
-    "userDoesn'tExist": "User with this barcode does not exist"
+    "noReadingRoomDefined": "Aucune salle de lecture définie pour ce point de service",
+    "userDoesn'tExist": "L'utilisateur avec ce code-barres n'existe pas"
 }

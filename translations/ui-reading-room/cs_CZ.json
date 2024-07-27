@@ -1,5 +1,5 @@
 {
-    "meta.title": "Čítárna",
+    "meta.title": "Přístup do čítárny",
     "permission.all": "Přístup do čítárny: V aplikaci - přístup ke sledování",
     "scanPatronCard": "Naskenovat průkaz čtenáře",
     "scanOrEnterPatronBarcode": "Naskenovat nebo zadat čárový kód čtenáře",
@@ -17,5 +17,5 @@
     "somethingWentWrong": "Něco se pokazilo",
     "inactiveUser": "<strong>Neaktivní uživatel</strong>",
     "noReadingRoomDefined": "Pro aktuální pult služeb nejsou definovány žádné čítárny",
-    "userDoesn'tExist": "User with this barcode does not exist"
+    "userDoesn'tExist": "Uživatel s tímto čárovým kódem neexistuje"
 }

@@ -2,10 +2,10 @@
     "meta.title": "Reading room access",
     "permission.all": "Reading room access: In app - track access",
     "scanPatronCard": "Scan patron card",
-    "scanOrEnterPatronBarcode": "Scan or enter patron barcode",
+    "scanOrEnterPatronBarcode": "利用者バーコードをスキャンまたは入力",
     "enter": "Enter",
     "borrower": "<strong>Borrower</strong>",
-    "userDetail.barcode": "Barcode:",
+    "userDetail.barcode": "バーコード：",
     "userDetail.expiration": "User expiration:",
     "patronLookup": "Patron look-up",
     "findUserPluginNotAvailable": "Plugin not available",
@@ -17,5 +17,5 @@
     "somethingWentWrong": "何か問題が発生しました",
     "inactiveUser": "<strong>Inactive user</strong>",
     "noReadingRoomDefined": "No reading rooms defined for the current service point",
-    "userDoesn'tExist": "User with this barcode does not exist"
+    "userDoesn'tExist": "このバーコードを持つユーザーは存在しません"
 }
