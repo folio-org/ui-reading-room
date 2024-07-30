@@ -47,7 +47,6 @@ const Footer = ({
             <FormattedMessage id="ui-reading-room.actionSuccess" />
           ),
           type: 'success',
-          timeout: 0,
         });
         handleCancel();
       })
@@ -59,7 +58,6 @@ const Footer = ({
             <FormattedMessage id="ui-reading-readingRoomId.somethingWentWrong" />
           ),
           type: 'success',
-          timeout: 0,
         });
       });
   }, [intl, readingRoomId, currUserId, patronId, mutator.patronAccessLog, callout, handleCancel]);
