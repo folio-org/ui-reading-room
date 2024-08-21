@@ -5,7 +5,7 @@ Copyright (C) 2023 The Open Library Foundation
 This software is distributed under the terms of the Apache License, Version 2.0. See the file "[LICENSE](LICENSE)" for more information.
 
 ## Introduction
-The `ui-reading-room` module facilitates the verification of patron access to the reading room, allowing staff user to efficiently manage and log patron entries.
+The `ui-reading-room` module facilitates the process of confirming patron access to the reading room, enabling staff users to effectively oversee and record patron entries.
 
 ## Prerequisites
 
