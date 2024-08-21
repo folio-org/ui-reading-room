@@ -1,5 +1,5 @@
 {
-    "meta.title": "阅览室",
+    "meta.title": "阅览室访问",
     "permission.all": "阅览室访问：在应用中 - 跟踪访问",
     "scanPatronCard": "扫描读者卡",
     "scanOrEnterPatronBarcode": "扫描或输入读者条码",
@@ -17,5 +17,5 @@
     "somethingWentWrong": "出了些问题",
     "inactiveUser": "<strong>未激活用户</strong>",
     "noReadingRoomDefined": "当前服务点未定义阅览室",
-    "userDoesn'tExist": "User with this barcode does not exist"
+    "userDoesn'tExist": "此条码对应的用户不存在"
 }
