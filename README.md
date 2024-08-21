@@ -27,11 +27,6 @@ The `ui-reading-room` module facilitates the verification of patron access to th
 By default, this will use the backend OKAPI cluster at
 http://localhost:9130
 
-If you want to run the application against the mirage server contained
-within the browser, you can turn it on with the `--mirage` option:
-
-* `yarn start --mirage`
-
 If you want to run the application against a different Okapi cluster:
 
 * `yarn start --okapi https://myokapi.cluster.folio.org`
