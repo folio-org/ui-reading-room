@@ -5,48 +5,47 @@ Copyright (C) 2023 The Open Library Foundation
 This software is distributed under the terms of the Apache License, Version 2.0. See the file "[LICENSE](LICENSE)" for more information.
 
 ## Introduction
-
-Congratulations on creating a new Stripes UI app module!  Follow the instructions below to run ui-reading-room and start your development.
-
-TODO: Modify this README to replace these sections about getting started.
+The `ui-reading-room` module facilitates the verification of patron access to the reading room, ensuring that staff users can efficiently manage and track patron privileges and access permissions.
 
 ## Prerequisites
 
-In order to view and log into the platform being served up, a suitable Okapi backend will need to be running. The [testing-backend](https://app.vagrantup.com/folio/boxes/testing-backend) Vagrant box should work if your app does not yet have its own backend module.
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/) (at least version 8)
+* [Yarn](https://yarnpkg.com/)
 
-## Run your new app
+## Installation
 
-Run the following from the ui-reading-room directory to serve your new app using a development server:
+* `git clone https://github.com/folio-org/ui-reading-room`
+* `cd ui-reading-room`
+* `yarn`
+
+## Running
+
+* `yarn start`
+* Visit your app at [http://localhost:3000](http://localhost:3000).
+
+By default, this will use the backend OKAPI cluster at
+http://localhost:9130
+
+If you want to run the application against the mirage server contained
+within the browser, you can turn it on with the `--mirage` option:
+
+* `yarn start --mirage`
+
+If you want to run the application against a different Okapi cluster:
+
+* `yarn start --okapi https://myokapi.cluster.folio.org`
 ```
-stripes serve
+
+## Running Tests
+
+* `yarn test` (uses RTL and Jest to test the application)
+
+To add code coverage report:
+* `yarn test --coverage`
 ```
 
-Note: When serving up a newly created app that does not have its own backend permissions established, pass the `--hasAllPerms` option to display the app in the UI navigation. For example:
-```
-stripes serve --hasAllPerms
-```
+## Building
 
-To specify your own tenant ID or to use an Okapi instance other than `http://localhost:9130` pass the `--okapi` and `--tenant` options.
-```
-stripes serve --okapi http://my-okapi.example.com:9130 --tenant my-tenant-id
-```
-
-## Run the tests
-
-Run the included UI tests with the following command:
-```
-stripes test karma
-```
-
-## What to do next?
-
-Now that your new app is running, search the code for "`new-app`" to find comments and subbed placeholders that may need your attention.
-
-Please remove or customize the sample strings in `en.json` (lines 3-10) before merging this file to master; the translators do not need to be providing translations for these sample strings.
-
-Read the [Stripes Module Developer's Guide](https://github.com/folio-org/stripes/blob/master/doc/dev-guide.md).
-
-When your new UI app is ready and being built by CI, then adjust its Jenkinsfile to remove the `npmDeploy = 'no'` parameter (which is then superfluous).
-
-TODO: Modify this README to replace these sections about getting started, link to your issue tracker, etc.
+* `yarn build`
 
