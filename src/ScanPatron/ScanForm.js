@@ -181,10 +181,10 @@ const ScanForm = (props) => {
         {
           displayFooter && (
             <Footer
-              allowAccess={patronRRAPermission?.access === ALLOWED}
+              rraPermission={patronRRAPermission}
               resetDetails={resetDetails}
               mutator={mutator}
-              readingRoomId={patronRRAPermission?.readingRoomId}
+              currSPId={currSPId}
               patronId={scannedPatronDetails?.id}
               currUserId={currUserId}
               form={form}
