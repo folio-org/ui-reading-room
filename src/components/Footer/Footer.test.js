@@ -28,13 +28,17 @@ describe('Footer', () => {
     form: {
       change: jest.fn(),
     },
-    allowAccess: true,
+    rraPermission: {
+      access: 'ALLOWED',
+      readingRoomId: 'readingRoomId',
+      readingRoomName: 'readingRoomName',
+    },
     mutator: {
       patronAccessLog : {
         POST: jest.fn().mockResolvedValue(''),
       },
     },
-    readingRoomId: 'readingRoomId',
+    currSPId: 'currSPId',
     currUserId: 'currUserId',
     patronId: 'patronId',
   };

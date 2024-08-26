@@ -15,15 +15,17 @@ import css from './Footer.css';
 
 const Footer = ({
   resetDetails,
-  allowAccess,
   mutator,
-  readingRoomId,
+  currSPId,
   currUserId,
   patronId,
+  rraPermission,
   form,
 }) => {
   const intl = useIntl();
   const callout = useCallout();
+  const { access, readingRoomId, readingRoomName } = rraPermission;
+  const allowAccess = access === ALLOWED;
 
   const handleCancel = useCallback(() => {
     form.change('patronBarcode', '');
@@ -32,12 +34,14 @@ const Footer = ({
 
   const handleAccessLog = useCallback((e) => {
     e.preventDefault();
-    const access = e.target.innerHTML === intl.formatMessage({ id: 'ui-reading-room.allowAccess' })?.props?.children[0] ? ALLOWED : DENIED;
+    const action = e.target.innerHTML === intl.formatMessage({ id: 'ui-reading-room.allowAccess' })?.props?.children[0] ? ALLOWED : DENIED;
     const payload = {
       readingRoomId,
+      readingRoomName,
       userId: currUserId,
       patronId,
-      action: access
+      action,
+      servicePointId: currSPId,
     };
 
     mutator.patronAccessLog.POST(payload)
@@ -60,7 +64,7 @@ const Footer = ({
           type: 'success',
         });
       });
-  }, [intl, readingRoomId, currUserId, patronId, mutator.patronAccessLog, callout, handleCancel]);
+  }, [intl, readingRoomId, readingRoomName, currUserId, patronId, currSPId, mutator.patronAccessLog, callout, handleCancel]);
 
   return (
     <div className={css.footer}>
@@ -100,9 +104,13 @@ const Footer = ({
 };
 Footer.propTypes = {
   resetDetails: PropTypes.func.isRequired,
-  allowAccess: PropTypes.bool,
+  rraPermission: PropTypes.shape({
+    access: PropTypes.string.isRequired,
+    readingRoomId: PropTypes.string.isRequired,
+    readingRoomName: PropTypes.string.isRequired,
+  }).isRequired,
   mutator: PropTypes.object.isRequired,
-  readingRoomId: PropTypes.string,
+  currSPId: PropTypes.string.isRequired,
   currUserId: PropTypes.string.isRequired,
   patronId: PropTypes.string,
   form: PropTypes.object.isRequired,
