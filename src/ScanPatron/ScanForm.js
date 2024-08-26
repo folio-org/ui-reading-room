@@ -19,7 +19,6 @@ import { Pluggable } from '@folio/stripes/core';
 import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
 import PatronAccessDetail from '../components/PatronAccessDetail';
-import { ALLOWED } from '../../constants';
 import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
 
 import css from './ScanForm.css';
