@@ -7,49 +7,88 @@ import {
   Col,
   NoValue,
   FormattedDate,
+  KeyValue,
+  Loading,
 } from '@folio/stripes/components';
 import { ProfilePicture } from '@folio/stripes/smart-components';
 
-import { getFullName } from '../../util';
 import css from './PatronDetail.css';
+import { usePatronGroup } from '../../hooks';
 
 const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => {
+  const { data: patronGroup, isLoading: isPatronGroupLoading } = usePatronGroup(user?.patronGroup); // TODO: check permissions
   const profilePictureLink = user?.personal?.profilePictureLink;
-
-  const getUserValue = () => {
-    return (
-      <Row className={css.marginTop}>
-        <Col xs={3}>
-          <strong>
-            {getFullName(user)}
-          </strong>
-        </Col>
-        <Col xs={4}>
-          <FormattedMessage
-            id="ui-reading-room.userDetail.barcode"
-            tagName="strong"
-            className={css.marginRight}
-          />
-          {' '}
-          {user.barcode || <NoValue />}
-        </Col>
-        <Col xs={4}>
-          <FormattedMessage
-            id="ui-reading-room.userDetail.expiration"
-            tagName="strong"
-            className={css.marginRight}
-          />
-          {' '}
-          {user.expirationDate ? <FormattedDate value={user.expirationDate} /> : <NoValue />}
-        </Col>
-      </Row>
-    );
-  };
 
   const renderBorrowerDetails = () => (
     <div className={`${css.borrowerDetails} ${isUserProfilePicConfigEnabledForTenant ? css.borrowerWhenProfilePicConfigActive : ''}`}>
-      <FormattedMessage id="ui-reading-room.borrower" />
-      {getUserValue()}
+      <Row>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id={user?.personal?.preferredFirstName ? 'ui-reading-room.userDetail.preferredFirstName' : 'ui-reading-room.userDetail.firstName'}
+                tagName="strong"
+              />
+            }
+            value={user?.personal?.preferredFirstName || user?.personal?.firstName || <NoValue />}
+          />
+        </Col>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id="ui-reading-room.userDetail.lastName"
+                tagName="strong"
+              />
+            }
+            value={user?.personal?.lastName}
+          />
+        </Col>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id="ui-reading-room.userDetail.patronGroup"
+                tagName="strong"
+              />
+            }
+            value={isPatronGroupLoading ? <Loading /> : patronGroup?.group ?? <NoValue />}
+          />
+        </Col>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id="ui-reading-room.userDetail.userType"
+                tagName="strong"
+              />
+            }
+            value={user.type || <NoValue />}
+          />
+        </Col>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id="ui-reading-room.userDetail.barcode"
+                tagName="strong"
+              />
+            }
+            value={user.barcode || <NoValue />}
+          />
+        </Col>
+        <Col xs={2}>
+          <KeyValue
+            label={
+              <FormattedMessage
+                id="ui-reading-room.userDetail.expiration"
+                tagName="strong"
+              />
+            }
+            value={user.expirationDate ? <FormattedDate value={user.expirationDate} /> : <NoValue />}
+          />
+        </Col>
+      </Row>
     </div>
   );
 
