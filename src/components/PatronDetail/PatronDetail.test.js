@@ -41,19 +41,17 @@ describe('PatronDetail', () => {
     isUserProfilePicConfigEnabledForTenant: true,
   };
 
-  [
-    { id: 'ui-reading-room.userDetail.firstName', value: 'First name' },
-    { id: 'ui-reading-room.userDetail.lastName', value: 'Last name' },
-    { id: 'ui-reading-room.userDetail.patronGroup', value: 'Patron Group' },
-    { id: 'ui-reading-room.userDetail.userType', value: 'User Type' },
-    { id: 'ui-reading-room.userDetail.barcode', value: 'Barcode' },
-    { id: 'ui-reading-room.userDetail.expiration', value: 'Expiration' },
-  ].map((item) => (
-    it(`should render ${item.value}`, () => {
-      render(<PatronDetail {...props} />);
-      expect(screen.getByText(`${item.id}`)).toBeInTheDocument();
-    })
-  ));
+  it.each([
+    ['First name', 'ui-reading-room.userDetail.firstName'],
+    ['Last name', 'ui-reading-room.userDetail.lastName'],
+    ['Patron Group', 'ui-reading-room.userDetail.patronGroup'],
+    ['User Type', 'ui-reading-room.userDetail.userType'],
+    ['Barcode', 'ui-reading-room.userDetail.barcode'],
+    ['Expiration', 'ui-reading-room.userDetail.expiration'],
+  ])('should render %s', (value, id) => {
+    render(<PatronDetail {...props} />);
+    expect(screen.getByText(`${id}`)).toBeInTheDocument();
+  });
 
   it('should render preferredFirstName', () => {
     const alteredProps = {

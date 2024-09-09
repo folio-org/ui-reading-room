@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
 
 import {
   Row,
@@ -20,7 +21,11 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
   const profilePictureLink = user?.personal?.profilePictureLink;
 
   const renderBorrowerDetails = () => (
-    <div className={`${css.borrowerDetails} ${isUserProfilePicConfigEnabledForTenant ? css.borrowerWhenProfilePicConfigActive : ''}`}>
+    <div
+      className={
+        classNames(css.borrowerDetails, { [`${css.borrowerWhenProfilePicConfigActive}`]: isUserProfilePicConfigEnabledForTenant })
+      }
+    >
       <Row>
         <Col xs={2}>
           <KeyValue

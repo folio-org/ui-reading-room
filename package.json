@@ -87,6 +87,7 @@
     "react-query": "^3.39.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react-final-form": "^6.3.0",
     "uuid": "^9.0.0"
