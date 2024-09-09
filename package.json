@@ -37,8 +37,9 @@
         "subPermissions": [
           "module.reading-room.enabled",
           "users.collection.get",
-          "usergroups.collection.get",
           "users.item.get",
+          "usergroups.collection.get",
+          "usergroups.item.get",
           "users.configurations.item.get",
           "users.profile-picture.item.get",
           "reading-room.access-log.post",

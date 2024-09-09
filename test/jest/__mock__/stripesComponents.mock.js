@@ -1,6 +1,7 @@
 import React from 'react';
 
 jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
   Badge: jest.fn((props) => (
     <span>
       <span>{props.children}</span>

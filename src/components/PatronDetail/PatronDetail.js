@@ -16,7 +16,7 @@ import css from './PatronDetail.css';
 import { usePatronGroup } from '../../hooks';
 
 const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => {
-  const { data: patronGroup, isLoading: isPatronGroupLoading } = usePatronGroup(user?.patronGroup); // TODO: check permissions
+  const { data: patronGroup, isLoading: isPatronGroupLoading } = usePatronGroup(user?.patronGroup);
   const profilePictureLink = user?.personal?.profilePictureLink;
 
   const renderBorrowerDetails = () => (

@@ -55,6 +55,22 @@ describe('PatronDetail', () => {
     })
   ));
 
+  it('should render preferredFirstName', () => {
+    const alteredProps = {
+      ...props,
+      user: {
+        ...props.user,
+        personal: {
+          ...props.user.personal,
+          preferredFirstName: 'preferredFirstName'
+        }
+      }
+    };
+    render(<PatronDetail {...alteredProps} />);
+
+    expect(screen.getByText('preferredFirstName')).toBeInTheDocument();
+  });
+
   it('should render ProfilePicture', () => {
     render(<PatronDetail {...props} />);
     expect(screen.getByText('ProfilePicture')).toBeDefined();
@@ -68,5 +84,24 @@ describe('PatronDetail', () => {
 
     render(<PatronDetail {...alteredProps} />);
     expect(screen.queryByText('ProfilePicture')).toBeNull();
+  });
+
+  describe('when user does not have first name, preferred first name, expiration date and user type', () => {
+    it('should display a hyphen for each of the values', () => {
+      const alteredProps = {
+        user: {
+          personal: {
+            lastName: 'lastName',
+            profilePictureLink: 'profilePictureLink'
+          },
+          barcode: 'barcode',
+          patronGroup: 'patronGroup',
+        },
+        isUserProfilePicConfigEnabledForTenant: true,
+      };
+
+      render(<PatronDetail {...alteredProps} />);
+      expect(screen.getAllByText('-').length).toBe(3);
+    });
   });
 });

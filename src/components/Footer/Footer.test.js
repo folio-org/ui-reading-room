@@ -1,4 +1,4 @@
-import { useCallout, useStripes } from '@folio/stripes/core';
+import { useCallout } from '@folio/stripes/core';
 import {
   render,
   screen,
