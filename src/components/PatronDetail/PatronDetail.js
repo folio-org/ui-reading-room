@@ -17,8 +17,8 @@ import css from './PatronDetail.css';
 import { usePatronGroup } from '../../hooks';
 
 const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => {
-  const { data: patronGroup, isLoading: isPatronGroupLoading } = usePatronGroup(user?.patronGroup);
-  const profilePictureLink = user?.personal?.profilePictureLink;
+  const { personal: { firstName, preferredFirstName, lastName, profilePictureLink }, patronGroup, expirationDate, barcode } = user;
+  const { data: patronGroupDetails, isLoading: isPatronGroupLoading } = usePatronGroup(patronGroup);
 
   const renderBorrowerDetails = () => (
     <div
@@ -31,11 +31,11 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
           <KeyValue
             label={
               <FormattedMessage
-                id={user?.personal?.preferredFirstName ? 'ui-reading-room.userDetail.preferredFirstName' : 'ui-reading-room.userDetail.firstName'}
+                id={preferredFirstName ? 'ui-reading-room.userDetail.preferredFirstName' : 'ui-reading-room.userDetail.firstName'}
                 tagName="strong"
               />
             }
-            value={user?.personal?.preferredFirstName || user?.personal?.firstName || <NoValue />}
+            value={preferredFirstName || firstName || <NoValue />}
           />
         </Col>
         <Col xs={2}>
@@ -46,7 +46,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
                 tagName="strong"
               />
             }
-            value={user?.personal?.lastName}
+            value={lastName}
           />
         </Col>
         <Col xs={2}>
@@ -57,7 +57,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
                 tagName="strong"
               />
             }
-            value={isPatronGroupLoading ? <Loading /> : patronGroup?.group ?? <NoValue />}
+            value={isPatronGroupLoading ? <Loading /> : patronGroupDetails?.group ?? <NoValue />}
           />
         </Col>
         <Col xs={2}>
@@ -79,7 +79,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
                 tagName="strong"
               />
             }
-            value={user.barcode || <NoValue />}
+            value={barcode || <NoValue />}
           />
         </Col>
         <Col xs={2}>
@@ -90,7 +90,7 @@ const PatronDetail = memo(({ user, isUserProfilePicConfigEnabledForTenant }) => 
                 tagName="strong"
               />
             }
-            value={user.expirationDate ? <FormattedDate value={user.expirationDate} /> : <NoValue />}
+            value={expirationDate ? <FormattedDate value={expirationDate} /> : <NoValue />}
           />
         </Col>
       </Row>
