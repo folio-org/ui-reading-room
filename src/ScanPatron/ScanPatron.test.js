@@ -3,13 +3,14 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanPatron from './ScanPatron';
-import { useReadingRoom } from '../hooks';
+import { useReadingRoom, usePatronGroup } from '../hooks';
 
 jest.unmock('@folio/stripes/components');
 
 jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useReadingRoom: jest.fn(),
+  usePatronGroup: jest.fn(),
   useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
 }));
 
@@ -23,9 +24,22 @@ const mockedReadingRoomService = {
   },
   refetch: jest.fn(),
 };
+const mockUsePatronGroupService = {
+  data: {
+    group: 'patronGroup'
+  },
+  isLoading: false,
+};
 const mockedUser = {
   name: 'name',
   active: true,
+  personal: {
+    firstName: 'firstName',
+    lastName: 'lastName',
+  },
+  patronGroup: 'patronGroup',
+  type: 'userType',
+  barcode: 'barcode',
 };
 const mockedPatronAccess = {
   access: 'ALLOWED',
@@ -67,6 +81,9 @@ describe('ScanPatron', () => {
     useReadingRoom
       .mockClear()
       .mockReturnValue(mockedReadingRoomService);
+    usePatronGroup
+      .mockClear()
+      .mockReturnValue(mockUsePatronGroupService);
   });
   it('should render ScanForm ', async () => {
     renderComponent();
@@ -79,7 +96,7 @@ describe('ScanPatron', () => {
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
-    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.userDetail.firstName')).toBeInTheDocument());
   });
 
   it('should clear borrower details when cancel button is clicked', async () => {
@@ -88,11 +105,11 @@ describe('ScanPatron', () => {
 
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
-    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.userDetail.firstName')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText('ui-reading-room.cancel')).toBeInTheDocument());
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.cancel' }));
 
-    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.userDetail.firstName')).not.toBeInTheDocument());
   });
 
   it('should clear borrower details when enter button is clicked after removing barcode in input field', async () => {
@@ -101,11 +118,11 @@ describe('ScanPatron', () => {
 
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
-    await waitFor(() => expect(screen.getByText('ui-reading-room.borrower')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('ui-reading-room.userDetail.firstName')).toBeInTheDocument());
     await userEvent.clear(barcodeField);
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
-    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.firstName')).not.toBeInTheDocument());
   });
 
   it('should not render patron details when API responds with an empty array', async () => {
@@ -116,6 +133,6 @@ describe('ScanPatron', () => {
     await userEvent.type(barcodeField, '123');
     await userEvent.click(screen.getByRole('button', { name: 'ui-reading-room.enter' }));
 
-    await waitFor(() => expect(screen.queryByText('ui-reading-room.borrower')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('ui-reading-room.userDetail.firstName')).not.toBeInTheDocument());
   });
 });

@@ -15,4 +15,5 @@
 * Display error message for non-existent patron barcode. Refs UIRR-12.
 * Auto dismiss callout messages. Refs UIRR-13.
 * Update README.md file. Refs UIRR-15.
-* Supply servicePointId and readingRoomName along with the current payload to reading room /access-log POST API. UIRR-17.
+* Supply servicePointId and readingRoomName along with the current payload to reading room /access-log POST API. Refs UIRR-17.
+* Improvements after UAT feedback. Refs UIRR-14.

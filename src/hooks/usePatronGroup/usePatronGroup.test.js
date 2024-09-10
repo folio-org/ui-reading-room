@@ -6,7 +6,7 @@ import {
 import { renderHook, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { useOkapiKy } from '@folio/stripes/core';
 
-import useReadingRoom from './useReadingRoom';
+import usePatronGroup from './usePatronGroup';
 
 jest.mock('@folio/stripes/core', () => ({
   ...jest.requireActual('@folio/stripes/core'),
@@ -22,7 +22,7 @@ const wrapper = ({ children }) => (
   </QueryClientProvider>
 );
 
-describe('useReadingRoom', () => {
+describe('usePatronGroup', () => {
   const mockGet = jest.fn(() => ({
     json: () => Promise.resolve({ enabled: true }),
   }));
@@ -35,8 +35,8 @@ describe('useReadingRoom', () => {
     useOkapiKy.mockClear().mockReturnValue(kyMock);
   });
 
-  it('should fetch reading room for provided service point id', async () => {
-    const { result } = renderHook(() => useReadingRoom('servicePointId'), { wrapper });
+  it('should fetch patron group by id', async () => {
+    const { result } = renderHook(() => usePatronGroup('patronGroupId'), { wrapper });
 
     await waitFor(() => !result.current.isLoading);
 

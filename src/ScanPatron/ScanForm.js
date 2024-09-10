@@ -110,7 +110,7 @@ const ScanForm = (props) => {
           {
           displayPatronDetails && (
           <Row>
-            <Col xs={10}>
+            <Col xs={11}>
               <PatronDetail
                 user={scannedPatronDetails}
                 isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
@@ -146,11 +146,10 @@ const ScanForm = (props) => {
           >
             <Row>
               <Col
-                xsOffset={1}
-                xs={10}
+                xs={12}
               >
                 <Row>
-                  <Col xs={9}>
+                  <Col xs={10}>
                     <Field
                       id="patronBarcode"
                       name="patronBarcode"

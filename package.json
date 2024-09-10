@@ -37,8 +37,9 @@
         "subPermissions": [
           "module.reading-room.enabled",
           "users.collection.get",
-          "usergroups.collection.get",
           "users.item.get",
+          "usergroups.collection.get",
+          "usergroups.item.get",
           "users.configurations.item.get",
           "users.profile-picture.item.get",
           "reading-room.access-log.post",
@@ -86,6 +87,7 @@
     "react-query": "^3.39.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react-final-form": "^6.3.0",
     "uuid": "^9.0.0"

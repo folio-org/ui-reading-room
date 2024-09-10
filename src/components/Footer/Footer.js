@@ -47,8 +47,14 @@ const Footer = ({
     mutator.patronAccessLog.POST(payload)
       .then(() => {
         callout.sendCallout({
-          message: (
-            <FormattedMessage id="ui-reading-room.actionSuccess" />
+          message: (action === ALLOWED ?
+            <FormattedMessage
+              id="ui-reading-room.allowedActionSuccess"
+              values={{
+                readingRoom: readingRoomName
+              }}
+            /> :
+            <FormattedMessage id="ui-reading-room.notAllowedActionSuccess" />
           ),
           type: 'success',
         });
