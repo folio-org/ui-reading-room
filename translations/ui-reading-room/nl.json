@@ -17,5 +17,5 @@
     "somethingWentWrong": "SomethingWentWrong",
     "inactiveUser": "<strong>Inactive user</strong>",
     "noReadingRoomDefined": "No reading rooms defined for the current service point",
-    "userDoesn'tExist": "User with this barcode does not exist"
+    "userDoesn'tExist": "Gebruiker met deze barcode bestaat niet"
 }
