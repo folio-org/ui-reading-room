@@ -17,3 +17,4 @@
 * Update README.md file. Refs UIRR-15.
 * Supply servicePointId and readingRoomName along with the current payload to reading room /access-log POST API. Refs UIRR-17.
 * Improvements after UAT feedback. Refs UIRR-14.
+* Upgrade version for `actions/upload-artifact` to v4. Refs UIRR-18.
