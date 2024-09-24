@@ -4,7 +4,6 @@
     "scanPatronCard": "Scan gebruikerskaart",
     "scanOrEnterPatronBarcode": "Barcode van gebruiker scannen of invoeren",
     "enter": "Invoeren",
-    "borrower": "lener",
     "userDetail.barcode": "Barcode:",
     "userDetail.expiration": "Gebruiker verloopt:",
     "patronLookup": "Gebruiker zoeken",
@@ -13,9 +12,15 @@
     "note": "Opmerking: {notes}",
     "allowAccess": "<strong>Toegang toestaan</strong>",
     "denyAccess": "<strong>Toegang weigeren</strong>",
-    "actionSuccess": "Action was successfully saved",
     "somethingWentWrong": "SomethingWentWrong",
-    "inactiveUser": "<strong>Inactive user</strong>",
-    "noReadingRoomDefined": "No reading rooms defined for the current service point",
-    "userDoesn'tExist": "Gebruiker met deze barcode bestaat niet"
+    "inactiveUser": "<strong>Inactieve gebruiker</strong>",
+    "noReadingRoomDefined": "Geen leeskamers gedefinieerd voor het huidige servicepunt",
+    "userDoesn'tExist": "Gebruiker met deze barcode bestaat niet",
+    "userDetail.firstName": "First name",
+    "userDetail.preferredFirstName": "Preferred first name",
+    "userDetail.lastName": "Last name",
+    "userDetail.patronGroup": "Patron group",
+    "userDetail.userType": "User type",
+    "allowedActionSuccess": "Permitted entry to {readingRoom}",
+    "notAllowedActionSuccess": "Action was successfully saved"
 }

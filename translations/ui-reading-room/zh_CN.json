@@ -4,7 +4,6 @@
     "scanPatronCard": "扫描读者卡",
     "scanOrEnterPatronBarcode": "扫描或输入读者条码",
     "enter": "输入",
-    "borrower": "<strong>借用人</strong>",
     "userDetail.barcode": "条码：",
     "userDetail.expiration": "用户到期：",
     "patronLookup": "查找读者",
@@ -13,9 +12,15 @@
     "note": "附注： {notes}",
     "allowAccess": "<strong>允许访问</strong>",
     "denyAccess": "<strong>拒绝访问</strong>",
-    "actionSuccess": "操作已成功保存",
     "somethingWentWrong": "出了些问题",
     "inactiveUser": "<strong>未激活用户</strong>",
     "noReadingRoomDefined": "当前服务点未定义阅览室",
-    "userDoesn'tExist": "此条码对应的用户不存在"
+    "userDoesn'tExist": "此条码对应的用户不存在",
+    "userDetail.firstName": "First name",
+    "userDetail.preferredFirstName": "Preferred first name",
+    "userDetail.lastName": "Last name",
+    "userDetail.patronGroup": "Patron group",
+    "userDetail.userType": "User type",
+    "allowedActionSuccess": "Permitted entry to {readingRoom}",
+    "notAllowedActionSuccess": "Action was successfully saved"
 }
