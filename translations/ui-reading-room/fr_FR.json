@@ -20,7 +20,7 @@
     "userDetail.preferredFirstName": "Preferred first name",
     "userDetail.lastName": "Last name",
     "userDetail.patronGroup": "Patron group",
-    "userDetail.userType": "User type",
+    "userDetail.userType": "Type d'utilisateur",
     "allowedActionSuccess": "Permitted entry to {readingRoom}",
     "notAllowedActionSuccess": "Action was successfully saved"
 }
