@@ -1,6 +1,6 @@
 # Change history for ui-reading-room
 
-## 1.0.0 (IN PROGRESS)
+## [1.0.0] (https://github.com/folio-org/ui-eholdings/tree/v1.0.0) (2024-10-30)
 
 * Add initial files.
 * New app created with stripes-cli

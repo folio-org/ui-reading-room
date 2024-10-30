@@ -22,7 +22,7 @@
       }
     ],
     "okapiInterfaces": {
-      "users": "16.0 16.1",
+      "users": "16.3",
       "reading-room-patron-permission": "1.0",
       "reading-room": "1.0"
     },
