@@ -6,7 +6,7 @@
     "enter": "Enter",
     "userDetail.barcode": "Code-barres :",
     "userDetail.expiration": "Date d'échéance de l'utilisateur :",
-    "patronLookup": "Rechercher l'usager",
+    "patronLookup": "Rechercher un usager",
     "findUserPluginNotAvailable": "Plugin non disponible",
     "cancel": "Cancel",
     "note": "Note: {notes}",
@@ -19,7 +19,7 @@
     "userDetail.firstName": "First name",
     "userDetail.preferredFirstName": "Preferred first name",
     "userDetail.lastName": "Last name",
-    "userDetail.patronGroup": "Patron group",
+    "userDetail.patronGroup": "Groupe usagers",
     "userDetail.userType": "Type d'utilisateur",
     "allowedActionSuccess": "Permitted entry to {readingRoom}",
     "notAllowedActionSuccess": "Action was successfully saved"
