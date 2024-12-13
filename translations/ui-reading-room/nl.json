@@ -16,11 +16,11 @@
     "inactiveUser": "<strong>Inactieve gebruiker</strong>",
     "noReadingRoomDefined": "Geen leeskamers gedefinieerd voor het huidige servicepunt",
     "userDoesn'tExist": "Gebruiker met deze barcode bestaat niet",
-    "userDetail.firstName": "First name",
-    "userDetail.preferredFirstName": "Preferred first name",
-    "userDetail.lastName": "Last name",
-    "userDetail.patronGroup": "Patron group",
-    "userDetail.userType": "User type",
-    "allowedActionSuccess": "Permitted entry to {readingRoom}",
-    "notAllowedActionSuccess": "Action was successfully saved"
+    "userDetail.firstName": "Voornaam",
+    "userDetail.preferredFirstName": "Voorkeursvoornaam",
+    "userDetail.lastName": "Achternaam",
+    "userDetail.patronGroup": "Gebruikersgroep",
+    "userDetail.userType": "Gebruikerstype",
+    "allowedActionSuccess": "Toegang toegestaan tot {readingRoom}",
+    "notAllowedActionSuccess": "Actie is succesvol opgeslagen"
 }
