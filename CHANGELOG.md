@@ -1,6 +1,10 @@
 # Change history for ui-reading-room
 
-## [1.0.0](https://github.com/folio-org/ui-eholdings/tree/v1.0.0) (2024-10-30)
+## [1.1.0](https://github.com/folio-org/ui-reading-room/tree/v1.1.0) (2025-01-22)
+[Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v1.0.0...v1.1.0)
+* Bump module version to invaildate incorrect artifacts.
+
+## [1.0.0](https://github.com/folio-org/ui-reading-room/tree/v1.0.0) (2024-10-30)
 
 * Add initial files.
 * New app created with stripes-cli
