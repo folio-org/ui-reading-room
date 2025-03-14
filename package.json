@@ -1,6 +1,6 @@
 {
   "name": "@folio/reading-room",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Reading Room Access",
   "main": "src/index.js",
   "repository": "folio-org/ui-reading-room",
@@ -57,7 +57,7 @@
     "test": "yarn run test:jest",
     "test:jest": "jest",
     "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
-    "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-reading-room ./translations/ui-reading-room/compiled"
+    "formatjs-compile": "stripes translate compile"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
@@ -67,19 +67,19 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.9.0",
-    "@folio/eslint-config-stripes": "^7.0.0",
-    "@folio/jest-config-stripes": "^2.0.0",
-    "@folio/stripes": "^9.1.0",
-    "@folio/stripes-cli": "^3.0.0 || ^3.0.0",
-    "@folio/stripes-core": "^10.1.0",
-    "@folio/stripes-testing": "^4.4.0",
+    "@folio/eslint-config-stripes": "^8.0.0",
+    "@folio/jest-config-stripes": "^3.0.0",
+    "@folio/stripes": "^10.0.0",
+    "@folio/stripes-cli": "^4.0.0",
+    "@folio/stripes-core": "^11.0.0",
+    "@folio/stripes-testing": "^5.0.0",
     "core-js": "^3.6.4",
     "eslint": "^7.32.0",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^6.4.4",
+    "react-intl": "^7.1.5",
     "react-redux": "^8.0.5",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
@@ -93,9 +93,9 @@
     "uuid": "^9.0.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^9.0.0",
+    "@folio/stripes": "^10.0.0",
     "react": "^18.2.0",
-    "react-intl": "^6.4.4",
+    "react-intl": "^7.1.5",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-query": "^3.39.0"

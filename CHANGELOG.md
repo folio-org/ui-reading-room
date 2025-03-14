@@ -1,5 +1,10 @@
 # Change history for ui-reading-room
 
+## [2.0.0] In progress
+
+* *BREAKING* Migrate stripes dependencies to their Sunflower versions. Refs UIRR-29.
+* *BREAKING* Migrate react-intl to v7. Refs UIRR-28.
+
 ## [1.1.0](https://github.com/folio-org/ui-reading-room/tree/v1.1.0) (2025-01-22)
 [Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v1.0.0...v1.1.0)
 * Bump module version to invaildate incorrect artifacts.
