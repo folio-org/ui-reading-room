@@ -14,7 +14,7 @@
     "denyAccess": "<strong>Not allowed</strong>",
     "somethingWentWrong": "SomethingWentWrong",
     "inactiveUser": "<strong>Inactive user</strong>",
-    "noReadingRoomDefined": "No reading rooms defined for the current service point",
+    "noReadingRoomDefined": "Brak zdefiniowanych czytelni dla bieżącego punktu obsługi",
     "userDoesn'tExist": "User with this barcode does not exist",
     "userDetail.firstName": "First name",
     "userDetail.preferredFirstName": "Preferred first name",
