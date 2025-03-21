@@ -1,6 +1,6 @@
 {
     "meta.title": "阅览室访问",
-    "permission.all": "阅览室访问：在应用中 - 跟踪访问",
+    "permission.all": "阅览室访问 : 在应用中 - 跟踪访问",
     "scanPatronCard": "扫描读者卡",
     "scanOrEnterPatronBarcode": "扫描或输入读者条码",
     "enter": "输入",
@@ -9,7 +9,7 @@
     "patronLookup": "查找读者",
     "findUserPluginNotAvailable": "插件不可用",
     "cancel": "取消",
-    "note": "附注： {notes}",
+    "note": "附注 :  {notes}",
     "allowAccess": "<strong>允许</strong>",
     "denyAccess": "<strong>不允许</strong>",
     "somethingWentWrong": "出了些问题",
