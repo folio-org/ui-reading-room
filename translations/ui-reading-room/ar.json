@@ -7,7 +7,7 @@
     "userDetail.barcode": "الباركود",
     "userDetail.expiration": "انتهاء صلاحية المستخدم",
     "patronLookup": "بحث المستفيد",
-    "findUserPluginNotAvailable": "Plugin not available",
+    "findUserPluginNotAvailable": "الإضافة البرمجية غير متاحة",
     "cancel": "إلغاء",
     "note": "ملاحظة: {notes}",
     "allowAccess": "<strong>مسموح</strong>",
@@ -22,5 +22,5 @@
     "userDetail.patronGroup": "مجموعة المستفيد",
     "userDetail.userType": "نوع المستخدم",
     "allowedActionSuccess": "مسموح بالدخول إلى {readingRoom}",
-    "notAllowedActionSuccess": "Action was successfully saved"
+    "notAllowedActionSuccess": "تم حفظ الإجراء بنجاح"
 }

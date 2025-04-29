@@ -1,6 +1,6 @@
 {
     "meta.title": "Dostęp do czytelni",
-    "permission.all": "Reading room access: In app - track access",
+    "permission.all": "Dostęp do czytelni: w aplikacji - kontrolowanie dostępu",
     "scanPatronCard": "Scan patron card",
     "scanOrEnterPatronBarcode": "Wprowadź kod kreskowy z karty bibliotecznej czytelnika",
     "enter": "Enter",
@@ -19,7 +19,7 @@
     "userDetail.firstName": "First name",
     "userDetail.preferredFirstName": "Preferred first name",
     "userDetail.lastName": "Last name",
-    "userDetail.patronGroup": "Grupa czytelnika",
+    "userDetail.patronGroup": "Grupa czytelników",
     "userDetail.userType": "User type",
     "allowedActionSuccess": "Permitted entry to {readingRoom}",
     "notAllowedActionSuccess": "Action was successfully saved"
