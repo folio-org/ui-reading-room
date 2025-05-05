@@ -1,6 +1,6 @@
 {
   "name": "@folio/reading-room",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Reading Room Access",
   "main": "src/index.js",
   "repository": "folio-org/ui-reading-room",
@@ -23,6 +23,8 @@
     ],
     "okapiInterfaces": {
       "users": "16.3",
+      "automated-patron-blocks": "0.1",
+      "feesfines": "19.1",
       "reading-room-patron-permission": "1.0",
       "reading-room": "1.0"
     },
@@ -42,6 +44,8 @@
           "usergroups.item.get",
           "users.configurations.item.get",
           "users.profile-picture.item.get",
+          "manualblocks.collection.get",
+          "patron-blocks.automated-patron-blocks.collection.get",
           "reading-room.access-log.post",
           "reading-room.patron-permission.item.get",
           "reading-room.collection.get"
