@@ -1,0 +1,88 @@
+import { act, screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+
+import renderWithRouter from 'helpers/renderWithRouter';
+import PatronBlock from './PatronBlock';
+
+jest.unmock('@folio/stripes/components');
+
+const renderPatronBlock = (props) => renderWithRouter(<PatronBlock {...props} />);
+
+const STRIPES = {
+  config: {},
+  hasPerm: jest.fn().mockReturnValue(true),
+};
+
+const mockRedirect = jest.fn();
+
+const props = {
+  accordionId: 'patronBlocksSection',
+  expanded: true,
+  onToggle: jest.fn(),
+  stripes: STRIPES,
+  match: {
+    params: {
+      id: 'e6dc87a3-591b-43e0-a768-d3552b44878b',
+    }
+  },
+  history: {
+    push: mockRedirect,
+  },
+  location: {
+    search: '',
+  },
+  intl: { formatMessage: jest.fn() },
+  mutator: {
+    activeRecord: {
+      update: jest.fn(),
+    }
+  },
+  patronBlocks: [{
+    borrowing: true,
+    desc: 'Sample',
+    id: 'f1e0d3e2-fa48-4a82-b371-bea4e44178ab',
+    patronMessage: '',
+    renewals: true,
+    requests: true,
+    staffInformation: '',
+    type: 'Manual',
+    userId: 'e6dc87a3-591b-43e0-a768-d3552b44878b',
+    metadata: { createdDate: '2022-03-01T03:22:48.262+00:00', updatedDate: '2022-03-01T03:22:48.262+00:00' }
+  }]
+};
+
+describe('render ProxyPermissions component', () => {
+  it('Component must be rendered', () => {
+    renderPatronBlock(props);
+    expect(screen.getByText('ui-users.settings.patronBlocks')).toBeInTheDocument();
+  });
+  it('Clicking the patron row should redirect via history.push', async () => {
+    renderPatronBlock(props);
+    await act(async () => userEvent.click(document.querySelector('[data-row-inner="0"]')));
+    expect(mockRedirect).toHaveBeenCalled();
+  });
+  it('checking for sort order', () => {
+    renderPatronBlock(props);
+    userEvent.click(document.querySelector('[id="clickable-list-column-blockedactions"]'));
+    expect(screen.getByText('Sample')).toBeInTheDocument();
+  });
+  describe('when user is of type "dcb"', () => {
+    it('should not display "Create block" button', () => {
+      const alteredProps = {
+        ...props,
+        resources: {
+          selUser: {
+            records: [
+              {
+                personal: { lastName: 'DcbSystem' },
+                type: 'dcb'
+              }
+            ]
+          }
+        }
+      };
+      renderPatronBlock(alteredProps);
+      expect(screen.queryByText('Create block')).toBeNull();
+    });
+  });
+});

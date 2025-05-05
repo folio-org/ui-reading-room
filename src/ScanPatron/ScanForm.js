@@ -13,12 +13,15 @@ import {
   Pane,
   Loading,
   EmptyMessage,
+  AccordionSet,
+  Layout,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
 import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
 import PatronAccessDetail from '../components/PatronAccessDetail';
+import PatronBlock from '../components/PatronBlock';
 import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
 
 import css from './ScanForm.css';
@@ -124,6 +127,16 @@ const ScanForm = (props) => {
                   />
                 )
               }
+              <Layout className="marginTop1">
+                <AccordionSet initialStatus={{
+                  patronBlocksSection: false,
+                }}
+                >
+                  <PatronBlock
+                    userId={scannedPatronDetails?.id}
+                  />
+                </AccordionSet>
+              </Layout>
             </Col>
           </Row>
           )}
