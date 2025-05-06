@@ -62,6 +62,9 @@ const ScanForm = (props) => {
   const displayFooter = scannedPatronDetails?.active && patronRRAPermission && !loading;
   const displayPatronDetails = !!scannedPatronDetails && !loading;
   const readingRoomsDefined = readingRoomData?.readingRooms?.length;
+  const initialAccordionSetStatus = {
+    patronBlocksSection: false,
+  };
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
@@ -128,10 +131,7 @@ const ScanForm = (props) => {
                 )
               }
               <Layout className="marginTop1">
-                <AccordionSet initialStatus={{
-                  patronBlocksSection: false,
-                }}
-                >
+                <AccordionSet initialStatus={initialAccordionSetStatus}>
                   <PatronBlock
                     userId={scannedPatronDetails?.id}
                   />
