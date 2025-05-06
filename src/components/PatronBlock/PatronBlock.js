@@ -64,24 +64,7 @@ const PatronBlock = ({
 
   const patronBlocks = useMemo(() => {
     // The filter keeps only patron blocks where the expiration date is either today or in the future
-    const blocks = [...manualPatronBlocks, ...automatedPatronBlocks, {
-      'type': 'Manual',
-      'desc': 'desc6',
-      'staffInformation': 'info6',
-      'patronMessage': 'message6',
-      'expirationDate': '2025-05-01T00:00:00.000+00:00',
-      'borrowing': true,
-      'renewals': true,
-      'requests': false,
-      'userId': '12c71ee8-4856-4f78-9bf4-aa25cdd94de8',
-      'metadata': {
-        'createdDate': '2025-05-05T12:34:41.116+00:00',
-        'createdByUserId': '0542d324-cee5-4ec5-8b72-1c1cca9df828',
-        'updatedDate': '2025-05-05T12:34:41.116+00:00',
-        'updatedByUserId': '0542d324-cee5-4ec5-8b72-1c1cca9df828'
-      },
-      'id': 'd418ae2b-52ed-440d-b805-04b25d8a8405'
-    }].filter(patronBlock => {
+    const blocks = [...manualPatronBlocks, ...automatedPatronBlocks].filter(patronBlock => {
       return dayjs(patronBlock.expirationDate).endOf('day').isSameOrAfter(dayjs().endOf('day'));
     });
 

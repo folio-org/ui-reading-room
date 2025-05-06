@@ -1,88 +1,149 @@
-import { act, screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { within } from '@folio/jest-config-stripes/testing-library/react';
 
-import renderWithRouter from 'helpers/renderWithRouter';
 import PatronBlock from './PatronBlock';
+import renderWithRouter from '../../../test/jest/helpers/renderWithRouter';
+import {
+  useAutomatedPatronBlocks,
+  useManualPatronBlocks,
+} from '../../hooks';
 
-jest.unmock('@folio/stripes/components');
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useManualPatronBlocks: jest.fn(),
+  useAutomatedPatronBlocks: jest.fn(),
+}));
 
-const renderPatronBlock = (props) => renderWithRouter(<PatronBlock {...props} />);
-
-const STRIPES = {
-  config: {},
-  hasPerm: jest.fn().mockReturnValue(true),
-};
-
-const mockRedirect = jest.fn();
-
-const props = {
-  accordionId: 'patronBlocksSection',
-  expanded: true,
-  onToggle: jest.fn(),
-  stripes: STRIPES,
-  match: {
-    params: {
-      id: 'e6dc87a3-591b-43e0-a768-d3552b44878b',
-    }
-  },
-  history: {
-    push: mockRedirect,
-  },
-  location: {
-    search: '',
-  },
-  intl: { formatMessage: jest.fn() },
-  mutator: {
-    activeRecord: {
-      update: jest.fn(),
-    }
-  },
-  patronBlocks: [{
+const manualPatronBlocks = [
+  {
+    type: 'Manual',
+    desc: 'desc1',
+    staffInformation: 'info1',
+    patronMessage: 'message1',
     borrowing: true,
-    desc: 'Sample',
-    id: 'f1e0d3e2-fa48-4a82-b371-bea4e44178ab',
-    patronMessage: '',
     renewals: true,
     requests: true,
-    staffInformation: '',
+    userId: '00ceaef0-a650-437f-8bfb-60b5b01568b1',
+    metadata: {
+      createdDate: '2025-05-06T07:47:23.270+00:00',
+    },
+    id: '33b3b0cf-2eb8-4bdd-81ef-50afe7bd1875'
+  },
+  {
     type: 'Manual',
-    userId: 'e6dc87a3-591b-43e0-a768-d3552b44878b',
-    metadata: { createdDate: '2022-03-01T03:22:48.262+00:00', updatedDate: '2022-03-01T03:22:48.262+00:00' }
-  }]
-};
+    desc: 'desc2',
+    staffInformation: 'info2',
+    patronMessage: 'message2',
+    expirationDate: '2025-05-07T00:00:00.000+00:00',
+    borrowing: true,
+    renewals: false,
+    requests: true,
+    userId: '00ceaef0-a650-437f-8bfb-60b5b01568b1',
+    metadata: {
+      createdDate: '2025-05-06T07:48:20.179+00:00',
+    },
+    id: '2a96e4b8-9691-411b-beca-e990c1487999'
+  },
+  {
+    type: 'Manual',
+    desc: 'desc6',
+    staffInformation: 'info6',
+    patronMessage: 'message6',
+    expirationDate: '2025-05-01T00:00:00.000+00:00',
+    borrowing: true,
+    renewals: true,
+    requests: false,
+    userId: '12c71ee8-4856-4f78-9bf4-aa25cdd94de8',
+    metadata: {
+      createdDate: '2025-05-05T12:34:41.116+00:00',
+    },
+    id: 'd418ae2b-52ed-440d-b805-04b25d8a8405'
+  },
+];
 
-describe('render ProxyPermissions component', () => {
-  it('Component must be rendered', () => {
-    renderPatronBlock(props);
-    expect(screen.getByText('ui-users.settings.patronBlocks')).toBeInTheDocument();
-  });
-  it('Clicking the patron row should redirect via history.push', async () => {
-    renderPatronBlock(props);
-    await act(async () => userEvent.click(document.querySelector('[data-row-inner="0"]')));
-    expect(mockRedirect).toHaveBeenCalled();
-  });
-  it('checking for sort order', () => {
-    renderPatronBlock(props);
-    userEvent.click(document.querySelector('[id="clickable-list-column-blockedactions"]'));
-    expect(screen.getByText('Sample')).toBeInTheDocument();
-  });
-  describe('when user is of type "dcb"', () => {
-    it('should not display "Create block" button', () => {
-      const alteredProps = {
-        ...props,
-        resources: {
-          selUser: {
-            records: [
-              {
-                personal: { lastName: 'DcbSystem' },
-                type: 'dcb'
-              }
-            ]
-          }
-        }
-      };
-      renderPatronBlock(alteredProps);
-      expect(screen.queryByText('Create block')).toBeNull();
+const automatedPatronBlocks = [
+  {
+    blockBorrowing: true,
+    blockRenewals: false,
+    blockRequests: false,
+    message: 'Maximum number of items charged out1'
+  }
+];
+
+const renderPatronBlock = (props) => renderWithRouter(
+  <PatronBlock
+    userId="user-id"
+    {...props}
+  />
+);
+
+describe('PatronBlock', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    useManualPatronBlocks.mockReturnValue({
+      manualPatronBlocks,
+      isLoadingManualPatronBlocks: false,
     });
+
+    useAutomatedPatronBlocks.mockReturnValue({
+      automatedPatronBlocks,
+      isLoadingAutomatedPatronBlocks: false,
+    });
+  });
+
+  it('should call useManualPatronBlocks and useAutomatedPatronBlocks with userId', () => {
+    const userId = 'user-id';
+
+    renderPatronBlock({ userId });
+
+    expect(useManualPatronBlocks).toHaveBeenCalledWith({ userId });
+    expect(useAutomatedPatronBlocks).toHaveBeenCalledWith({ userId });
+  });
+
+  it('should display columns', () => {
+    const { getByText } = renderPatronBlock();
+
+    expect(getByText('ui-reading-room.patronBlocks.label')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.type')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.desc')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.blocked')).toBeInTheDocument();
+  });
+
+  it('should display manual blocks', () => {
+    const { getByText, getAllByText } = renderPatronBlock();
+
+    expect(getAllByText('Manual')).toHaveLength(2);
+    expect(getByText('desc1')).toBeInTheDocument();
+    expect(getByText('desc2')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.borrowing, ui-reading-room.patronBlocks.columns.requests')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.borrowing, ui-reading-room.patronBlocks.columns.renewals, ui-reading-room.patronBlocks.columns.requests')).toBeInTheDocument();
+  });
+
+  it('should display automated block', () => {
+    const { getByText } = renderPatronBlock();
+
+    expect(getByText('Maximum number of items charged out1')).toBeInTheDocument();
+    expect(getByText('ui-reading-room.patronBlocks.columns.borrowing')).toBeInTheDocument();
+  });
+
+  it('should display most recent blocks first', () => {
+    const { getAllByRole } = renderPatronBlock();
+
+    const rows = getAllByRole('row');
+    const firstRow = within(rows[1]).getByText('Maximum number of items charged out1');
+    const secondRow = within(rows[2]).getByText('desc2');
+    const thirdRow = within(rows[3]).getByText('desc1');
+
+    expect(firstRow).toBeInTheDocument();
+    expect(secondRow).toBeInTheDocument();
+    expect(thirdRow).toBeInTheDocument();
+  });
+
+  it('should display only patron blocks where the expiration date is either today or in the future', () => {
+    const { getByText, queryByText } = renderPatronBlock();
+
+    expect(getByText('desc1')).toBeInTheDocument();
+    expect(getByText('desc2')).toBeInTheDocument();
+    expect(queryByText('desc6')).not.toBeInTheDocument();
   });
 });

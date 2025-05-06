@@ -17,7 +17,6 @@ const useManualPatronBlocks = ({ userId }) => {
     }
   );
 
-
   return {
     manualPatronBlocks: data?.manualblocks || [],
     isLoadingManualPatronBlocks: isLoading,
