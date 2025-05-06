@@ -4,6 +4,7 @@ import {
   useIntl,
 } from 'react-intl';
 import orderBy from 'lodash/orderBy';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -47,6 +48,10 @@ const visibleColumns = [
   PATRON_BLOCKS_COLUMNS.displayDescription,
   PATRON_BLOCKS_COLUMNS.blockedActions,
 ];
+
+const propTypes = {
+  userId: PropTypes.string.isRequired,
+};
 
 const PatronBlock = ({
   userId,
@@ -147,5 +152,7 @@ const PatronBlock = ({
     </Accordion>
   );
 };
+
+PatronBlock.propTypes = propTypes;
 
 export default PatronBlock;
