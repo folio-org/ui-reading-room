@@ -1,3 +1,4 @@
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
 import { runAxeTest } from '@folio/stripes-testing';
@@ -36,32 +37,37 @@ const mockedForm = {
 const resetDetails = jest.fn();
 const onSubmit = jest.fn();
 
-const renderComponent = (props) => {
-  renderWithRouter(<ScanForm {...props} />);
+const renderComponent = (props = {}) => {
+  renderWithRouter(
+    <ScanForm
+      handleSubmit={handleSubmit}
+      form={mockedForm}
+      onSubmit={onSubmit}
+      scannedPatronDetails={{
+        id: 'user-id',
+        active: true
+      }}
+      resetDetails={resetDetails}
+      currUserId="currUserId"
+      currSPId="currSPId"
+      mutator={{}}
+      loading={false}
+      patronRRAPermission={{}}
+      {...props}
+    />
+  );
 };
 
 describe('ScanForm', () => {
-  const props = {
-    handleSubmit,
-    onSubmit,
-    form: mockedForm,
-    scannedPatronDetails: {
-      active: true
-    },
-    patronRRAPermission: {},
-    resetDetails,
-    currUserId:'currUserId',
-    currSPId: 'currSPId',
-    mutator: {},
-    loading: false,
-  };
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    useReadingRoom.mockReturnValue(mockedReadingRoom);
+  });
 
   describe('when scannedPatronDetails and patronRRAPermission props are set', () => {
     beforeEach(() => {
-      useReadingRoom
-        .mockClear()
-        .mockReturnValue(mockedReadingRoom);
-      renderComponent(props);
+      renderComponent();
     });
 
     it('should render with no axe errors', async () => {
@@ -89,27 +95,23 @@ describe('ScanForm', () => {
       await userEvent.type(barcodeField, '123');
       await userEvent.click(enterButton);
 
-      await waitFor(() => expect(props.onSubmit).toHaveBeenCalled());
+      await waitFor(() => expect(onSubmit).toHaveBeenCalled());
     });
 
     ['PatronDetail', 'PatronAccessDetail', 'Footer'].forEach(text => {
       it(`should display ${text}`, () => {
-        expect(screen.queryByText(`${text}`)).toBeInTheDocument();
+        expect(screen.getByText(`${text}`)).toBeInTheDocument();
       });
     });
   });
 
   describe('when scannedPatronDetails and patronRRAPermission props are not set', () => {
     const alteredProps = {
-      ...props,
       scannedPatronDetails: undefined,
       patronRRAPermission: undefined,
     };
 
     beforeEach(() => {
-      useReadingRoom
-        .mockClear()
-        .mockReturnValue(mockedReadingRoom);
       renderComponent(alteredProps);
     });
 
@@ -131,7 +133,7 @@ describe('ScanForm', () => {
           refetch: jest.fn(),
           isLoading: false,
         });
-      renderComponent(props);
+      renderComponent();
     });
 
     it('should display text to indicate no reading rooms defined at the current service point', () => {
@@ -149,18 +151,32 @@ describe('ScanForm', () => {
 
   describe('when scannedPatronetails is null', () => {
     beforeEach(() => {
-      useReadingRoom
-        .mockClear()
-        .mockReturnValue(mockedReadingRoom);
-
       const alteredProps = {
-        ...props,
         scannedPatronDetails: null,
       };
       renderComponent(alteredProps);
     });
     it('should display error message for non-existent barcode', () => {
       expect(screen.getAllByText("ui-reading-room.userDoesn'tExist")).toBeDefined();
+    });
+  });
+
+  describe('NotesSmartAccordion', () => {
+    it('should be called with correct props', () => {
+      renderComponent();
+
+      expect(NotesSmartAccordion).toHaveBeenCalledWith({
+        domainName: 'users',
+        entityId: 'user-id',
+        entityType: 'user',
+        label: 'ui-reading-room.notes.label',
+        id: 'notesAccordion',
+        interactive: false,
+        hideAssignButton: true,
+        hideEditButton: true,
+        hideNewButton: true,
+        canClickRow: false,
+      }, {});
     });
   });
 });

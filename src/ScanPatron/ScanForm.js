@@ -17,6 +17,7 @@ import {
   Layout,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
+import { NotesSmartAccordion } from '@folio/stripes/smart-components';
 
 import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
@@ -64,7 +65,9 @@ const ScanForm = (props) => {
   const readingRoomsDefined = readingRoomData?.readingRooms?.length;
   const initialAccordionSetStatus = {
     patronBlocksSection: false,
+    notesAccordion: false,
   };
+  const isNoteRowInteractive = false;
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
@@ -116,7 +119,7 @@ const ScanForm = (props) => {
           {
           displayPatronDetails && (
           <Row>
-            <Col xs={11}>
+            <Col xs={12}>
               <PatronDetail
                 user={scannedPatronDetails}
                 isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
@@ -134,6 +137,18 @@ const ScanForm = (props) => {
                 <AccordionSet initialStatus={initialAccordionSetStatus}>
                   <PatronBlock
                     userId={scannedPatronDetails?.id}
+                  />
+                  <NotesSmartAccordion
+                    domainName="users"
+                    entityId={scannedPatronDetails?.id}
+                    entityType="user"
+                    label={intl.formatMessage({ id: 'ui-reading-room.notes.label' })}
+                    id="notesAccordion"
+                    interactive={isNoteRowInteractive}
+                    hideAssignButton
+                    hideEditButton
+                    hideNewButton
+                    canClickRow={isNoteRowInteractive}
                   />
                 </AccordionSet>
               </Layout>
@@ -162,7 +177,7 @@ const ScanForm = (props) => {
                 xs={12}
               >
                 <Row>
-                  <Col xs={10}>
+                  <Col xs={11}>
                     <Field
                       id="patronBarcode"
                       name="patronBarcode"

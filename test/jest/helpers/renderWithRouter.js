@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl';
 import {
   QueryClientProvider,
   QueryClient,
-} from 'react-query'
+} from 'react-query';
 
 import { CalloutContext } from '@folio/stripes/core';
 import { Router } from 'react-router-dom';
