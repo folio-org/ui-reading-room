@@ -5,4 +5,5 @@ jest.mock('@folio/stripes/smart-components', () => ({
     <div {...rest}>{metadata.createdDate}</div>
   )),
   ProfilePicture: () => <div>ProfilePicture</div>,
+  NotesSmartAccordion: jest.fn(() => <div>NotesSmartAccordion</div>),
 }));
