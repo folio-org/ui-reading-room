@@ -69,11 +69,11 @@ const PatronBlock = ({
 
   const patronBlocks = useMemo(() => {
     // The filter keeps only patron blocks where the expiration date is either today or in the future
-    const blocks = [...manualPatronBlocks, ...automatedPatronBlocks].filter(patronBlock => {
+    const notExpiredPatronBlocks = [...manualPatronBlocks, ...automatedPatronBlocks].filter(patronBlock => {
       return dayjs(patronBlock.expirationDate).endOf('day').isSameOrAfter(dayjs().endOf('day'));
     });
 
-    return orderBy(blocks, ['metadata.createdDate'], ['desc']);
+    return orderBy(notExpiredPatronBlocks, ['metadata.createdDate'], ['desc']);
   }, [manualPatronBlocks, automatedPatronBlocks]);
 
   const isLoading = isLoadingManualPatronBlocks || isLoadingAutomatedPatronBlocks;
@@ -82,28 +82,28 @@ const PatronBlock = ({
 
   const getPatronFormatter = () => {
     return {
-      [PATRON_BLOCKS_COLUMNS.type]: f => {
-        const type = f?.type ?? intl.formatMessage({ id: 'ui-reading-room.patronBlocks.columns.automated.type' });
+      [PATRON_BLOCKS_COLUMNS.type]: patronBlock => {
+        const type = patronBlock?.type ?? intl.formatMessage({ id: 'ui-reading-room.patronBlocks.columns.automated.type' });
 
         return type;
       },
-      [PATRON_BLOCKS_COLUMNS.displayDescription]: f => {
-        const description = f.desc || f.message;
+      [PATRON_BLOCKS_COLUMNS.displayDescription]: patronBlock => {
+        const description = patronBlock.desc || patronBlock.message;
 
         return description;
       },
-      [PATRON_BLOCKS_COLUMNS.blockedActions]: f => {
+      [PATRON_BLOCKS_COLUMNS.blockedActions]: patronBlock => {
         const blockedActions = [];
 
-        if (f.borrowing || f.blockBorrowing) {
+        if (patronBlock.borrowing || patronBlock.blockBorrowing) {
           blockedActions.push([intl.formatMessage({ id: 'ui-reading-room.patronBlocks.columns.borrowing' })]);
         }
 
-        if (f.renewals || f.blockRenewals) {
+        if (patronBlock.renewals || patronBlock.blockRenewals) {
           blockedActions.push([intl.formatMessage({ id: 'ui-reading-room.patronBlocks.columns.renewals' })]);
         }
 
-        if (f.requests || f.blockRequests) {
+        if (patronBlock.requests || patronBlock.blockRequests) {
           blockedActions.push([intl.formatMessage({ id: 'ui-reading-room.patronBlocks.columns.requests' })]);
         }
 
