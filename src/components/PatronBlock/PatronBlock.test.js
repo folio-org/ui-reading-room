@@ -33,7 +33,7 @@ const manualPatronBlocks = [
     desc: 'desc2',
     staffInformation: 'info2',
     patronMessage: 'message2',
-    expirationDate: '2025-05-07T00:00:00.000+00:00',
+    expirationDate: '3025-05-07T00:00:00.000+00:00',
     borrowing: true,
     renewals: false,
     requests: true,
