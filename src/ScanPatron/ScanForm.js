@@ -16,7 +16,10 @@ import {
   AccordionSet,
   Layout,
 } from '@folio/stripes/components';
-import { Pluggable } from '@folio/stripes/core';
+import {
+  Pluggable,
+  IfPermission,
+} from '@folio/stripes/core';
 
 import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
@@ -132,9 +135,11 @@ const ScanForm = (props) => {
               }
               <Layout className="marginTop1">
                 <AccordionSet initialStatus={initialAccordionSetStatus}>
-                  <PatronBlock
-                    userId={scannedPatronDetails?.id}
-                  />
+                  <IfPermission perm="ui-reading-room.patron-blocks.view">
+                    <PatronBlock
+                      userId={scannedPatronDetails?.id}
+                    />
+                  </IfPermission>
                 </AccordionSet>
               </Layout>
             </Col>
