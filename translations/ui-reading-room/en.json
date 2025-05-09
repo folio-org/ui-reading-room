@@ -24,5 +24,13 @@
   "somethingWentWrong": "SomethingWentWrong",
   "inactiveUser": "<strong>Inactive user</strong>",
   "noReadingRoomDefined": "No reading rooms defined for the current service point",
-  "userDoesn'tExist": "User with this barcode does not exist"
+  "userDoesn'tExist": "User with this barcode does not exist",
+  "patronBlocks.label": "Patron blocks",
+  "patronBlocks.columns.type": "Type",
+  "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
+  "patronBlocks.columns.desc": "Display description",
+  "patronBlocks.columns.blocked": "Blocked actions",
+  "patronBlocks.columns.borrowing": "Borrowing",
+  "patronBlocks.columns.requests": "Requests",
+  "patronBlocks.columns.renewals": "Renewals"
 }
