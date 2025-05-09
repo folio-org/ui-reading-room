@@ -26,6 +26,10 @@
       "reading-room-patron-permission": "1.0",
       "reading-room": "1.0"
     },
+    "optionalOkapiInterfaces": {
+      "automated-patron-blocks": "0.1",
+      "feesfines": "19.1"
+    },
     "permissionSets": [
       {
         "permissionName": "module.reading-room.enabled",
@@ -47,6 +51,16 @@
           "reading-room.collection.get"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-reading-room.patron-blocks.view",
+        "displayName": "Reading room access: Can view patron blocks",
+        "subPermissions": [
+          "module.reading-room.enabled",
+          "manualblocks.collection.get",
+          "patron-blocks.automated-patron-blocks.collection.get"
+        ],
+        "visible": true
       }
     ]
   },
@@ -55,7 +69,7 @@
     "build": "stripes build",
     "lint": "eslint .",
     "test": "yarn run test:jest",
-    "test:jest": "jest",
+    "test:jest": "jest --coverage",
     "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
     "formatjs-compile": "formatjs compile-folder --ast --format simple ./translations/ui-reading-room ./translations/ui-reading-room/compiled"
   },

@@ -1,9 +1,16 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from 'react-query';
+
 import { CalloutContext } from '@folio/stripes/core';
 import { Router } from 'react-router-dom';
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 import { createMemoryHistory } from 'history';
+
+const client = new QueryClient({});
 
 let rtlApi;
 
@@ -17,7 +24,9 @@ const renderWithRouter = (children, options = {}) => {
           locale="en"
           messages={{}}
         >
-          {children}
+          <QueryClientProvider client={client}>
+            {children}
+          </QueryClientProvider>
         </IntlProvider>
       </CalloutContext.Provider>
     </Router>
