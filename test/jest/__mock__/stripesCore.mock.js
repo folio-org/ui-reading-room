@@ -1,90 +1,52 @@
-import React from 'react';
-
-jest.mock('@folio/stripes/core', () => {
-  const STRIPES = {
-    actionNames: [],
-    bindings: {},
-    clone: jest.fn(),
-    connect: (Component) => Component,
-    config: {
-      logCategories: '',
-      logPrefix: '',
-      logTimestamp: true,
-      showPerms: true,
-      showHomeLink: true,
-      listInvisiblePerms: true,
-      disableAuth: false,
-      hasAllPerms: false,
-    },
-    currency: 'USD',
-    discovery: {
-      interfaces: {},
-      isFinished: true,
-      modules: {},
-      okapi: '',
-    },
-    epics: {
-      add: jest.fn(),
-      middleware: jest.fn(),
-    },
-    hasInterface: () => true,
-    hasPerm: jest.fn().mockReturnValue(true),
-    icons: {},
-    locale: 'en-US',
-    logger: {
-      log: jest.fn(),
-    },
-    metadata: {},
-    okapi: {
-      authFailure: false,
-      okapiReady: true,
-      tenant: 'diku',
-      token: 'c0ffee',
-      translations: {
-        'stripes-components.Datepicker.calendar': 'calendar',
-        'stripes-components.Datepicker.calendarDaysList': 'calendar days list.',
-        'stripes-core.button.cancel': [{ type: 0, value: 'Cancel' }],
-        'ui-users.permission.modal.list.pane.header': 'Permissions',
-        'ui-users.permission.modal.list.pane.header.array': [{ type: 0, value: 'Permissions' }],
-        default: false,
-      },
-      url: 'https://folio-testing-okapi.dev.folio.org',
-      withoutOkapi: false,
-    },
-    plugins: {},
-    setBindings: jest.fn(),
-    setCurrency: jest.fn(),
-    setLocale: jest.fn(),
-    setSinglePlugin: jest.fn(),
-    setTimezone: jest.fn(),
-    setToken: jest.fn(),
-    store: {
-      getState: () => ({
-        okapi: {
-          token: 'abc',
-        },
-      }),
-      dispatch: jest.fn(),
-      subscribe: jest.fn(),
-      replaceReducer: jest.fn(),
-    },
-    timezone: 'UTC',
+const buildStripes = (otherProperties = {}) => ({
+  actionNames: [],
+  clone: buildStripes,
+  connect: Comp => Comp,
+  config: {},
+  currency: 'USD',
+  hasAnyPerm: jest.fn().mockReturnValue(true),
+  hasInterface: jest.fn().mockReturnValue(true),
+  hasPerm: jest.fn().mockReturnValue(true),
+  locale: 'en-US',
+  logger: {
+    log: () => { },
+  },
+  okapi: {
+    tenant: 'diku',
+    url: 'https://folio-testing-okapi.dev.folio.org',
+  },
+  plugins: {},
+  setBindings: () => { },
+  setCurrency: () => { },
+  setLocale: () => { },
+  setSinglePlugin: () => { },
+  setTimezone: () => { },
+  setToken: () => { },
+  store: {
+    getState: () => { },
+    dispatch: () => { },
+    subscribe: () => { },
+    replaceReducer: () => { },
+  },
+  timezone: 'UTC',
+  user: {
+    perms: {},
     user: {
-      perms: {},
-      user: {
-        addresses: [],
-        firstName: 'Testy',
-        lastName: 'McTesterson',
-        email: 'test@folio.org',
-        id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
-        username: 'diku_admin',
+      id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
+      username: 'diku_admin',
+      consortium: {
+        centralTenantId: 'consortia',
       },
     },
-    withOkapi: true,
-  };
+  },
+  withOkapi: true,
+  ...otherProperties,
+});
 
-  // eslint-disable-next-line react/prop-types
-  const stripesConnect = Component => ({ mutator, resources, stripes, ...rest }) => {
+const STRIPES = buildStripes();
+
+const mockStripesCore = {
+  stripesConnect: Component => ({ mutator, resources, stripes, ...rest }) => {
     const fakeMutator = mutator || Object.keys(Component.manifest || {}).reduce((acc, mutatorName) => {
       const returnValue = Component.manifest[mutatorName].records ? [] : {};
 
@@ -111,56 +73,69 @@ jest.mock('@folio/stripes/core', () => {
 
     const fakeStripes = stripes || STRIPES;
 
-    return (<Component
-      {...rest}
-      mutator={fakeMutator}
-      refreshRemote={jest.fn()}
-      resources={fakeResources}
-      stripes={fakeStripes}
-    />);
-  };
+    return <Component {...rest} mutator={fakeMutator} resources={fakeResources} stripes={fakeStripes} />;
+  },
 
-  return {
-    ...jest.requireActual('@folio/stripes/core'),
-    AppIcon: jest.fn(({ ariaLabel }) => <span>{ariaLabel}</span>),
-    TitleManager: jest.fn(({ children, ...rest }) => (
-      <span {...rest}>{children}</span>
-    )),
-    IfInterface: jest.fn(({ name, children }) => {
-      return name === 'interface' || name === 'service-points-users' ? children : null;
-    }),
-    IfPermission: jest.fn(({ perm, children }) => {
-      if (perm === 'permission') {
-        return children;
-      } else if (perm.startsWith('ui-users')) {
-        return children;
-      } else if (perm.startsWith('perms')) {
-        return children;
-      } else if (perm.startsWith('inventory-storage')) {
-        return children;
-      } else {
-        return null;
-      }
-    }),
-    Pluggable: jest.fn(({ children }) => [children]),
-    connect: stripesConnect,
-    stripesConnect,
-    useCallout: jest.fn(() => ({ sendCallout: jest.fn() })),
-    useStripes: jest.fn(() => STRIPES),
-    useOkapiKy: jest.fn(() => {}),
-    useNamespace: jest.fn(() => ['@folio/users']),
-    withOkapiKy: jest.fn((Component) => (props) => <Component {...props} />),
-    withStripes:
-      // eslint-disable-next-line react/prop-types
-      (Component) => ({ stripes, ...rest }) => {
-        const fakeStripes = stripes || STRIPES;
-        return <Component {...rest} stripes={fakeStripes} />;
-      },
-    withRouter:
-      // eslint-disable-next-line react/prop-types
-      (Component) => ({ stripes, ...rest }) => {
-        const fakeStripes = stripes || STRIPES;
-        return <Component {...rest} stripes={fakeStripes} />;
-      },
-  };
-});
+  useOkapiKy: jest.fn().mockReturnValue({
+    get: jest.fn().mockReturnValue({ json: jest.fn().mockResolvedValue({}) }),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+    extend: jest.fn().mockReturnValue(this),
+  }),
+
+  useStripes: jest.fn(() => STRIPES),
+
+  withStripes: Component => ({ stripes, ...rest }) => {
+    const fakeStripes = stripes || STRIPES;
+
+    return <Component {...rest} stripes={fakeStripes} />;
+  },
+
+  // eslint-disable-next-line react/prop-types
+  Pluggable: props => <>{props.children}</>,
+
+  // eslint-disable-next-line react/prop-types
+  IfPermission: jest.fn(props => <>{props.children}</>),
+  IfAnyPermission: jest.fn(props => <>{props.children}</>),
+
+  withOkapiKy: jest.fn((Component) => (props) => <Component {...props} />),
+
+  // eslint-disable-next-line react/prop-types
+  IfInterface: jest.fn(props => <>{props.children}</>),
+
+  useNamespace: () => ['@folio/inventory'],
+
+  useCallout: jest.fn().mockReturnValue({
+    sendCallout: jest.fn(),
+  }),
+
+  TitleManager: ({ children }) => <>{children}</>,
+
+  checkIfUserInMemberTenant: jest.fn(() => true),
+
+  checkIfUserInCentralTenant: jest.fn(() => false),
+
+  useUserTenantPermissions: jest.fn().mockReturnValue({
+    userPermissions: [],
+    isFetched: true,
+    isFetching: false,
+    isLoading: false,
+  }),
+
+  updateTenant: jest.fn(() => {}),
+
+  validateUser: jest.fn(() => {}),
+};
+
+jest.mock('@folio/stripes/core', () => ({
+  ...jest.requireActual('@folio/stripes/core'),
+  ...mockStripesCore
+}), { virtual: true });
+
+jest.mock('@folio/stripes-core', () => ({
+  ...jest.requireActual('@folio/stripes-core'),
+  ...mockStripesCore
+}), { virtual: true });
+
+export default buildStripes;
