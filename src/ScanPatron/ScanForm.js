@@ -139,6 +139,7 @@ const ScanForm = (props) => {
                     userId={scannedPatronDetails?.id}
                   />
                   <NotesSmartAccordion
+                    canClickRow={isNoteRowInteractive}
                     domainName="users"
                     entityId={scannedPatronDetails?.id}
                     entityType="user"
@@ -148,7 +149,6 @@ const ScanForm = (props) => {
                     hideAssignButton
                     hideEditButton
                     hideNewButton
-                    canClickRow={isNoteRowInteractive}
                   />
                 </AccordionSet>
               </Layout>
