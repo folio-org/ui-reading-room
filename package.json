@@ -1,6 +1,6 @@
 {
   "name": "@folio/reading-room",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Reading Room Access",
   "main": "src/index.js",
   "repository": "folio-org/ui-reading-room",
@@ -23,6 +23,8 @@
     ],
     "okapiInterfaces": {
       "users": "16.3",
+      "automated-patron-blocks": "0.1",
+      "feesfines": "19.1",
       "reading-room-patron-permission": "1.0",
       "reading-room": "1.0"
     },
@@ -47,6 +49,16 @@
           "reading-room.collection.get"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-reading-room.patron-blocks.view",
+        "displayName": "Reading room access: Can view patron blocks",
+        "subPermissions": [
+          "module.reading-room.enabled",
+          "manualblocks.collection.get",
+          "patron-blocks.automated-patron-blocks.collection.get"
+        ],
+        "visible": true
       }
     ]
   },
@@ -55,7 +67,7 @@
     "build": "stripes build",
     "lint": "eslint .",
     "test": "yarn run test:jest",
-    "test:jest": "jest",
+    "test:jest": "jest --coverage",
     "build-mod-descriptor": "stripes mod descriptor --full --strict | jq '.[]' > module-descriptor.json ",
     "formatjs-compile": "stripes translate compile"
   },
