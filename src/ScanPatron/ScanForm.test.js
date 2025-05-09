@@ -1,4 +1,6 @@
-import { NotesSmartAccordion } from '@folio/stripes/smart-components';
+import { act } from 'react';
+
+import smartComponents, { NotesSmartAccordion } from '@folio/stripes/smart-components';
 import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
 import { runAxeTest } from '@folio/stripes-testing';
@@ -17,6 +19,31 @@ jest.mock('../hooks', () => ({
   useReadingRoom: jest.fn(),
   useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
 }));
+
+jest.spyOn(smartComponents, 'NotesSmartAccordion').mockImplementation(props => (
+  <NotesSmartAccordion
+    {...props}
+    open
+    resources={{
+      assignedNotes: {
+        records: [{
+          notes: [
+            {
+              id: '3b6add11-4a28-4351-9395-1b67bc35695d',
+              type: 'General note',
+              title: 'Note1',
+              content: '<p>Description1</p>',
+              metadata: {
+                createdDate: '2025-05-09T11:01:54.330526Z',
+              },
+            },
+          ],
+          totalRecords: 1,
+        }],
+      },
+    }}
+  />
+));
 
 const mockedReadingRoom = {
   data: {
@@ -38,7 +65,7 @@ const resetDetails = jest.fn();
 const onSubmit = jest.fn();
 
 const renderComponent = (props = {}) => {
-  renderWithRouter(
+  return renderWithRouter(
     <ScanForm
       handleSubmit={handleSubmit}
       form={mockedForm}
@@ -162,21 +189,32 @@ describe('ScanForm', () => {
   });
 
   describe('NotesSmartAccordion', () => {
-    it('should be called with correct props', () => {
+    it('should display a label', () => {
       renderComponent();
+      expect(screen.getByText('ui-reading-room.notes.label')).toBeDefined();
+    });
 
-      expect(NotesSmartAccordion).toHaveBeenCalledWith({
-        domainName: 'users',
-        entityId: 'user-id',
-        entityType: 'user',
-        label: 'ui-reading-room.notes.label',
-        id: 'notesAccordion',
-        interactive: false,
-        hideAssignButton: true,
-        hideEditButton: true,
-        hideNewButton: true,
-        canClickRow: false,
-      }, {});
+    it('should not display Edit button', () => {
+      renderComponent();
+      expect(screen.queryByText('stripes-components.button.edit')).not.toBeInTheDocument();
+    });
+
+    it('should not display New button', () => {
+      renderComponent();
+      expect(screen.queryByText('stripes-smart-components.new')).not.toBeInTheDocument();
+    });
+
+    it('should not display Assign/Unassign button', async () => {
+      renderComponent();
+      expect(screen.queryByText('stripes-smart-components.assignUnassign')).not.toBeInTheDocument();
+    });
+
+    it('should not redirect on a row click', async () => {
+      const { getByText, history } = renderComponent();
+
+      await act(() => userEvent.click(getByText('Description1')));
+
+      expect(history.location.pathname).toBe('/');
     });
   });
 });
