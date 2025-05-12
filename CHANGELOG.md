@@ -3,6 +3,7 @@
 ## IN PROGRESS
 
 * Add patron blocks accordion. Refs UIRR-35.
+* Add user notes accordion. Refs UIRR-32.
 
 ## [2.0.0](https://github.com/folio-org/ui-reading-room/tree/v2.0.0) (2025-03-14)
 [Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v1.1.0...v2.0.0)

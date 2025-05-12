@@ -32,5 +32,6 @@
   "patronBlocks.columns.blocked": "Blocked actions",
   "patronBlocks.columns.borrowing": "Borrowing",
   "patronBlocks.columns.requests": "Requests",
-  "patronBlocks.columns.renewals": "Renewals"
+  "patronBlocks.columns.renewals": "Renewals",
+  "notes.label": "User notes"
 }
