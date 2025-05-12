@@ -1,0 +1,21 @@
+.NoteDetailsButton {
+  color: #024c90; /* blue colour that has good contrast with background for tritanopia */
+  padding: 0 10px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+}
+
+.NoteDetailsShowMoreButton {
+  border-right: 1px solid var(--secondary);
+}
+
+.NotesListMCLCell {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+div.qlEditor {
+  padding: 0;
+}

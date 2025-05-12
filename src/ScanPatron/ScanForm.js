@@ -20,6 +20,7 @@ import {
   Pluggable,
   IfPermission,
 } from '@folio/stripes/core';
+import NotesSmartAccordion from '../components/Notes/NotesSmartAccordion';
 
 import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
@@ -67,7 +68,9 @@ const ScanForm = (props) => {
   const readingRoomsDefined = readingRoomData?.readingRooms?.length;
   const initialAccordionSetStatus = {
     patronBlocksSection: false,
+    notesAccordion: false,
   };
+  const isNoteRowInteractive = false;
 
   const selectUser = (user) => {
     form.change('patronBarcode', user.barcode);
@@ -119,7 +122,7 @@ const ScanForm = (props) => {
           {
           displayPatronDetails && (
           <Row>
-            <Col xs={11}>
+            <Col xs={12}>
               <PatronDetail
                 user={scannedPatronDetails}
                 isUserProfilePicConfigEnabledForTenant={isUserProfilePicConfigEnabledForTenant}
@@ -140,6 +143,18 @@ const ScanForm = (props) => {
                       userId={scannedPatronDetails?.id}
                     />
                   </IfPermission>
+                  <NotesSmartAccordion
+                    canClickRow={isNoteRowInteractive}
+                    domainName="users"
+                    entityId={scannedPatronDetails?.id}
+                    entityType="user"
+                    label={intl.formatMessage({ id: 'ui-reading-room.notes.label' })}
+                    id="notesAccordion"
+                    interactive={isNoteRowInteractive}
+                    hideAssignButton
+                    hideEditButton
+                    hideNewButton
+                  />
                 </AccordionSet>
               </Layout>
             </Col>
@@ -167,7 +182,7 @@ const ScanForm = (props) => {
                 xs={12}
               >
                 <Row>
-                  <Col xs={10}>
+                  <Col xs={11}>
                     <Field
                       id="patronBarcode"
                       name="patronBarcode"

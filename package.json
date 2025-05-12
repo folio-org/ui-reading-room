@@ -27,6 +27,7 @@
       "reading-room": "1.0"
     },
     "optionalOkapiInterfaces": {
+      "notes": "4.0",
       "automated-patron-blocks": "0.1",
       "feesfines": "19.1"
     },
