@@ -22,5 +22,14 @@
     "userDetail.patronGroup": "Patron group",
     "userDetail.userType": "User type",
     "allowedActionSuccess": "Permitted entry to {readingRoom}",
-    "notAllowedActionSuccess": "Action was successfully saved"
+    "notAllowedActionSuccess": "Action was successfully saved",
+    "patronBlocks.label": "Patron blocks",
+    "patronBlocks.columns.type": "Type",
+    "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
+    "patronBlocks.columns.desc": "Display description",
+    "patronBlocks.columns.blocked": "Blocked actions",
+    "patronBlocks.columns.borrowing": "Borrowing",
+    "patronBlocks.columns.requests": "Requests",
+    "patronBlocks.columns.renewals": "Renewals",
+    "notes.label": "User notes"
 }
