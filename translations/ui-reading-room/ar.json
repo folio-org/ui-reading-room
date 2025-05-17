@@ -22,5 +22,14 @@
     "userDetail.patronGroup": "مجموعة المستفيد",
     "userDetail.userType": "نوع المستخدم",
     "allowedActionSuccess": "مسموح بالدخول إلى {readingRoom}",
-    "notAllowedActionSuccess": "تم حفظ الإجراء بنجاح"
+    "notAllowedActionSuccess": "تم حفظ الإجراء بنجاح",
+    "patronBlocks.label": "Patron blocks",
+    "patronBlocks.columns.type": "Type",
+    "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
+    "patronBlocks.columns.desc": "Display description",
+    "patronBlocks.columns.blocked": "Blocked actions",
+    "patronBlocks.columns.borrowing": "Borrowing",
+    "patronBlocks.columns.requests": "Requests",
+    "patronBlocks.columns.renewals": "Renewals",
+    "notes.label": "User notes"
 }

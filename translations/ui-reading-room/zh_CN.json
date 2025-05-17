@@ -22,5 +22,14 @@
     "userDetail.patronGroup": "读者组",
     "userDetail.userType": "用户类型",
     "allowedActionSuccess": "允许进入{readingRoom}",
-    "notAllowedActionSuccess": "操作保存成功"
+    "notAllowedActionSuccess": "操作保存成功",
+    "patronBlocks.label": "客户模块组",
+    "patronBlocks.columns.type": "类别",
+    "patronBlocks.columns.automated.type": "自动（无法编辑）",
+    "patronBlocks.columns.desc": "显示描述",
+    "patronBlocks.columns.blocked": "操作被阻止",
+    "patronBlocks.columns.borrowing": "外借中",
+    "patronBlocks.columns.requests": "请求",
+    "patronBlocks.columns.renewals": "续借",
+    "notes.label": "User notes"
 }
