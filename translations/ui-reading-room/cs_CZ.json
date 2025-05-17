@@ -22,5 +22,14 @@
     "userDetail.patronGroup": "Kategorie čtenáře",
     "userDetail.userType": "Typ uživatele",
     "allowedActionSuccess": "Povolený vstup do {readingRoom}",
-    "notAllowedActionSuccess": "Akce byla úspěšně uložena"
+    "notAllowedActionSuccess": "Akce byla úspěšně uložena",
+    "patronBlocks.label": "Blokace čtenářů",
+    "patronBlocks.columns.type": "Typ",
+    "patronBlocks.columns.automated.type": "Automatizované (nelze upravovat)",
+    "patronBlocks.columns.desc": "Zobrazit popis",
+    "patronBlocks.columns.blocked": "Blokované akce",
+    "patronBlocks.columns.borrowing": "Výpůjčky",
+    "patronBlocks.columns.requests": "Žádanky",
+    "patronBlocks.columns.renewals": "Prodloužení",
+    "notes.label": "Poznámky uživatele"
 }

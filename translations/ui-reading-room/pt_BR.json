@@ -22,5 +22,14 @@
     "userDetail.patronGroup": "Grupo de usuários",
     "userDetail.userType": "Tipo de usuário",
     "allowedActionSuccess": "Entrada permitida para {readingRoom}",
-    "notAllowedActionSuccess": "A ação foi salva com sucesso"
+    "notAllowedActionSuccess": "A ação foi salva com sucesso",
+    "patronBlocks.label": "Suspensões do usuário",
+    "patronBlocks.columns.type": "Tipo",
+    "patronBlocks.columns.automated.type": "Automatizado (não pode ser editado)",
+    "patronBlocks.columns.desc": "Exibir descrição",
+    "patronBlocks.columns.blocked": "Ações bloqueadas",
+    "patronBlocks.columns.borrowing": "Empréstimo",
+    "patronBlocks.columns.requests": "Requisições",
+    "patronBlocks.columns.renewals": "Renovações",
+    "notes.label": "Notas do usuário"
 }
