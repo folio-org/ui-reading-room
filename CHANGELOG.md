@@ -1,5 +1,11 @@
 # Change history for ui-reading-room
 
+## [1.1.1](https://github.com/folio-org/ui-reading-room/tree/v1.1.1) (2025-05-19)
+[Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v1.1.0...v1.1.1)
+* Add patron blocks accordion. Refs UIRR-35.
+* Add user notes accordion. Refs UIRR-32.
+* Update translation strings.
+
 ## [1.1.0](https://github.com/folio-org/ui-reading-room/tree/v1.1.0) (2025-01-22)
 [Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v1.0.0...v1.1.0)
 * Bump module version to invaildate incorrect artifacts.
