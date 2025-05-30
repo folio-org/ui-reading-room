@@ -23,13 +23,13 @@
     "userDetail.userType": "Gebruikerstype",
     "allowedActionSuccess": "Toegang toegestaan tot {readingRoom}",
     "notAllowedActionSuccess": "Actie is succesvol opgeslagen",
-    "patronBlocks.label": "Patron blocks",
-    "patronBlocks.columns.type": "Type",
-    "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
-    "patronBlocks.columns.desc": "Display description",
-    "patronBlocks.columns.blocked": "Blocked actions",
-    "patronBlocks.columns.borrowing": "Borrowing",
-    "patronBlocks.columns.requests": "Requests",
-    "patronBlocks.columns.renewals": "Renewals",
-    "notes.label": "User notes"
+    "patronBlocks.label": "Gebruikersblokkering",
+    "patronBlocks.columns.type": "Soorten",
+    "patronBlocks.columns.automated.type": "Geautomatiseerd (kan niet worden bewerkt)",
+    "patronBlocks.columns.desc": "Omschrijving weergeven",
+    "patronBlocks.columns.blocked": "Geblokkeerde acties",
+    "patronBlocks.columns.borrowing": "Lenen",
+    "patronBlocks.columns.requests": "Aanvragen",
+    "patronBlocks.columns.renewals": "Vernieuwingen",
+    "notes.label": "Opmerking voor gebruikers"
 }
