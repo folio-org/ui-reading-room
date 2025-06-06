@@ -31,5 +31,5 @@
     "patronBlocks.columns.borrowing": "外借中",
     "patronBlocks.columns.requests": "请求",
     "patronBlocks.columns.renewals": "续借",
-    "notes.label": "User notes"
+    "notes.label": "用户附注"
 }
