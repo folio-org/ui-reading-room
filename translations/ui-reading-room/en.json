@@ -33,5 +33,6 @@
   "patronBlocks.columns.borrowing": "Borrowing",
   "patronBlocks.columns.requests": "Requests",
   "patronBlocks.columns.renewals": "Renewals",
-  "notes.label": "User notes"
+  "notes.label": "User notes",
+  "patronBlock.bannerMessage": "Patron has {count, plural, one {block} other {blocks}} in place."
 }

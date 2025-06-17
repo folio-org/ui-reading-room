@@ -15,6 +15,7 @@ import {
   EmptyMessage,
   AccordionSet,
   Layout,
+  MessageBanner,
 } from '@folio/stripes/components';
 import {
   Pluggable,
@@ -26,7 +27,11 @@ import Footer from '../components/Footer';
 import PatronDetail from '../components/PatronDetail';
 import PatronAccessDetail from '../components/PatronAccessDetail';
 import PatronBlock from '../components/PatronBlock';
-import { useReadingRoom, useProfilePicConfigForTenant } from '../hooks';
+import {
+  useReadingRoom,
+  useProfilePicConfigForTenant,
+  usePatronBlocks,
+} from '../hooks';
 
 import css from './ScanForm.css';
 
@@ -53,6 +58,7 @@ const ScanForm = (props) => {
 
   const { data: readingRoomData, refetch, isLoading: readingRoomIsLoading } = useReadingRoom(currSPId);
   const isUserProfilePicConfigEnabledForTenant = useProfilePicConfigForTenant();
+  const { patronBlocks, isLoading: isPatronBlocksLoading } = usePatronBlocks({ userId: scannedPatronDetails?.id });
 
   useEffect(() => {
     form.change('patronBarcode', '');
@@ -136,6 +142,14 @@ const ScanForm = (props) => {
                   />
                 )
               }
+              <IfPermission perm="ui-reading-room.patron-blocks.view">
+                {isPatronBlocksLoading && <Loading />}
+                {patronBlocks.length > 0 && (
+                  <MessageBanner type="error">
+                    {intl.formatMessage({ id: 'ui-reading-room.patronBlock.bannerMessage' }, { count: patronBlocks.length })}
+                  </MessageBanner>
+                )}
+              </IfPermission>
               <Layout className="marginTop1">
                 <AccordionSet initialStatus={initialAccordionSetStatus}>
                   <IfPermission perm="ui-reading-room.patron-blocks.view">

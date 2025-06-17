@@ -1,13 +1,20 @@
 import { act } from 'react';
 
 import smartComponents, { NotesSmartAccordion } from '@folio/stripes/smart-components';
-import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  screen,
+  waitFor,
+  cleanup,
+} from '@folio/jest-config-stripes/testing-library/react';
 import { userEvent } from '@folio/jest-config-stripes/testing-library/user-event';
 import { runAxeTest } from '@folio/stripes-testing';
 import renderWithRouter from '../../test/jest/helpers/renderWithRouter';
 
 import ScanForm from './ScanForm';
-import { useReadingRoom } from '../hooks';
+import {
+  usePatronBlocks,
+  useReadingRoom,
+} from '../hooks';
 
 jest.unmock('@folio/stripes/components');
 
@@ -18,6 +25,7 @@ jest.mock('../hooks', () => ({
   ...jest.requireActual('../hooks'),
   useReadingRoom: jest.fn(),
   useProfilePicConfigForTenant: jest.fn().mockReturnValue(true),
+  usePatronBlocks: jest.fn(),
 }));
 
 jest.spyOn(smartComponents, 'NotesSmartAccordion').mockImplementation(props => (
@@ -90,6 +98,10 @@ describe('ScanForm', () => {
     jest.clearAllMocks();
 
     useReadingRoom.mockReturnValue(mockedReadingRoom);
+    usePatronBlocks.mockReturnValue({
+      patronBlocks: [],
+      isLoading: false,
+    });
   });
 
   describe('when scannedPatronDetails and patronRRAPermission props are set', () => {
@@ -128,6 +140,29 @@ describe('ScanForm', () => {
     ['PatronDetail', 'PatronAccessDetail', 'Footer'].forEach(text => {
       it(`should display ${text}`, () => {
         expect(screen.getByText(`${text}`)).toBeInTheDocument();
+      });
+    });
+
+    describe('when there is a patron block', () => {
+      beforeEach(() => {
+        cleanup();
+        usePatronBlocks.mockReturnValue({
+          patronBlocks: [{
+            id: 'block-id',
+          }],
+          isLoading: false,
+        });
+      });
+
+      it('should render the banner', () => {
+        renderComponent();
+        expect(screen.getByText('ui-reading-room.patronBlock.bannerMessage')).toBeVisible();
+      });
+    });
+
+    describe('when there is no a patron block', () => {
+      it('should not render the banner', () => {
+        expect(screen.queryByText('ui-reading-room.patronBlock.bannerMessage')).not.toBeInTheDocument();
       });
     });
   });

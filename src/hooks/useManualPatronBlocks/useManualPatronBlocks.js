@@ -5,7 +5,7 @@ import {
   useOkapiKy,
 } from '@folio/stripes/core';
 
-const useManualPatronBlocks = ({ userId }) => {
+const useManualPatronBlocks = ({ userId, enabled = true }) => {
   const ky = useOkapiKy();
   const [namespace] = useNamespace({ key: 'manual-patron-blocks' });
 
@@ -13,7 +13,7 @@ const useManualPatronBlocks = ({ userId }) => {
     [namespace, userId],
     () => ky.get(`manualblocks?query=(userId==${userId})&limit=10000`).json(),
     {
-      enabled: Boolean(userId),
+      enabled: Boolean(userId && enabled),
     }
   );
 

@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
 import {
   FormattedMessage,
   useIntl,
 } from 'react-intl';
-import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,15 +11,11 @@ import {
   MultiColumnList,
   Headline,
   Loading,
-  dayjs,
   Icon,
   Badge,
 } from '@folio/stripes/components';
 
-import {
-  useManualPatronBlocks,
-  useAutomatedPatronBlocks,
-} from '../../hooks';
+import { usePatronBlocks } from '../../hooks';
 
 import css from './PatronBlock.css';
 
@@ -57,26 +51,8 @@ const PatronBlock = ({
   userId,
 }) => {
   const intl = useIntl();
+  const { patronBlocks, isLoading } = usePatronBlocks({ userId });
 
-  const {
-    manualPatronBlocks,
-    isLoadingManualPatronBlocks,
-  } = useManualPatronBlocks({ userId });
-  const {
-    automatedPatronBlocks,
-    isLoadingAutomatedPatronBlocks,
-  } = useAutomatedPatronBlocks({ userId });
-
-  const patronBlocks = useMemo(() => {
-    // The filter keeps only patron blocks where the expiration date is either today or in the future
-    const notExpiredPatronBlocks = [...manualPatronBlocks, ...automatedPatronBlocks].filter(patronBlock => {
-      return dayjs(patronBlock.expirationDate).endOf('day').isSameOrAfter(dayjs().endOf('day'));
-    });
-
-    return orderBy(notExpiredPatronBlocks, ['metadata.createdDate'], ['desc']);
-  }, [manualPatronBlocks, automatedPatronBlocks]);
-
-  const isLoading = isLoadingManualPatronBlocks || isLoadingAutomatedPatronBlocks;
   const totalRecords = patronBlocks.length;
   const getCellClass = (defaultClass) => `${defaultClass} ${css.cellTopAlign}`;
 

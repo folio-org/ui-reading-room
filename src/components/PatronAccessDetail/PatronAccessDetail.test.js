@@ -5,63 +5,109 @@ import {
 
 import PatronAccessDetail from './PatronAccessDetail';
 
-const allowedAccessProps = {
-  access: 'ALLOWED',
-  notes: 'Notes for allowed',
-  readingRoomName: 'reading room allowed',
-};
 const notAllowedAccessProps = {
   access: 'NOT_ALLOWED',
   notes: 'Notes for allowed',
   readingRoomName: 'reading room not allowed',
 };
 
-const testId = 'room-name-access-notes';
+const renderComponent = (props = {}) => render(
+  <PatronAccessDetail
+    active
+    rraPermission={{
+      readingRoomName: 'reading room allowed',
+      access: 'ALLOWED',
+      notes: 'Notes for allowed',
+    }}
+    {...props}
+  />
+);
 
 describe('PatronAccessDetail', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('when patron has access to reading room', () => {
-    beforeEach(() => {
-      const props = {
-        rraPermission: allowedAccessProps,
-        active: true,
-      };
+    describe('when the user is active', () => {
+      beforeEach(() => {
+        renderComponent();
+      });
 
-      render(<PatronAccessDetail {...props} />);
+      it('should display "Allow access"', () => {
+        expect(screen.getByText('reading room allowed: ui-reading-room.allowAccess')).toBeVisible();
+      });
+
+      it('should display a note', () => {
+        expect(screen.getByText('ui-reading-room.note')).toBeVisible();
+      });
+
+      it('should display the success message banner', () => {
+        expect(document.querySelector('[data-test-message-banner]')).toHaveClass('type-success');
+      });
     });
 
-    it('should display "Allow access"', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.allowAccess');
-    });
+    describe('when the user is inactive', () => {
+      beforeEach(() => {
+        renderComponent({
+          active: false,
+        });
+      });
 
-    it('should display reading room name', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent(allowedAccessProps.readingRoomName);
-    });
+      it('should display "Inactive user"', () => {
+        expect(screen.getByText('ui-reading-room.inactiveUser')).toBeVisible();
+      });
 
-    it('should display notes for user', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.note');
+      it('should display a note', () => {
+        expect(screen.getByText('ui-reading-room.note')).toBeVisible();
+      });
+
+      it('should display the warning message banner', () => {
+        expect(document.querySelector('[data-test-message-banner]')).toHaveClass('type-warning');
+      });
     });
   });
 
   describe('when patron do not have access to reading room', () => {
-    beforeEach(() => {
-      const props = {
-        rraPermission: notAllowedAccessProps,
-        active: true,
-      };
+    describe('when the user is active', () => {
+      beforeEach(() => {
+        renderComponent({
+          rraPermission: notAllowedAccessProps,
+        });
+      });
 
-      render(<PatronAccessDetail {...props} />);
+      it('should display "Not allowed"', () => {
+        expect(screen.getByText('reading room not allowed: ui-reading-room.denyAccess')).toBeVisible();
+      });
+
+      it('should display a note', () => {
+        expect(screen.getByText('ui-reading-room.note')).toBeVisible();
+      });
+
+      it('should display the warning message banner', () => {
+        expect(document.querySelector('[data-test-message-banner]')).toHaveClass('type-warning');
+      });
     });
 
-    it('should display "Deny access"', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.denyAccess');
-    });
+    describe('when the user is inactive', () => {
+      beforeEach(() => {
+        renderComponent({
+          active: false,
+          rraPermission: notAllowedAccessProps,
+        });
+      });
 
-    it('should display reading room name', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent(notAllowedAccessProps.readingRoomName);
-    });
+      it('should display "Inactive user"', () => {
+        expect(screen.getByText('ui-reading-room.inactiveUser')).toBeVisible();
+      });
 
-    it('should display notes for user', () => {
-      expect(screen.getByTestId(testId)).toHaveTextContent('ui-reading-room.note');
+      it('should display a note', () => {
+        expect(screen.getByText('ui-reading-room.note')).toBeVisible();
+      });
+
+      it('should display the warning message banner', () => {
+        expect(document.querySelector('[data-test-message-banner]')).toHaveClass('type-warning');
+      });
     });
   });
 });

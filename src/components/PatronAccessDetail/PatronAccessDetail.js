@@ -1,40 +1,35 @@
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
-import { Icon } from '@folio/stripes/components';
+import { MessageBanner } from '@folio/stripes/components';
 
 import { ALLOWED } from '../../../constants';
 import css from './PatronAccessDetail.css';
 
 const PatronAccessDetail = ({ rraPermission, active }) => {
-  const { access, notes, readingRoomName } = rraPermission;
-  const bgClassName = active && access === ALLOWED ? css.allowed : css.notAllowed;
-  const icon = access === ALLOWED ?
-    <Icon icon="check-circle" /> :
-    <Icon icon="exclamation-circle" iconClassName={css.denyIcon} />;
-  const accessString = access === ALLOWED ? <FormattedMessage id="ui-reading-room.allowAccess" /> : <FormattedMessage id="ui-reading-room.denyAccess" />;
+  const intl = useIntl();
 
-  const renderRRA = () => (
-    <>
-      <div className={css.marginRight}>
-        {icon}
-      </div>
-      <div data-testid="room-name-access-notes">
-        {readingRoomName}: {accessString}
-        <br />
-        {notes && <FormattedMessage id="ui-reading-room.note" values={{ notes }} />}
-      </div>
-    </>
-  );
+  const { access, notes, readingRoomName } = rraPermission;
+  const isAccessAllowed = access === ALLOWED;
 
   return (
-    <div className={`${bgClassName} ${css.access}`}>
-      {
-        active ?
-          renderRRA() :
-          <FormattedMessage id="ui-reading-room.inactiveUser" />
-      }
-    </div>
+    <MessageBanner
+      type={isAccessAllowed && active ? 'success' : 'warning'}
+      contentClassName={css.contentClassName}
+    >
+      <div>
+        {active
+          ? (
+            <>
+              {readingRoomName}:&nbsp;
+              {intl.formatMessage({ id: isAccessAllowed ? 'ui-reading-room.allowAccess' : 'ui-reading-room.denyAccess' })}
+            </>
+          )
+          : intl.formatMessage({ id: 'ui-reading-room.inactiveUser' })
+        }
+      </div>
+      {notes && intl.formatMessage({ id: 'ui-reading-room.note' }, { notes })}
+    </MessageBanner>
   );
 };
 

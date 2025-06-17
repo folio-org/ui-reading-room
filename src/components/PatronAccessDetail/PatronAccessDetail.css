@@ -1,34 +1,5 @@
-.access {
-  padding: 5px;
-  border-radius: 6px;
-  line-height: var(--line-height);
+.contentClassName {
   display: flex;
-  flex-direction : row;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.allowed {
-  background-color: var(--success-fill);
-  border: 1px solid var(--success);
-}
-
-.notAllowed {
-  background-color: var(--warn-fill);
-  border: 1px solid var(--warn);
-}
-
-.marginRight{
-  margin-right: 5px;
-}
-
-.denyIcon{
-  color: var(--warn);
-}
-
-.inactiveBorrower{
-  padding: 5px;
-  background-color: #f8f8f8;
-  border-radius: 6px;
-  line-height: var(--line-height);
+  flex-direction: column;
+  gap: 5px;
 }

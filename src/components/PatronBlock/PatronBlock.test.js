@@ -1,16 +1,10 @@
-import { within } from '@folio/jest-config-stripes/testing-library/react';
-
 import PatronBlock from './PatronBlock';
 import renderWithRouter from '../../../test/jest/helpers/renderWithRouter';
-import {
-  useAutomatedPatronBlocks,
-  useManualPatronBlocks,
-} from '../../hooks';
+import { usePatronBlocks } from '../../hooks';
 
 jest.mock('../../hooks', () => ({
   ...jest.requireActual('../../hooks'),
-  useManualPatronBlocks: jest.fn(),
-  useAutomatedPatronBlocks: jest.fn(),
+  usePatronBlocks: jest.fn(),
 }));
 
 const manualPatronBlocks = [
@@ -43,21 +37,6 @@ const manualPatronBlocks = [
     },
     id: '2a96e4b8-9691-411b-beca-e990c1487999'
   },
-  {
-    type: 'Manual',
-    desc: 'desc6',
-    staffInformation: 'info6',
-    patronMessage: 'message6',
-    expirationDate: '2025-05-01T00:00:00.000+00:00',
-    borrowing: true,
-    renewals: true,
-    requests: false,
-    userId: '12c71ee8-4856-4f78-9bf4-aa25cdd94de8',
-    metadata: {
-      createdDate: '2025-05-05T12:34:41.116+00:00',
-    },
-    id: 'd418ae2b-52ed-440d-b805-04b25d8a8405'
-  },
 ];
 
 const automatedPatronBlocks = [
@@ -80,24 +59,18 @@ describe('PatronBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    useManualPatronBlocks.mockReturnValue({
-      manualPatronBlocks,
-      isLoadingManualPatronBlocks: false,
-    });
-
-    useAutomatedPatronBlocks.mockReturnValue({
-      automatedPatronBlocks,
-      isLoadingAutomatedPatronBlocks: false,
+    usePatronBlocks.mockReturnValue({
+      patronBlocks: [...manualPatronBlocks, ...automatedPatronBlocks],
+      isLoading: false,
     });
   });
 
-  it('should call useManualPatronBlocks and useAutomatedPatronBlocks with userId', () => {
+  it('should call usePatronBlocks with userId', () => {
     const userId = 'user-id';
 
     renderPatronBlock({ userId });
 
-    expect(useManualPatronBlocks).toHaveBeenCalledWith({ userId });
-    expect(useAutomatedPatronBlocks).toHaveBeenCalledWith({ userId });
+    expect(usePatronBlocks).toHaveBeenCalledWith({ userId });
   });
 
   it('should display columns', () => {
@@ -124,26 +97,5 @@ describe('PatronBlock', () => {
 
     expect(getByText('Maximum number of items charged out1')).toBeInTheDocument();
     expect(getByText('ui-reading-room.patronBlocks.columns.borrowing')).toBeInTheDocument();
-  });
-
-  it('should display most recent blocks first', () => {
-    const { getAllByRole } = renderPatronBlock();
-
-    const rows = getAllByRole('row');
-    const firstRow = within(rows[1]).getByText('Maximum number of items charged out1');
-    const secondRow = within(rows[2]).getByText('desc2');
-    const thirdRow = within(rows[3]).getByText('desc1');
-
-    expect(firstRow).toBeInTheDocument();
-    expect(secondRow).toBeInTheDocument();
-    expect(thirdRow).toBeInTheDocument();
-  });
-
-  it('should display only patron blocks where the expiration date is either today or in the future', () => {
-    const { getByText, queryByText } = renderPatronBlock();
-
-    expect(getByText('desc1')).toBeInTheDocument();
-    expect(getByText('desc2')).toBeInTheDocument();
-    expect(queryByText('desc6')).not.toBeInTheDocument();
   });
 });
