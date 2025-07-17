@@ -7,7 +7,7 @@
     "userDetail.barcode": "Barcode",
     "userDetail.expiration": "Термін дії користувача",
     "patronLookup": "Пошук користувача",
-    "findUserPluginNotAvailable": "Plugin not available",
+    "findUserPluginNotAvailable": "Плагін недоступний",
     "cancel": "Скасувати",
     "note": "Примітка: {notes}",
     "allowAccess": "<strong>Дозволено</strong>",
