@@ -24,12 +24,12 @@
     "allowedActionSuccess": "Permitted entry to {readingRoom}",
     "notAllowedActionSuccess": "Action was successfully saved",
     "patronBlocks.label": "Patron blocks",
-    "patronBlocks.columns.type": "Type",
+    "patronBlocks.columns.type": "タイプ",
     "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
     "patronBlocks.columns.desc": "Display description",
     "patronBlocks.columns.blocked": "Blocked actions",
     "patronBlocks.columns.borrowing": "Borrowing",
-    "patronBlocks.columns.requests": "Requests",
-    "patronBlocks.columns.renewals": "Renewals",
-    "notes.label": "User notes"
+    "patronBlocks.columns.requests": "リクエスト",
+    "patronBlocks.columns.renewals": "更新",
+    "notes.label": "ユーザーノート"
 }
