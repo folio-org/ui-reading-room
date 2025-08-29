@@ -4,7 +4,7 @@
     "scanPatronCard": "Сканувати картку користувача",
     "scanOrEnterPatronBarcode": "Сканувати або ввести штрихкод користувача",
     "enter": "Ввести",
-    "userDetail.barcode": "Barcode",
+    "userDetail.barcode": "Штрихкод",
     "userDetail.expiration": "Термін дії користувача",
     "patronLookup": "Пошук користувача",
     "findUserPluginNotAvailable": "Плагін недоступний",
