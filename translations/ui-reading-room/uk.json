@@ -12,7 +12,7 @@
     "note": "Примітка: {notes}",
     "allowAccess": "<strong>Дозволено</strong>",
     "denyAccess": "<strong>Не дозволено</strong>",
-    "somethingWentWrong": "SomethingWentWrong",
+    "somethingWentWrong": "Щось пішло не так",
     "inactiveUser": "<strong>Неактивний користувач</strong>",
     "noReadingRoomDefined": "Для поточного пункту обслуговування читальні зали не визначені",
     "userDoesn'tExist": "Користувача з таким штрихкодом не існує",
