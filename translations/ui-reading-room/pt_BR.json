@@ -6,7 +6,7 @@
     "enter": "Entrar",
     "userDetail.barcode": "Código de barras:",
     "userDetail.expiration": "Expiração do usuário",
-    "patronLookup": "Procurar usuário",
+    "patronLookup": "Consultar usuário",
     "findUserPluginNotAvailable": "Plugin não disponível",
     "cancel": "Cancelar",
     "note": "Nota: {notes}",
