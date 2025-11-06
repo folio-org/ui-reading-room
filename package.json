@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "stripes": {
     "actsAs": [
-      "app"
+      "app", "servicepointsConsumer"
     ],
     "displayName": "ui-reading-room.meta.title",
     "route": "/reading-room",
