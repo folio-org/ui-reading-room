@@ -12,6 +12,7 @@
     "actsAs": [
       "app"
     ],
+    "subscribesTo": ["servicepoints"],
     "displayName": "ui-reading-room.meta.title",
     "route": "/reading-room",
     "icons": [
