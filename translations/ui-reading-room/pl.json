@@ -13,7 +13,7 @@
     "allowAccess": "<strong>Dozwolony</strong>",
     "denyAccess": "<strong>Niedozwolony</strong>",
     "somethingWentWrong": "Coś poszło nie tak",
-    "inactiveUser": "<strong>Nieaktywny użytkownik</strong>",
+    "inactiveUser": "<strong>Użytkownik nieaktywny</strong>",
     "noReadingRoomDefined": "Brak zdefiniowanych czytelni dla bieżącego punktu obsługi",
     "userDoesn'tExist": "Użytkownik z tym kodem kreskowym nie istnieje",
     "userDetail.firstName": "Imię",
