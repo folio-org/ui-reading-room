@@ -5,6 +5,7 @@
 * *BREAKING* Add patron blocks accordion. Refs UIRR-35.
 * *BREAKING* Add user notes accordion. Refs UIRR-32.
 * Add 'subscribesTo' field for servicepoints in package.json. Refs UIRR-44.
+* *BREAKING* Replace `users/configurations/entry` endpoint with `users/settings/entries` for profile picture config. Refs UIU-3506.
 
 ## [2.0.1](https://github.com/folio-org/ui-reading-room/tree/v2.0.1) (2025-07-30)
 [Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v2.0.0...v2.0.1)
