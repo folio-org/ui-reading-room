@@ -24,7 +24,9 @@ const wrapper = ({ children }) => (
 
 describe('useProfilePicConfigForTenant', () => {
   const mockGet = jest.fn(() => ({
-    json: () => Promise.resolve({ enabled: true }),
+    json: () => Promise.resolve({
+      settings: [{ key: 'PROFILE_PICTURE_CONFIG', value: { enabled: true } }],
+    }),
   }));
   const kyMock = {
     get: mockGet,

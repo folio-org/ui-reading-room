@@ -24,6 +24,7 @@
     ],
     "okapiInterfaces": {
       "users": "16.3",
+      "users.settings": "1.0",
       "automated-patron-blocks": "0.1",
       "feesfines": "19.1",
       "notes": "4.0",
@@ -44,7 +45,7 @@
           "users.item.get",
           "usergroups.collection.get",
           "usergroups.item.get",
-          "users.configurations.item.get",
+          "users.settings.collection.get",
           "users.profile-picture.item.get",
           "reading-room.access-log.post",
           "reading-room.patron-permission.item.get",
