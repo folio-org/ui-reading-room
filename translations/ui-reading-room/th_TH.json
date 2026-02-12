@@ -4,7 +4,7 @@
     "scanPatronCard": "Scan patron card",
     "scanOrEnterPatronBarcode": "Scan or enter patron barcode",
     "enter": "Enter",
-    "userDetail.barcode": "Barcode",
+    "userDetail.barcode": "บาร์โค้ด",
     "userDetail.expiration": "User expiration",
     "patronLookup": "Patron look-up",
     "findUserPluginNotAvailable": "Plugin not available",
