@@ -36,7 +36,7 @@
         "permissionName": "module.reading-room.enabled",
         "displayName": "UI: ui-reading-room module is enabled",
         "subPermissions": [
-          "mod-settings.global.read.stripes-core.prefs.manage"
+          "stripes-core.settings.read"
         ]
       },
       {

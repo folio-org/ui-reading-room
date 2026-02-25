@@ -29,7 +29,7 @@
     "patronBlocks.columns.desc": "Відображати опис",
     "patronBlocks.columns.blocked": "Заблоковані дії",
     "patronBlocks.columns.borrowing": "Видача",
-    "patronBlocks.columns.requests": "Замовлення",
+    "patronBlocks.columns.requests": "Замовлення (від користувача)",
     "patronBlocks.columns.renewals": "Подовження",
     "notes.label": "Примітки користувача"
 }

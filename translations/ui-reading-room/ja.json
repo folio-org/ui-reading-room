@@ -1,5 +1,5 @@
 {
-    "meta.title": "Reading room access",
+    "meta.title": "閲覧室アクセス",
     "permission.all": "Reading room access: In app - track access",
     "scanPatronCard": "利用者カードをスキャン",
     "scanOrEnterPatronBarcode": "利用者バーコードをスキャンまたは入力",
@@ -26,9 +26,9 @@
     "patronBlocks.label": "Patron blocks",
     "patronBlocks.columns.type": "タイプ",
     "patronBlocks.columns.automated.type": "Automated (cannot be edited)",
-    "patronBlocks.columns.desc": "Display description",
+    "patronBlocks.columns.desc": "表示用の説明",
     "patronBlocks.columns.blocked": "Blocked actions",
-    "patronBlocks.columns.borrowing": "Borrowing",
+    "patronBlocks.columns.borrowing": "貸出",
     "patronBlocks.columns.requests": "リクエスト",
     "patronBlocks.columns.renewals": "更新",
     "notes.label": "ユーザーノート"
