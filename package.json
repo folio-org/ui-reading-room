@@ -34,7 +34,10 @@
     "permissionSets": [
       {
         "permissionName": "module.reading-room.enabled",
-        "displayName": "UI: ui-reading-room module is enabled"
+        "displayName": "UI: ui-reading-room module is enabled",
+        "subPermissions": [
+          "stripes-core.settings.read"
+        ]
       },
       {
         "permissionName": "ui-reading-room.all",
