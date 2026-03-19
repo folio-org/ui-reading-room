@@ -13,7 +13,7 @@ const useProfilePicConfigForTenant = () => {
 
   const { data } = useQuery({
     queryKey: [namespace],
-    queryFn: () => ky.get('users/settings/entries').json(),
+    queryFn: () => ky.get('users/settings').json(),
   });
 
   const enabled = data?.settings?.find(setting => setting.key === PROFILE_PICTURE_CONFIG_KEY)?.value?.enabled;
