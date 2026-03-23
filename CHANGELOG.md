@@ -7,7 +7,7 @@
 * Add 'subscribesTo' field for servicepoints in package.json. Refs UIRR-44.
 * *BREAKING* Replace `users/configurations/entry` endpoint with `users/settings/entries` for profile picture config. Refs UIRR-45.
 * Add `stripes-core.settings.read` permission to app permissions. Refs UIRR-43.
-* *BREAKING* Change `users/settings/entries` to `users/settings`. Update `users.settings` interface version to 2.0. Refs UIRR-46.
+* *BREAKING* Change `users/settings/entries` to `user/settings`. Update `users.settings` interface version to 2.0. Refs UIRR-46.
 
 ## [2.0.1](https://github.com/folio-org/ui-reading-room/tree/v2.0.1) (2025-07-30)
 [Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v2.0.0...v2.0.1)
