@@ -1,6 +1,7 @@
 # Change history for ui-reading-room
 
-## [3.0.0] IN PROGRESS
+## [3.0.0](https://github.com/folio-org/ui-reading-room/tree/v3.0.0) (2026-04-16)
+[Full Changelog](https://github.com/folio-org/ui-reading-room/compare/v2.0.1...v3.0.0)
 
 * *BREAKING* Add patron blocks accordion. Refs UIRR-35.
 * *BREAKING* Add user notes accordion. Refs UIRR-32.
