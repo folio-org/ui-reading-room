@@ -2,6 +2,7 @@
 
 ## IN PROGRESS
 
+* Update jest-config-stripes and jest.config.js to fix tests. Refs UIRR-49.
 
 
 ## [3.0.0](https://github.com/folio-org/ui-reading-room/tree/v3.0.0) (2026-04-16)
